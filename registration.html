@@ -1,0 +1,13 @@
+<div ng-controller="registrationController">
+    <form action="/register" id="registrationGate">
+        <input ng-init="registerForm.role = 1000" type="hidden" ng-model="registerForm.role" id="role" name="role" >
+        Email: <input type="email" id="email" ng-model="registerForm.mail">
+        Login: <input type="text" id="login" ng-model="registerForm.login">
+
+        <button type="button" ng-click="submit()"> Login </button>
+    </form>
+    <div></div>
+</div>
+
+<!--Password: <input type="text" id="heslo" ng-model="heslo">
+        Repeat Password: <input type="text" id="checkHeslo" ng-model="checkHeslo" >-->

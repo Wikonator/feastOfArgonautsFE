@@ -1,0 +1,10 @@
+<div ng-controller="verifyController">
+    <form action="/verify" id="passWordConfirm">
+        <!--<input ng-init="registerForm.role = 1000" type="hidden" ng-model="registerForm.role" id="role" name="role" >-->
+        New Password: <input type="text" id="password" ng-model="password">
+        Confirm Password: <input type="text" id="confirmPassword" ng-model="confirmPassword">
+
+        <button type="button" ng-click="submit()"> Login </button>
+    </form>
+    <div></div>
+</div>
