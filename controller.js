@@ -10,7 +10,7 @@ app.run(function ($rootScope, $http) {      // setting common headers
 
 app.config(function ($routeProvider) {                                           // This is where the Routing happens
     $routeProvider.when("/", {
-        templateUrl: "login.html"
+        templateUrl: "routes/landingPage.html"
     })
         .when("/account", {
             resolve: {

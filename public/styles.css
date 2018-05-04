@@ -1,4 +1,3 @@
-
 #background {
     /* Set rules to fill background */
     min-height: 100%;
@@ -15,6 +14,114 @@
     left: 0;
 }
 
+#capitalsLoginBox {
+    display: block;
+    text-transform: uppercase;
+}
+
+#describeTextLoginBox {
+    display: inline;
+}
+
+#loginWithEmailButton {
+
+    border-radius: 8px;
+    font-family: "Cabin", sans-serif;
+    color: #ffffff;
+    font-size: 20px;
+    background: #c9ced6;
+    opacity: 0.85;
+    padding: 18px 84px 18px 83px;
+    margin-bottom: 20px;
+    text-decoration: none;
+    border: solid #3B5998 0px;
+}
+
+#loginWithEmailButton:hover {
+    background: #d5d9e0;
+    background-image: -webkit-linear-gradient(top, #d5d9e0, #d5d9e0);
+    background-image: -moz-linear-gradient(top, #d5d9e0, #d5d9e0);
+    background-image: -ms-linear-gradient(top, #d5d9e0, #d5d9e0);
+    background-image: -o-linear-gradient(top, #d5d9e0, #d5d9e0);
+    background-image: linear-gradient(to bottom, #d5d9e0, #d5d9e0);
+    text-decoration: none;
+}
+
+#loginWithFacebookButton {
+
+    border-radius: 8px;
+    font-family: "Cabin", sans-serif;
+    color: #ffffff;
+    font-size: 20px;
+    background: #3B5998;
+    opacity: 0.85;
+    padding: 18px 60px 18px 60px;
+    margin-top: 33px;
+    margin-bottom: 13px;
+    text-decoration: none;
+    border: solid #3B5998 0px;
+}
+
+#loginWithFacebookButton:hover {
+    background: #4366a3;
+    background-image: -webkit-linear-gradient(top, #4366a3, #315596);
+    background-image: -moz-linear-gradient(top, #4366a3, #315596);
+    background-image: -ms-linear-gradient(top, #4366a3, #315596);
+    background-image: -o-linear-gradient(top, #4366a3, #315596);
+    background-image: linear-gradient(to bottom, #4366a3, #315596);
+    text-decoration: none;
+}
+
+a {
+    color: white;
+    font-family: "Cabin", sans-serif;
+    font-size: 18px;
+    margin-left: 34%;
+}
+
+a:visited {
+    color: white;
+}
+
+a:hover {
+    color: azure;
+}
+
+.loginPageTotalGroup {
+    position: absolute;
+    top: 15%;
+    left: 7%;
+    height: fit-content;
+}
+
+.loginPageDetailsGroup {
+    position: absolute;
+    top: 140%;
+    border-left: 1px solid white;
+    padding-left: 20px;
+}
+
+.responsiveImg {
+    max-width: 60%;
+    position: relative;
+
+}
+
+.loginText {
+    font-family: "Cabin", sans-serif;
+    color: white;
+    max-width: 53%;
+ }
+
+.landingFooter {
+    width: 100%;
+    height: 5%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background: #1c1c1c;
+}
+
 @media screen and (max-width: 1024px) { /* Specific to this particular image */
     #background {
         left: 50%;
@@ -22,7 +129,7 @@
     }
 }
 
-/*#background {*/
+/*#background {    alternative position */
     /*position: fixed;*/
     /*top: 0;*/
     /*left: 0;*/
