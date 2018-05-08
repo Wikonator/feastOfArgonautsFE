@@ -1,0 +1,11 @@
+<div class="loginPageTotalGroup">
+    <div ng-controller="loginController">
+        <form action="/" id="loginGate">
+            <input ng-init="registerForm.role = 1000" type="hidden" ng-model="registerForm.role" id="role" name="role" >
+            Username: <input type="text" id="username" ng-model="registerForm.login"><br>
+            Password: <input type="text" id="heslo" ng-model="registerForm.password"><br>
+            <button type="button" ng-click="submit()"> Login </button>
+        </form>
+        <div> Don't have an account? <a ng-href="/#!/register"> Sign up, here!</a> </div>
+    </div>
+</div>

@@ -1,14 +1,17 @@
 let app = angular.module("argonautsApp", ["ngRoute"]);
 
+var IpAddress = "http://BE1.scarabeus.sk:3000";
+//var IpAddress = "http://BE2.scarabeus.sk:3000";
 
 app.run(function ($rootScope, $http) {      // setting common headers
     console.log("stal sa run1");
     $http.defaults.headers.common['Authorization'] = true;
     //$http.defaults.headers.common['Resolution'] = newObj;
-    $http.defaults.headers.common['Resolution'] = { width: window.screen.availWidth, height: window.screen.availHeight};
+    //$http.defaults.headers.common['Resolution'] = { width: window.screen.availWidth, height: window.screen.availHeight};
 });
 
-app.config(function ($routeProvider) {                                           // This is where the Routing happens
+app.config(function ($routeProvider) {
+    // This is where the Routing happens
     $routeProvider.when("/", {
         templateUrl: "routes/landingPage.html"
     })
@@ -28,11 +31,14 @@ app.config(function ($routeProvider) {                                          
         .when("/registerSuccess" , {
             templateUrl: "registerSuccess.html"
         })
+        .when("/login", {
+            templateUrl: "routes/login.html"
+        })
         .when("/logon/:id", {
             resolve: {
                 "emailCheck": function ($route, $location, $routeParams, $http) {
                     console.log($route.current.params.id);
-                    $http.get("http://BE.scarabeus.sk:3000/api/logon/" + $route.current.params.id)
+                    $http.get( IpAddress + "/api/logon/" + $route.current.params.id)
                         .then(function success(response) {
                                 $location.path('/passwordChange');
                             },
@@ -60,7 +66,7 @@ app.controller("loginController", function ($scope, $location, $rootScope, $http
             pass: $scope.registerForm.password
         };
         console.log(data);
-        $http.put("http://BE.scarabeus.sk:3000/api/logon/", data).then(function success(response) {
+        $http.put(IpAddress + "/api/logon/", data).then(function success(response) {
             console.log(response);
             if (response.value == 1) {
                     $location.path("/account");
@@ -77,9 +83,10 @@ app.controller("registrationController", function ($scope, $http, $location) {  
     $scope.submit = function () {
 
         $scope.parameters = { "data": $scope.registerForm};
-        $http.post("http://BE.scarabeus.sk:3000/api/user", $scope.parameters).then(function success(response) {
+        $http.post(IpAddress + "/api/user", $scope.parameters).then(
+            function success(response) {
         console.log(response);
-        if (response.data.error == false) {                                 // success - presmeruj na regsuc page
+        if (response.data.error === false) {                                 // success - presmeruj na regsuc page
             $location.path("/registerSuccess");
         } else {            //fail  hor.alka@manka.sk 123456
             window.alert(response.data.message.summary);
@@ -126,7 +133,7 @@ app.controller("passwordCheckController", function ($scope, $http, $route) {
         console.log(data);
         console.log($route.current.params.id);
         let pw = $scope.confirm_password + "";
-        $http.put("http://BE.scarabeus.sk:3000/api/logon/" + $route.current.params.id, data)
+        $http.put(IpAddress + "/api/logon/" + $route.current.params.id, data)
             .then(function success(response) {
                 console.log("success");
                 console.log(response);
