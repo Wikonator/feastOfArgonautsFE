@@ -1,6 +1,6 @@
 let app = angular.module("argonautsApp", ["ngRoute"]);
 
-var IpAddress = "http://BE1.scarabeus.sk:3000";
+const IpAddress = "http://BE1.scarabeus.sk:3000";
 //var IpAddress = "http://BE2.scarabeus.sk:3000";
 
 app.run(function ($rootScope, $http) {      // setting common headers
@@ -57,6 +57,22 @@ app.config(function ($routeProvider) {
             redirectTo: "/"
         });
 });
+
+
+app.directive( 'goClick', function ( $location ) {  // button clicking
+    return function ( scope, element, attrs ) {
+        let path;
+        attrs.$observe( 'goClick', function (val) {
+            path = val;
+        });
+        element.bind( 'click', function () {
+            scope.$apply( function () {
+                $location.path( path );
+            });
+        });
+    };
+});
+
 
 app.controller("loginController", function ($scope, $location, $rootScope, $http) {     //login page logic
 

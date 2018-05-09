@@ -2,9 +2,9 @@ let myApp = angular.module("argonautsApp",['main']);
 
 let secondApp = angular.module("main",[]);
 
-angular.module("main").controller("mainController",function($scope){
-    // Controller body
-});
+// angular.module("main").controller("mainController",function($scope){
+//     // Controller body
+// });
 
 secondApp.config(function ($rootScope, $http) {
     console.log("config goes");
