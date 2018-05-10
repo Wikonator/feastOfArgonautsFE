@@ -1,18 +1,12 @@
-let myApp = angular.module("argonautsApp",['main']);
+let myApp = angular.module("argonautsApp",["main", "ngCookies"]);
 
-let secondApp = angular.module("main",[]);
+let secondApp = angular.module("main",["ngCookies"]);
 
-angular.module("main").controller("mainController",function($scope){
+angular.module('main').controller("mainController", ['cookieStore', function($scope){
     // Controller body
-});
+}]);
 
-secondApp.config(function ($rootScope, $http) {
-    console.log("config goes");
-    $http.defaults.headers.common['Authorization'] = true;
-    $http.defaults.headers.common['Resolution'] = { something: 64 };
-});
-
-secondApp.constant('API_URL', 'http://89.173.200.63:3000');
+//secondApp.constant('API_URL', 'http://89.173.200.63:3000');
 
 myApp.run(function ($rootScope, $http, API_URL) {
     console.log("I fired");

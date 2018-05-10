@@ -4,6 +4,7 @@
         <p class="loginText">Stellar Gods, ancient before mankind was even born are underway on their journey back to Earth.
             Become a harbinger of their will and, should your tribute be deemed worthy, ascend unto Godhood...</p>
     </div>
+
     <div class="loginPageDetailsGroup" >
         <div class="loginText" id="capitalsLoginBox">
             New to argonauts?
@@ -17,7 +18,19 @@
         <button id="loginWithEmailButton" >
             <span class="icon-email" ></span> LOGIN WITH EMAIL
         </button><br>
-        <a href="/playTheGame.html" >SKIP FOR NOW</a>
+        <button ng-controller="guestController" ng-model="passWordOverlay" >SKIP FOR NOW</button>
+    </div>
+
+</div>
+<div ng-controller="guestController" id="passWordOverlay" >
+    <p class="loginText" > Napis si Nickname a pod hrat </p>
+    <div ng-controller="guestController">
+        <form action="/guestReg" id="registrationGate">
+            <input ng-init="registerForm.role = 1000" type="hidden" ng-model="registerForm.role" id="role" name="role" >
+            <input type="text" id="login" name="login" ng-model="registerForm.login" ng-class="inputFieldClass" class="loginInputBox" placeholder="nickname" >
+            <span name="errorField" ng-show="errorField" ng-bind="errorField" >{{}}</span>
+            <button id="greenRegisterButton" type="button" ng-click="submit()"> REGISTER </button>
+        </form>
     </div>
 </div>
 <div class="landingFooter" >
@@ -25,4 +38,3 @@
     <span style="float: left;"> Terms of use </span>
     <span style="float: right;"> About </span>
     <span style="float: right;  margin-right: 3%"> Contact </span>
-</div>

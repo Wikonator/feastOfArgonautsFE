@@ -9,8 +9,8 @@
 </head>
 <body ng-app="argonautsApp" >
     <!--<div i>-->
-    <image src="./public/images/foabg.png" id="background" alt=""/>
-    <image src="./public/images/feasto.png" id="feastOf" alt=""/>
+    <img ng-src="./public/images/{{imageHolder.path}}" id="background"  />
+    <img src="./public/images/feasto.png" id="feastOf" alt=""/>
         <div ng-view="">
 
         </div>
@@ -19,7 +19,8 @@
 </body>
 
 <script type="text/javascript" src="./node_modules/angular/angular.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+<script src="./node_modules/angular-cookies/angular-cookies.js"></script>
+<script src="./node_modules/angular-route/angular-route.js"></script>
 <script type="text/javascript" src="./app.js"></script>
 <script type="text/javascript" src="./controller.js"></script>
 </html>
