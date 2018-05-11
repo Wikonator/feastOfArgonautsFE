@@ -16,7 +16,7 @@ app.run(function ($rootScope, $http) {      // setting common headers
 });
 
 app.config(function ($routeProvider) {
-       const secondImagePath = "./public/images/mainScreen.png";
+       const secondImagePath = "mainScreen.png";
     // This is where the Routing happens
     $routeProvider.when("/", {
         templateUrl: "routes/landingPage.html"
@@ -40,6 +40,9 @@ app.config(function ($routeProvider) {
         .when("/login", {
             templateUrl: "routes/login.html"
         })
+        .when("/logout", {
+            templateUrl: "routes/logout.html"
+        })
         .when("/logon/:id", {
             resolve: {
                 "emailCheck": function ($route, $location, $routeParams, $http) {
@@ -60,42 +63,55 @@ app.config(function ($routeProvider) {
             templateUrl: "routes/passwordChange.html"
         })
         .when("/playTheGame", {
+            resolve: {
+                "imageSwap": function ($q, $http, $rootScope, $location) {
+                    let resolvePromise = $q.defer();
+
+                    $http.get(IpAddress + "/api/town").then(function success(response) {
+
+                        if (response.status !== 200) {
+                            $location.path("/register");
+                            resolvePromise.resolve();
+                        } else {
+                            resolvePromise.resolve();
+                        }
+
+                    }, function error(response) {
+                        console.log(response);
+                        $rootScope.imageHolder = secondImagePath;
+                        $location.path("/register");
+                        resolvePromise.resolve();
+
+                    });
+                    return resolvePromise.promise;
+
+                }
+            } ,
+            controller: "imageSwapController",
             templateUrl: "routes/feastOfArgonauts.html",
-            controller: "imageSwapController"
-            // ,resolve: {
-            //
-            //     "imageSwap": function ($q, $http, $rootScope, $location, $cookieStore) {
-            //         let resolvePromise = $q.defer();
-            //         //vymaz potom cookieStore
-            //
-            //          console.log("imageSwap is happening");
-            //
-            //         $http.get(IpAddress + "/api/town").then(function success(response) {
-            //             console.log(response);
-            //             console.log("yes!");
-            //             $rootScope.imageHolder = secondImagePath;
-            //             $location.path("/playTheGame");
-            //
-            //         }, function error(response) {
-            //             console.log(response);
-            //             console.log("fail!");
-            //             $rootScope.imageHolder = secondImagePath;
-            //             $location.path("/register");
-            //
-            //         });
-            //         return resolvePromise.promise;
-            //
-            //     }
-            // }
             })
         .otherwise({
             redirectTo: "/"
         })
 });
 
-app.controller("imageSwapController", function ($location, $http, $rootScope) {
-    console.log("doIHappen Now!?");
-    console.log($http.defaults.headers.common['Authorization']);
+app.directive( 'goClick', function ( $location ) {  // button clicking
+    return function ( scope, element, attrs ) {
+        let path;
+        attrs.$observe( 'goClick', function (val) {
+            path = val;
+        });
+        element.bind( 'click', function () {
+            scope.$apply( function () {
+                $location.path( path );
+            });
+        });
+    };
+});
+
+app.controller("imageSwapController", function ($cookieStore) {
+    $cookieStore.get('token');
+    console.log("get it");
 });
 
 app.controller("loginController", function ($scope, $location, $rootScope, $http) {     //login page logic
@@ -109,25 +125,29 @@ app.controller("loginController", function ($scope, $location, $rootScope, $http
         $http.put(IpAddress + "/api/logon/", data).then(function success(response) {
             console.log(response);
             if (response.value == 1) {
-                    $location.path("/account");
+                    $location.path("/playTheGame");
                 } else {
                     window.alert(response.message);
                 }
             }, function error(response) {
+            console.log("error");
             console.log(response);
         });
     }
 });
 
-app.controller("registrationController", function ($scope, $http, $location) {                      // registration logic
+app.controller("registrationController", function ($scope, $http, $location, $cookieStore) {                      // registration logic
     $scope.submit = function () {
 
         $scope.parameters = { "data": $scope.registerForm};
         $http.post(IpAddress + "/api/user", $scope.parameters).then(
             function success(response) {
         console.log(response);
-        if (response.data.error === false) {                                 // success - presmeruj na regsuc page
-            $location.path("/registerSuccess");
+        if (response.data.error === false) {
+            // success - presmeruj na regsuc page
+            $cookieStore.put("token", response.data.token);  // refactor this into a separate service
+            console.log($cookieStore.get("token"));
+            $location.path("/playTheGame");
         } else {            //fail  hor.alka@manka.sk 123456
             window.alert(response.data.message.summary);
         }
@@ -185,14 +205,12 @@ app.controller("passwordCheckController", function ($scope, $http, $route) {
     }
 });
 
-app.factory("authenticationService", ['$log', '$q', '$cookieStore' ,function ($log, $q, $cookieStore) {
-    return {
+app.factory("authenticationService", ['$q', '$location', '$cookieStore' ,function ( $q, $location, $cookieStore) {
 
+    return {
         'request' : function (config) {
             // success handling
-
-             config.headers['Authorization'] = $cookieStore.get("token");
-            console.log(config.headers['Authorization']);
+            config.headers['Authorization'] = $cookieStore.get("token");
             return config
         },
 
@@ -202,10 +220,11 @@ app.factory("authenticationService", ['$log', '$q', '$cookieStore' ,function ($l
         },
 
         'response' : function (response) {
-            console.log("in the response handler");
             // do something on positive response
+            // console.log(response.status);
             if (response.status === 401 ) {
-                $location.path('/register');
+                //$location.path('/login');
+                return response;
             }
             return response
         },
@@ -221,15 +240,6 @@ app.config(["$httpProvider", function ($httpProvider) { // here i Push the inter
     $httpProvider.interceptors.push('authenticationService')
 }]);
 
-// app.factory("authenticationService", function() {
-// //     let userInfo = {
-// //         "someInfo" : "someOtherInfo"
-// //     };
-// //
-// //     function getUserInfo() {
-// //         return userInfo;
-// //     }
-// // });
 
 app.run(["$rootScope", "$location", function($rootScope, $location) {
     $rootScope.$on("$routeChangeSuccess", function(userInfo) {
@@ -244,7 +254,7 @@ app.run(["$rootScope", "$location", function($rootScope, $location) {
 }]);
 
 app.controller("guestController",
-        function ($scope, $http, $route, $location, $cookieStore) {
+        function ($scope, $http, $location, $cookieStore) {
     $scope.submit = function () {
         $scope.parameters = {
             "data": $scope.registerForm
@@ -254,9 +264,6 @@ app.controller("guestController",
 
             .then(function success(response) {
 
-                console.log("podaril sa guest");
-                // console.log(response.data.token);
-                console.log(response.data.token);
                 //$http.defaults.headers.common['Authorization'] = response.data.token;
                 $cookieStore.put("token", response.data.token);  // refactor this into a separate service
                 console.log($cookieStore.get("token"));
@@ -275,3 +282,12 @@ app.controller("guestController",
     }
 
 });
+
+app.controller("logoutController",
+    function ($scope, $http, $cookieStore) {
+        $scope.submit = function () {
+            $cookieStore.remove("token");
+
+        }
+
+    });
