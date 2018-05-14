@@ -1,12 +1,12 @@
 let app = angular.module("argonautsApp", ["ngRoute", "ngCookies"]);
 
-//const IpAddress = "http://BE1.scarabeus.sk:5000";
-const IpAddress = "http://BE2.scarabeus.sk:5000";
+// const IpAddress = "http://BE1.scarabeus.sk:5000";
+const IpAddress = "http://192.168.0.137:5000";
+//const IpAddress = "http://BE2.scarabeus.sk:5000";
 
 
 app.run(function ($rootScope, $http) {      // setting common headers
     console.log("stal sa run1");
-    $rootScope.globalVariable = {};
     $rootScope.imageHolder = {
         path: "foabg.png"
     };
@@ -44,7 +44,7 @@ app.config(function ($routeProvider) {
             templateUrl: "routes/logout.html"
         })
         .when("/logon/:id", {
-            resolve: {
+        resolve: {
                 "emailCheck": function ($route, $location, $routeParams, $http) {
                     console.log($route.current.params.id);
                     $http.get( IpAddress + "/api/logon/" + $route.current.params.id)
@@ -64,16 +64,26 @@ app.config(function ($routeProvider) {
         })
         .when("/playTheGame", {
             resolve: {
-                "imageSwap": function ($q, $http, $rootScope, $location) {
-                    let resolvePromise = $q.defer();
+                'imageSwap': function ($q, $http, $rootScope, $location) {
+                    console.log("image Swap");
 
                     $http.get(IpAddress + "/api/town").then(function success(response) {
 
+                        let resolvePromise = $q.defer();
+                        console.log("get address");
+
                         if (response.status !== 200) {
+                            resolvePromise.resolve();
+                            console.log("chod na register");
                             $location.path("/register");
-                            resolvePromise.resolve();
+                            return
+
                         } else {
+
+                            $rootScope.imageHolder.path = "image.png";
+                            console.log("tender smrdi");
                             resolvePromise.resolve();
+                            return
                         }
 
                     }, function error(response) {
@@ -83,12 +93,11 @@ app.config(function ($routeProvider) {
                         resolvePromise.resolve();
 
                     });
-                    return resolvePromise.promise;
+                     return resolvePromise.promise;
 
                 }
-            } ,
-            controller: "imageSwapController",
-            templateUrl: "routes/feastOfArgonauts.html",
+            }, templateUrl: "routes/feastOfArgonauts.html",
+            controller: "imageSwapController"
             })
         .otherwise({
             redirectTo: "/"
@@ -109,9 +118,8 @@ app.directive( 'goClick', function ( $location ) {  // button clicking
     };
 });
 
-app.controller("imageSwapController", function ($cookieStore) {
-    $cookieStore.get('token');
-    console.log("get it");
+app.controller("imageSwapController", function ($scope, $rootScope) {
+    console.log("imageSwapController");
 });
 
 app.controller("loginController", function ($scope, $location, $rootScope, $http) {     //login page logic
@@ -124,10 +132,10 @@ app.controller("loginController", function ($scope, $location, $rootScope, $http
         console.log(data);
         $http.put(IpAddress + "/api/logon/", data).then(function success(response) {
             console.log(response);
-            if (response.value == 1) {
+            if (response.value === '1') {
                     $location.path("/playTheGame");
                 } else {
-                    window.alert(response.message);
+                    window.alert(response);
                 }
             }, function error(response) {
             console.log("error");
@@ -223,7 +231,7 @@ app.factory("authenticationService", ['$q', '$location', '$cookieStore' ,functio
             // do something on positive response
             // console.log(response.status);
             if (response.status === 401 ) {
-                //$location.path('/login');
+                $location.path('/login');
                 return response;
             }
             return response
@@ -253,8 +261,16 @@ app.run(["$rootScope", "$location", function($rootScope, $location) {
     });
 }]);
 
-app.controller("guestController",
-        function ($scope, $http, $location, $cookieStore) {
+app.controller("guestController", function ($scope, $rootScope, $http, $location) {
+
+    $rootScope.isVisible = false;
+
+    $scope.onItemClicked = function () {
+        console.log($rootScope.isVisible);
+        $rootScope.isVisible = true;
+        console.log("show me");
+    };
+
     $scope.submit = function () {
         $scope.parameters = {
             "data": $scope.registerForm
@@ -265,8 +281,8 @@ app.controller("guestController",
             .then(function success(response) {
 
                 //$http.defaults.headers.common['Authorization'] = response.data.token;
-                $cookieStore.put("token", response.data.token);  // refactor this into a separate service
-                console.log($cookieStore.get("token"));
+                // $cookieStore.put("token", response.data.token);  // refactor this into a separate service
+                // console.log($cookieStore.get("token"));
                 $location.path('/playTheGame');
 
             }, function error(error) {

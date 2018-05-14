@@ -7,7 +7,7 @@
     <link href="https://fonts.googleapis.com/css?family=Cabin" rel="stylesheet">
     <link rel="stylesheet" href="./public/styles.css"/>
 </head>
-<body ng-app="argonautsApp" >
+<body ng-app="argonautsApp" ng-controller="imageSwapController" >
     <img ng-src="./public/images/{{imageHolder.path}}" id="background"  />
     <img src="./public/images/feasto.png" id="feastOf" alt=""/>
         <div ng-view="">

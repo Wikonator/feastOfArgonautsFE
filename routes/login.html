@@ -1,11 +1,43 @@
-<div class="loginPageTotalGroup">
-    <div ng-controller="loginController">
-        <form action="/" id="loginGate">
-            <input ng-init="registerForm.role = 1000" type="hidden" ng-model="registerForm.role" id="role" name="role" >
-            Username: <input type="text" id="username" ng-model="registerForm.login"><br>
-            Password: <input type="text" id="heslo" ng-model="registerForm.password"><br>
-            <button type="button" ng-click="submit()"> Login </button>
-        </form>
-        <div> Don't have an account? <a ng-href="/#!/playTheGame"> Sign up, here!</a> </div>
+<!--<div class="loginPageTotalGroup">-->
+    <!--<div ng-controller="loginController">-->
+        <!--<form action="/" id="loginGate">-->
+            <!--<input ng-init="registerForm.role = 1000" type="hidden" ng-model="registerForm.role" id="role" name="role" >-->
+            <!--Username: <input type="text" id="username" ng-model="registerForm.login"><br>-->
+            <!--Password: <input type="text" id="heslo" ng-model="registerForm.password"><br>-->
+            <!--<button type="button" ng-click="submit()"> Login </button>-->
+        <!--</form>-->
+        <!--<div> Don't have an account? <a ng-href="/#!/registers"> Sign up, here!</a>-->
+            <!--<a href="/#!/" > Go back </a>-->
+    <!--</div>-->
+<!--</div>-->
+
+    <div class="loginPageTotalGroup">
+        <div style="position: relative;">
+            <img src="./public/images/foa_text.png" id="headerImage" class="responsiveImg" alt="" />
+            <p class="loginText">Stellar Gods, ancient before mankind was even born are underway on their journey back to Earth.
+                Become a harbinger of their will and, should your tribute be deemed worthy, ascend unto Godhood...</p>
+        </div>
+        <div class="loginPageDetailsGroup" >
+            <div class="loginText" id="capitalsLoginBox">
+                New to argonauts?
+            </div>
+            <p class="loginText"> Login with email </p>
+            <div ng-controller="loginController">
+                <form action="/login" id="loginGate">
+                    <input ng-init="registerForm.role = 1000" type="hidden" ng-model="registerForm.role" id="role" name="role" >
+                    <input type="text" id="login" ng-model="registerForm.login" class="loginInputBox" placeholder="nickname" >
+                    <input type="text" id="password" ng-model="registerForm.password" class="loginInputBox" placeholder="password" >
+                    <button id="greenRegisterButton" type="button" ng-click="submit()"> LOGIN </button>
+                </form>
+            </div>
+            <a href="/#!/" style="margin-left: 35px; margin-top: 10px; left: 11.2%;"> Don't have an account? </a>
+            <a href="/#!/" style="margin-left: 35px; margin-top: 41px; left: 19.2%;"> Go back </a>
+        </div>
+
     </div>
-</div>
+    <div class="landingFooter" >
+        <span style="float: left; margin-right: 3%" > Privacy Policy </span>
+        <span style="float: left;"> Terms of use </span>
+        <span style="float: right;"> About </span>
+        <span style="float: right;  margin-right: 3%"> Contact </span>
+    </div>

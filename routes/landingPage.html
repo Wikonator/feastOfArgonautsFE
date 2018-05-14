@@ -13,16 +13,15 @@
             Choose the way to create an account
         </p><br>
         <button id="loginWithFacebookButton" >
-            <span class="icon-facebook" style="margin-right: 7px"></span>LOGIN WITH FACEBOOK
+            <span class="icon-facebook" style="margin-right: 7px"></span>REGISTER WITH FACEBOOK
         </button><br>
         <button id="loginWithEmailButton" go-click="/register">
-            <span class="icon-email" ></span> LOGIN WITH EMAIL
+            <span class="icon-email" ></span> REGISTER WITH EMAIL
         </button><br>
-        <button ng-controller="guestController" ng-model="passWordOverlay" >SKIP FOR NOW</button>
+        <a ng-controller="guestController" ng-click="onItemClicked()" >SKIP FOR NOW</a>
     </div>
-
 </div>
-<div ng-controller="guestController" id="passWordOverlay" >
+<div ng-controller="guestController" class="animate-show-hide" ng-show="isVisible" id="passWordOverlay" >
     <p class="loginText" > Napis si Nickname a pod hrat </p>
     <div ng-controller="guestController">
         <form action="/guestReg" id="registrationGate">

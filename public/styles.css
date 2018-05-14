@@ -140,6 +140,7 @@ a:visited {
 
 a:hover {
     color: azure;
+    cursor: pointer;
 }
 
 .invalidInputField{
