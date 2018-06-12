@@ -1,0 +1,52 @@
+{"frames": {
+
+"trade_buttn_disabled.png":
+{
+	"frame": {"x":635,"y":1,"w":241,"h":43},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":241,"h":43},
+	"sourceSize": {"w":241,"h":43}
+},
+"trade_buttn_hovered.png":
+{
+	"frame": {"x":635,"y":46,"w":241,"h":43},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":241,"h":43},
+	"sourceSize": {"w":241,"h":43}
+},
+"trade_buttn_pressed.png":
+{
+	"frame": {"x":635,"y":91,"w":241,"h":43},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":241,"h":43},
+	"sourceSize": {"w":241,"h":43}
+},
+"trade_buttn_usual.png":
+{
+	"frame": {"x":635,"y":136,"w":241,"h":43},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":241,"h":43},
+	"sourceSize": {"w":241,"h":43}
+},
+"trade_panel.png":
+{
+	"frame": {"x":1,"y":1,"w":632,"h":204},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":632,"h":204},
+	"sourceSize": {"w":632,"h":204}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "trade_panel.png",
+	"format": "RGBA8888",
+	"size": {"w":877,"h":206},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:1bd7a364bd606a89e83d5baf8c39027d:21ad6a23eb83413b3586342c7fcb7f02:032dda770e6b38ab6593c4fc2d98eab6$"
+}
+}

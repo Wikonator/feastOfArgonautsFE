@@ -1,0 +1,12 @@
+<div class="loginPageTotalGroup" ng-controller="changeCtrl" ng-init="mailData()">
+    <p class="logOnText" style="color: black"> Enter OLD and NEW mail address for generate change request ... </p>
+    <form id="registrationGate" name="mailChangeForm" >
+        <input type="mail" id="mailold" name="mailact" required ng-model="mail.old" ng-class="inputFieldClass" class="loginInputBox" placeholder={{profile[profile.method].mail}}>
+        <!--<p style="color: red">{{msgtxtmail}}</p>-->
+        <input type="mail" id="mailnev" name="mailnew" required ng-model="mail.nev" ng-class="inputFieldClass" class="loginInputBox" placeholder="new email" >
+        <!--<span name="errorField" ng-show="errorField" ng-bind="errorField" >{{}}</span>-->
+        <button id="greenRegisterButton" type="button" ng-disabled="mailChangeForm.$invalid" ng-click="mailChange(mail)"> CHANGE </button>
+        <p style="color: red">{{msgtxt}}</p>
+    </form>
+    <a href="/#!/game" style="color: white"> close </a><br>
+</div>

@@ -1,0 +1,52 @@
+{"frames": {
+
+"Waether_panel_icon_humidity.png":
+{
+	"frame": {"x":676,"y":199,"w":51,"h":63},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":51,"h":63},
+	"sourceSize": {"w":51,"h":63}
+},
+"Waether_panel_icon_temperature.png":
+{
+	"frame": {"x":676,"y":129,"w":51,"h":68},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":51,"h":68},
+	"sourceSize": {"w":51,"h":68}
+},
+"Waether_panel_icon_uvindex.png":
+{
+	"frame": {"x":676,"y":61,"w":67,"h":66},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":67,"h":66},
+	"sourceSize": {"w":67,"h":66}
+},
+"Waether_panel_icon_wind.png":
+{
+	"frame": {"x":676,"y":1,"w":70,"h":58},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":70,"h":58},
+	"sourceSize": {"w":70,"h":58}
+},
+"Waether_panel_without_icons.png":
+{
+	"frame": {"x":1,"y":1,"w":673,"h":296},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":673,"h":296},
+	"sourceSize": {"w":673,"h":296}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "weather_panel.png",
+	"format": "RGBA8888",
+	"size": {"w":747,"h":298},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:a0c7621ad629dec5e962ca4438b305bc:1a6850d4b2e827a686dece2356699bbe:def3ed09d2250c07a81c98ca02a3a7bb$"
+}
+}

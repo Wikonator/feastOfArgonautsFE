@@ -1,0 +1,39 @@
+<div class="loginPageTotalGroup" ng-controller="logsCtrl" data-ng-init="loadLogs()">
+    <div style="position: relative;">
+        <img src="/images/foa_text.png" id="headerImage" class="responsiveImg" alt="" />
+
+    <p class="logOnText" style="color: white"> User Statistics </p>
+    </div>
+        <p style="color: white"> Login: {{profile[profile.method].login}}</p>
+        <br>
+        <p style="color: white"> Payer type: {{profile.method}}</p>
+        <br>
+        <p style="color: white"> Mail: {{profile[profile.method].mail}}</p>
+        <br>
+        <!--<p style="color: white" style="color: white">New Mail: {{profile[profile.method].mailnev}}</p>-->
+        <!--<br>-->
+        <!--<form id="registrationGate" name="localLogonForm" style="margin-left: 90px;">-->
+            <!--&lt;!&ndash;<a >{{profile[profile.method].mailnev}}</a>&ndash;&gt;-->
+            <!--&lt;!&ndash;<input type="mail" id="mailact" name="mailact" required ng-model="mail.act" ng-class="inputFieldClass" class="loginInputBox" placeholder="actual email" >&ndash;&gt;-->
+            <!--&lt;!&ndash;<p style="color: red">*{{msgtxtmail}}</p>&ndash;&gt;-->
+            <!--&lt;!&ndash;<input type="mail" id="mailnev" name="mailnev" required ng-model="mail.nev" ng-class="inputFieldClass" class="loginInputBox" placeholder="new email" >&ndash;&gt;-->
+            <!--&lt;!&ndash;<p style="color: red">*{{msgtxtmail}}</p>&ndash;&gt;-->
+            <!--&lt;!&ndash;<span name="errorField" ng-show="errorField" ng-bind="errorField" >{{}}</span>&ndash;&gt;-->
+            <!--<button id="greenRegisterButton" type="button" ng-disabled="localLogonForm.$invalid" ng-click="approveMailChange(mail)"> Change MAIL </button>-->
+            <!--&lt;!&ndash;<p style="color: red">{{msgtxt}}</p>&ndash;&gt;-->
+            <!--<div style="margin-left: 180px; margin-top: 10px; left: 15.2%; text-align-all: center">-->
+                <!--<a href="/#/game" style="color: white"> close </a><br>-->
+            <!--</div>-->
+        <!--</form>-->
+
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Marks</th>
+        </tr>
+        <tr ng-repeat = "subject in log.subjects">
+            <td>{{ subject.time }}</td>
+            <td>{{ subject.action }}</td>
+        </tr>
+    </table>
+</div>

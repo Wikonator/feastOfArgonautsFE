@@ -1,0 +1,21 @@
+<div class="loginPageTotalGroup" ng-controller="mailCtrl" data-ng-init="islogged()">
+    <div style="position: relative;">
+        <img src="/images/foa_text.png" id="headerImage" class="responsiveImg" alt="" />
+        <p class="loginText">Stellar Gods, ancient before mankind was even born are underway on their journey back to Earth.
+            Become a harbinger of their will and, should your tribute be deemed worthy, ascend unto Godhood ... </p>
+    </div>
+    <p class="logOnText" style="color: black"> Validate and Approve to change effect your MAIL ... </p>
+    <div  >
+        <p ng-bind="profile[profile.method].mail"></p>
+        <br>
+        <p ng-bind="profile[profile.method].mailnev"></p>
+        <br>
+        <form id="registrationGate" name="localLogonForm">
+            <button id="greenRegisterButton" type="button" ng-disabled="localLogonForm.$invalid" ng-click="approveMailChange(mail)"> Approve Change MAIL</button>
+            <p style="color: red">{{msgtxt}}</p>
+            <div style="margin-left: 167px; margin-top: 10px; left: 15.2%; text-align-all: center">
+                <a href="/#!/" style="color: white"> Go back </a><br>
+            </div>
+        </form>
+    </div>
+</div>

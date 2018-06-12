@@ -1,0 +1,21 @@
+<div class="mainPageTotalGroup">
+    <div style="position: relative;">
+        <img src="/images/foa_text.png" id="headerImage" class="responsiveImg" alt="" />
+        <br>
+        <br>
+        <br>
+        <br>
+        <p class="loginText">Stellar Gods, ancient before mankind was even born are underway on their journey back to Earth.
+            Become a harbinger of their will and, should your tribute be deemed worthy, ascend unto Godhood...</p>
+    </div>
+    <!--<div class="loginPageDetailsGroup" >-->
+    <div  >
+    <button id="redPlayButton" ng-click="logRegShowHide('show', 'logReg')">
+    <!--<span class="icon-email" ></span> Lets' PLAY-->
+    <span>  Let's PLAY  </span>
+    </button><br>
+    </div>
+</div>
+<div class="modal-dialog modal-backdrop" ng-if="showLogRegVal" style="background: rgba(0,0,0,0.8)" login-directive>Call template login.tpl.html</div>
+<div class="modal-dialog modal-backdrop" ng-if="showGuestVal" style="background: rgba(0,0,0,0.8)" guest-directive>Call template guest.tpl.html</div>
+<div class="modal-dialog modal-backdrop" ng-if="showForgotVal" style="background: rgba(0,0,0,0.8)" forgot-directive>Call template forgot.tpl.html</div>

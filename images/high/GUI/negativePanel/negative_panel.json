@@ -1,0 +1,44 @@
+{"frames": {
+
+"artefact_ example_with_mask.png":
+{
+	"frame": {"x":1363,"y":1,"w":138,"h":83},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":138,"h":83},
+	"sourceSize": {"w":138,"h":83}
+},
+"dark_bottom_panel.png":
+{
+	"frame": {"x":1,"y":134,"w":484,"h":45},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":484,"h":45},
+	"sourceSize": {"w":484,"h":45}
+},
+"negative_artefact_panel.png":
+{
+	"frame": {"x":1,"y":1,"w":796,"h":131},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":796,"h":131},
+	"sourceSize": {"w":796,"h":131}
+},
+"pop_up_info.png":
+{
+	"frame": {"x":799,"y":1,"w":562,"h":146},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":562,"h":146},
+	"sourceSize": {"w":562,"h":146}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "negative_panel.png",
+	"format": "RGBA8888",
+	"size": {"w":1502,"h":180},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:8a20bc8ba1329cf55b966c8ec90f8845:cb573135c9b4a7dde46f777f366425b9:36a92c5da782316bd4067238c9b9155c$"
+}
+}

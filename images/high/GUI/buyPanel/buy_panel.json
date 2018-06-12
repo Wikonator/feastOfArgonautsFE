@@ -1,0 +1,52 @@
+{"frames": {
+
+"buy_buttn_disabled.png":
+{
+	"frame": {"x":635,"y":1,"w":242,"h":43},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":242,"h":43},
+	"sourceSize": {"w":242,"h":43}
+},
+"buy_buttn_hovered.png":
+{
+	"frame": {"x":635,"y":46,"w":242,"h":43},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":242,"h":43},
+	"sourceSize": {"w":242,"h":43}
+},
+"buy_buttn_pressed.png":
+{
+	"frame": {"x":635,"y":91,"w":242,"h":43},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":242,"h":43},
+	"sourceSize": {"w":242,"h":43}
+},
+"buy_buttn_usual.png":
+{
+	"frame": {"x":635,"y":136,"w":242,"h":43},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":242,"h":43},
+	"sourceSize": {"w":242,"h":43}
+},
+"buy_panel.png":
+{
+	"frame": {"x":1,"y":1,"w":632,"h":196},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":632,"h":196},
+	"sourceSize": {"w":632,"h":196}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "buy_panel.png",
+	"format": "RGBA8888",
+	"size": {"w":878,"h":198},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:a4a331f48dc15c2259f630b52b57bca0:3904688576fa4f66bfee1bd2d9a4ec05:01f70e529cddc41c828ebdf770488832$"
+}
+}

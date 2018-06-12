@@ -1,0 +1,20 @@
+{"frames": {
+
+"weather_panel.png":
+{
+	"frame": {"x":1,"y":1,"w":673,"h":296},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":673,"h":296},
+	"sourceSize": {"w":673,"h":296}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "weather_panel.png",
+	"format": "RGBA8888",
+	"size": {"w":675,"h":298},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:2ff9eb3729bbb59b0ba5310354c44cb2:1ab086ae5c9c5860e2e1e28d7cb149d0:def3ed09d2250c07a81c98ca02a3a7bb$"
+}
+}

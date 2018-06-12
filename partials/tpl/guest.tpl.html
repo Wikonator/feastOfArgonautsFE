@@ -1,0 +1,23 @@
+<div class="loginPageTotalGroup">
+    <div style="position: relative;">
+        <img src="/images/foa_text.png" id="headerImage" class="responsiveImg" alt="" />
+        <p class="loginText">Stellar Gods, ancient before mankind was even born are underway on their journey back to Earth.
+            Become a harbinger of their will and, should your tribute be deemed worthy, ascend unto Godhood...</p>
+    </div>
+    <div class="content">
+        <p class="loginText" style="color: black; font-weight: bold"> Wrote Nickname and PLAY! </p>
+        <form id="registrationGate" name="guestLoginForm" ng-controller="guestCtrl">
+            <input type="text" id="login" name="login" ng-model="guest.login" ng-class="inputFieldClass" class="loginInputBox" required placeholder="nickname" >
+            <button id="greenRegisterButton" type="button" ng-disabled="guestLoginForm.$invalid" ng-click="try2play(guest)"> Try the GAME </button>
+            <p style="color: red">{{msgtxt}}</p>
+            <!--<span name="errorField" ng-show="errorField" ng-bind="errorField" >{{msgtxt}}</span>-->
+            <br>
+            <!--<div style="margin-left: 167px; margin-top: 10px; left: 15.2%; text-align-all: center; color: white">-->
+                <!--<a href="/#!/" style="color: white"> Go back </a><br>-->
+            <!--</div>-->
+            <div style="margin-left: 167px; margin-top: 10px; left: 15.2%; text-align-all: center">
+                <a href="/#!/" style="color: white" ng-click="logRegShowHide('hide', 'logReg');" > Go back </a><br>
+            </div>
+        </form>
+    </div>
+</div>

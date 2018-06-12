@@ -1,0 +1,25 @@
+<div ng-if="showLoginPage" >
+    <div class="loginPageTotalGroup" ng-controller="mailCtrl" style="max-height: 50px " data-ng-init="islogged()">
+        <div style="position: relative;">
+            <img src="images/foa_text.png" id="headerImage" class="responsiveImg" alt="" />
+            <p class="logOnText" style="color: white"> Profile Info </p>
+        </div>
+        <p style="color: white"> Login: {{profile[profile.method].login}}</p>
+        <p style="color: white"> Payer type: {{profile.method}}</p>
+        <p style="color: white"> Mail: {{profile[profile.method].mail}}</p>
+        <br>
+        <form id="registrationGate" name="profileForm" style="margin-left: 100px;">
+            <!--<a >{{profile[profile.method].mailnev}}</a>-->
+            <!--<input type="mail" id="mailact" name="mailact" required ng-model="mail.act" ng-class="inputFieldClass" class="loginInputBox" placeholder="actual email" >-->
+            <!--<p style="color: red">*{{msgtxtmail}}</p>-->
+            <input type="mail" id="mailnev" name="mailnev" required ng-model="mail.nev" ng-class="inputFieldClass" class="loginInputBox" placeholder="Enter new email" style="width: 300px">
+            <!--<p style="color: red">*{{msgtxtmail}}</p>-->
+            <!--<span name="errorField" ng-show="errorField" ng-bind="errorField" >{{}}</span>-->
+            <button id="purpleMailButton" type="button" style="width: 300px" ng-disabled="mailForm.$invalid" ng-click="approveMailChange(mail)"> Change MAIL </button>
+            <!--<p style="color: red">{{msgtxt}}</p>-->
+            <div style="margin-left: 140px; margin-top: 10px; left: 15.2%; text-align-all: center">
+                <a href="/#/game" style="color: white"> close </a>
+            </div>
+        </form>
+    </div>
+</div>

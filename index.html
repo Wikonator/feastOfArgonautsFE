@@ -1,24 +1,78 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="foaApp">
 <head>
-    <meta charset="UTF-8">
-    <title>Feast of The Argonauts</title>
-   <link rel="stylesheet" href="/public/icons/css/fontello.css">
-    <link href="https://fonts.googleapis.com/css?family=Cabin" rel="stylesheet">
-    <link rel="stylesheet" href="./public/styles.css"/>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Feast of The Argonauts</title>
+  <link rel="shortcut icon" href="images/favicon.png">
+  <link rel="stylesheet" href="css/fontello.css">
+  <link href="https://fonts.googleapis.com/css?family=Cabin" rel="stylesheet">
+  <!--<link rel="stylesheet" href="css/app.css">-->
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <!--<script src="http://foa.regexcloud.sk:4000/socket.io/socket.io.js"></script>-->
+  <script src="http://foa2.regexcloud.sk:4000/socket.io/socket.io.js"></script>
+  <!--<script src="http://localhost:4000/socket.io/socket.io.js"></script>-->
+  <script src="components/pixi/pixi.js"></script>
+  <script src="components/type/type.min.js" ></script>
+  <script src="components/gown/gown.js" ></script>
 </head>
-<body ng-app="argonautsApp" ng-controller="imageSwapController" >
-    <img ng-src="./public/images/{{imageHolder.path}}" id="background"  />
-    <img src="./public/images/feasto.png" id="feastOf" alt=""/>
-        <div ng-view="">
+<body>
+
+<div class="main" >
+
+    <!--<div id="display">-->
+        <div ng-view >
 
         </div>
+    <!--</div>-->
 
+</div>
+  <script src="components/angular/angular.js"></script>
+  <script src="components/angular-route/angular-route.js"></script>
+  <script src="js/app.js"></script>
+
+<!--directives-->
+  <script src="js/login/directives/welcomeDrc.js"></script>
+  <script src="js/login/directives/gameDrc.js"></script>
+  <script src="js/login/directives/profileDrc.js"></script>
+  <script src="js/login/directives/footerDrc.js"></script>
+  <script src="js/login/directives/statisticDrc.js"></script>
+  <script src="js/login/directives/headerDrc.js"></script>
+
+  <script src="js/login/directives/fbDrc.js"></script>
+  <script src="js/login/directives/guestDrc.js"></script>
+  <script src="js/login/directives/loginDrc.js"></script>
+  <script src="js/login/directives/logonDrc.js"></script>
+
+  <script src="js/login/directives/forgotDrc.js"></script>
+  <script src="js/login/directives/resetDrc.js"></script>
+  <script src="js/login/directives/mailDrc.js"></script>
+  <script src="js/login/directives/changeDrc.js"></script>
+
+  <script src="js/login/directives/privacyDrc.js"></script>
+  <script src="js/login/directives/termsDrc.js"></script>
+  <script src="js/login/directives/contactDrc.js"></script>
+  <script src="js/login/directives/aboutDrc.js"></script>
+<!--controllers-->
+  <script src="js/login/controllers/welcomeCtrl.js"></script>
+  <script src="js/login/controllers/guestCtrl.js"></script>
+  <script src="js/login/controllers/loginCtrl.js"></script>
+  <script src="js/login/controllers/logonCtrl.js"></script>
+  <script src="js/login/controllers/fbCtrl.js"></script>
+  <script src="js/login/controllers/forgotCtrl.js"></script>
+  <script src="js/login/controllers/resetCtrl.js"></script>
+  <script src="js/login/controllers/mailCtrl.js"></script>
+  <script src="js/login/controllers/changeCtrl.js"></script>
+  <script src="js/login/controllers/profileCtrl.js"></script>
+  <script src="js/login/controllers/statisticCtrl.js"></script>
+  <script src="js/login/controllers/gameCtrl.js"></script>
+
+  <script src="js/login/services/welcomeService.js"></script>
+  <script src="js/login/services/sessionService.js"></script>
+  <script src="js/game/littleService.js"></script>
+  <script src="js/game/Setup.js"></script>
 </body>
-
-<script type="text/javascript" src="./node_modules/angular/angular.js"></script>
-<script src="./node_modules/angular-cookies/angular-cookies.js"></script>
-<script src="./node_modules/angular-route/angular-route.js"></script>
-<script type="text/javascript" src="./app.js"></script>
-<script type="text/javascript" src="./controller.js"></script>
-</html>

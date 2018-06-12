@@ -1,0 +1,26 @@
+<div class="guestPageTotalGroup">
+    <div class="guestPageDetailsGroup" ng-controller="inputValidation">
+        <span class="logregText" id="capitalsLogRegBox"> Forgot password ? </span>
+        <br>
+        <br>
+        <br>
+        <div style="position: absolute;">
+            <p class="loginText">Enter your email address and we will send you instructions for resetting your password.</p>
+        </div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <form id="registrationGate" name="localLogonForm" ng-controller="welcomeCtrl" >
+            <input type="email" id="mail" class="loginInputBoxLeft" placeholder=" Enter valid email " ng-change="mailVal('forgot')" required ng-model="forgot.mail" ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/">
+            <!--<input type="mail" id="mail" name="mail" required ng-model="forgot.mail" ng-class="inputFieldClass" class="loginInputBox" placeholder="email" >-->
+            <button id="greenRegisterButton" type="button" ng-disabled="localLogonForm.$invalid" ng-click="sendforgot(forgot.mail)"> RESET </button>
+            <p style="color: red">{{msgtxt}}</p>
+        </form>
+        <br>
+        <div style="margin-left: 167px; margin-top: 10px; left: 15.2%; text-align-all: center">
+            <a href="" style="color: white" ng-click="forgotShowHide('hide', 'forgot');"> Go back </a><br>
+        </div>
+    </div>
+</div>

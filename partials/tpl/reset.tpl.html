@@ -1,0 +1,21 @@
+<div class="loginPageTotalGroup">
+    <div style="position: relative;">
+        <img src="/images/foa_text.png" id="headerImage" class="responsiveImg" alt="" />
+        <p class="loginText">Stellar Gods, ancient before mankind was even born are underway on their journey back to Earth.
+            Become a harbinger of their will and, should your tribute be deemed worthy, ascend unto Godhood ... </p>
+    </div>
+    <p class="logOnText" style="color: black"> Reset PASSWORD by hash link from mail ... </p>
+    <div ng-controller="resetCtrl" >
+        <form id="registrationGate" name="localPassForm">
+            <input type="password" id="password" class="loginInputBox" placeholder="new password" required ng-model="user.pass">
+            <input type="password" id="confirm" class="loginInputBox" placeholder="confirm password" required ng-model="user.confirm">
+            <button id="redRegisterButton" type="button" ng-disabled="localPassForm.$invalid" ng-click="resetPass(user)"> SET PASSWORD </button>
+            <!--<span name="errorField" ng-show="errorField" ng-bind="errorField" >{{}}</span>-->
+            <p {{msgcolour}} >{{msgtxt}}</p>
+
+            <div style="margin-left: 167px; margin-top: 10px; left: 15.2%; text-align-all: center">
+                <a href="/#!/" style="color: white"> Go back </a><br>
+            </div>
+        </form>
+    </div>
+</div>

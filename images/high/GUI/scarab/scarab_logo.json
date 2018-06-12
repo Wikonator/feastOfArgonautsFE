@@ -1,0 +1,20 @@
+{"frames": {
+
+"Scarab_logo.png":
+{
+	"frame": {"x":1,"y":1,"w":446,"h":192},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":446,"h":192},
+	"sourceSize": {"w":446,"h":192}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "scarab_logo.png",
+	"format": "RGBA8888",
+	"size": {"w":448,"h":194},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:5b76f76d079e3b72960eb9d74537e4f1:34c2c676c836fc3bc0a420f1af87211e:9ff4d114af716ad60e326ccff82a4fa5$"
+}
+}

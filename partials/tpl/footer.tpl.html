@@ -1,0 +1,13 @@
+<div class="mainFooter" >
+    <span ng-click="privacyShowHide('show', 'privacy')" style="float: left; margin-right: 3%" > Privacy Policy </span>
+    <span ng-click="termsShowHide('show', 'terms')" style="float: left;" > Terms of use </span>
+    <span ng-click="aboutShowHide('show', 'about')" style="float: right;  margin-right: 3%" > About </span>
+    <span ng-click="contactShowHide('show', 'contact')" style="float: right;  margin-right: 3%" > Contact </span>
+</div>
+<div ng-if="showFooterPage" >
+    <div class="modal-dialog modal-backdrop" ng-if="showPrivacyVal" style="background: rgba(0,0,0,0.8)" privacy-directive>Call template privacy.tpl.html</div>
+    <div class="modal-dialog modal-backdrop" ng-if="showTermsVal" style="background: rgba(0,0,0,0.8)" terms-directive>Call template terms.tpl.html</div>
+    <div class="modal-dialog modal-backdrop" ng-if="showContactVal" style="background: rgba(0,0,0,0.8)" contact-directive>Call template contact.tpl.html</div>
+    <div class="modal-dialog modal-backdrop" ng-if="showAboutVal" style="background: rgba(0,0,0,0.8)" about-directive>Call template about.tpl.html</div>
+</div>
+
