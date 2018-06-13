@@ -103,7 +103,6 @@ function startLoad(){
 
 let fontLoader;
 
-
 let theme;
 
 
@@ -112,6 +111,10 @@ function themeLoader(resolutionParameter) {
     theme = new GOWN.ThemeParser('images/' + resolutionParameter.toString() + '/aeon_desktop/aeon_desktop.json');  // <<<<< tu je error
     theme.once(GOWN.Theme.COMPLETE, onComplete, this);
 }
+
+// let gownApplication = new GOWN.Application(PIXI.settings.RENDER_OPTIONS, GOWN.Application.SCREEN_MODE_FULLSCREEN, "display", 1920, 1075, renderer, stage);
+;
+// console.log(gownApplication);
 
 function onComplete () {
 
@@ -181,19 +184,19 @@ let resize_orig = function () {
     renderer.resize(windowWidth, windowHeight);
 };
 
+window.addEventListener('resize', resize);
+
 function resize () {
-    // let resize = function () {
+    console.log("I resized");
     windowWidth = document.body.clientWidth;
-    // console.log('document.body.clientWidth:', document.body.clientWidth);
-    // console.log('window.outerWidth:', window.outerWidth);
     windowHeight = window.outerHeight;
-    // console.log('window.outerHeight:', window.outerHeight);
-    // console.log('document.body.clientHeight:', document.body.clientHeight);
     let ratio = (windowWidth / uiWidth);
 
     stage.scale.x = stage.scale.y = ratio;
     renderer.resize(windowWidth, windowHeight);
 }
+
+
 
 function animationLoop() {
 
@@ -201,7 +204,7 @@ function animationLoop() {
 
     renderer.render(stage);
     checkRefresh();
-    resize();
+    // resize();
 }
 
 
@@ -214,7 +217,6 @@ foAapp.factory('littleService', function ($http, $location, sessionService) {
             socket = io.connect(actualBeServer, {query:"token=" + sessionService.get('token')});
 
             PIXI.Sprite.prototype.bringToFront = function() {	if (this.parent) {
-                console.log("Im happening");
                 let parent = this.parent;
                 parent.removeChild(this);
                 parent.addChild(this);
@@ -229,7 +231,6 @@ foAapp.factory('littleService', function ($http, $location, sessionService) {
 
             fontLoader = new type.Loader();
 
-            console.log(fontLoader);
             fontLoader.add("bariol", "font/Bariol.ttf");
             fontLoader.add("conthrax", "font/conthrax.ttf");
             fontLoader.once("loadComplete", function() {
@@ -237,14 +238,12 @@ foAapp.factory('littleService', function ($http, $location, sessionService) {
             });
             fontLoader.load();
 
-// var sa_sprite = new GOWN.ScrollContainer();         // GOWN scroller container
-// stage.addChild(sa_sprite);
 
             socket.on('ui:onRefresh', function (data) {
 
                 console.log("ui on ref emit");
+                console.log(data);
                 dataFromBack = data;
-                console.log(dataFromBack, userNameTxt, userCitizenTxt, userCasteTxt, progressLvlTxt, progressExpTxt, nextLvlExpTxt, softCurTxt, hardCurTxt);
                 dataCameSwitch = true;
                 startLoad();
                 animationLoop();
@@ -252,8 +251,8 @@ foAapp.factory('littleService', function ($http, $location, sessionService) {
             });
 
             socket.on("town:onRefresh", function (data) {
-                console.log("I shot the sherrif");
-                console.log(data);
+                // console.log("I shot the data");
+                // console.log(data);
             });
         }
     }

@@ -400,16 +400,16 @@ function setup(dataFromBack) {
         display.removeEventListener("wheel", scrollyScrolly, false);
 
         if (messagePanelButton.isClicked == true) {
-            stage.removeChild(messageContainer);
+            GUIArea.removeChild(messageContainer);
             messagePanelButton.isClicked = false;
             messagePanelButton.isdown = false;
             messagePanelButton.texture = messagePanelButton.normal;
 
         } else {
             messagePanelButton.isClicked = true;
-            stage.removeChild(messagePanel);
-            stage.addChild(messageContainer);
-            stage.addChild(messagePanel);
+            GUIArea.removeChild(messagePanel);
+            GUIArea.addChild(messageContainer);
+            GUIArea.addChild(messagePanel);
             display.addEventListener("wheel", scrollyScrolly, false);
             if (campsPanelButton.isClicked || vaultPanelButton.isClicked) {
                 vaultPanelButton.isClicked = false;
@@ -418,8 +418,8 @@ function setup(dataFromBack) {
                 campsPanelButton.isClicked = false;
                 campsPanelButton.isdown = false;
                 campsPanelButton.texture = campsPanelButton.normal;
-                stage.removeChild(campsContainer);
-                stage.removeChild(vaultContainer);
+                GUIArea.removeChild(campsContainer);
+                GUIArea.removeChild(vaultContainer);
             }
             messagePanelButton.isClicked = true;
             campsPanelButton.isdown = false;
@@ -433,9 +433,9 @@ function setup(dataFromBack) {
         if (!vaultPanelButton.isClicked) {
             vaultPanelButton.isClicked = true;
             display.addEventListener("wheel", scrollyScrolly, false);
-            stage.removeChild(vaultPanel);
-            stage.addChild(vaultContainer);
-            stage.addChild(vaultPanel);
+            GUIArea.removeChild(vaultPanel);
+            GUIArea.addChild(vaultContainer);
+            GUIArea.addChild(vaultPanel);
 
             if (campsPanelButton.isClicked || messagePanelButton.isClicked) {
                 messagePanelButton.isClicked = false;
@@ -444,14 +444,14 @@ function setup(dataFromBack) {
                 messagePanelButton.texture = messagePanelButton.normal;
                 campsPanelButton.isdown = false;
                 campsPanelButton.texture = campsPanelButton.normal;
-                stage.removeChild(campsContainer);
-                stage.removeChild(messageContainer);
+                GUIArea.removeChild(campsContainer);
+                GUIArea.removeChild(messageContainer);
             }
         } else {
 
             vaultPanelButton.texture = vaultPanelButton.hover;
             vaultPanelButton.isClicked = false;
-            stage.removeChild(vaultContainer);
+            GUIArea.removeChild(vaultContainer);
         }
     }
 
@@ -460,7 +460,7 @@ function setup(dataFromBack) {
 
         if (!campsPanelButton.isClicked) {
             campsPanelButton.isClicked = true;
-            stage.addChild(campsContainer);
+            GUIArea.addChild(campsContainer);
             display.addEventListener("wheel", scrollyScrolly, false);
             this.bringToFront();
 
@@ -471,13 +471,13 @@ function setup(dataFromBack) {
                 messagePanelButton.isdown = false;
                 vaultPanelButton.texture = vaultPanelButton.normal;
                 messagePanelButton.texture = messagePanelButton.normal;
-                stage.removeChild(vaultContainer);
-                stage.removeChild(messageContainer);
+                GUIArea.removeChild(vaultContainer);
+                GUIArea.removeChild(messageContainer);
             }
         } else {
             campsPanelButton.texture = campsPanelButton.hover;
             campsPanelButton.isClicked = false;
-            stage.removeChild(campsContainer);
+            GUIArea.removeChild(campsContainer);
         }
 
     }
@@ -500,7 +500,27 @@ function setup(dataFromBack) {
         }
 
     };
+    //////////////////////////////////////////// Town Map Building Functions / /////////////// / / / / / /
+    function buildingOverEnter() {
 
+    }
+
+    function enterPlayerBuilding() {
+        console.log("knock knock, whos there, mary, mary who? marihuana");
+        // stage.removeChild(playArea);
+        let mapAreaArray = playArea.children;
+        console.log(mapAreaArray);
+        for (let child in mapAreaArray) {
+            console.log(mapAreaArray[child]);
+            playArea.removeChild(mapAreaArray[child]);
+        }
+        // townMapSprite.text
+    }
+
+    // lights testing
+    // playArea.addChild(new PIXI.display.Layer(PIXI.lights.normalGroup));
+    // playArea.addChild(new PIXI.display.Layer(PIXI.lights.diffuseGroup));
+    // playArea.addChild(new new PIXI.display.Layer(PIXI.lights.lightGroup));
     ///////////////////////////// Arrays of Elements ////////////////////////////////////
 
     let scaleArray = [
@@ -702,7 +722,10 @@ function setup(dataFromBack) {
         marketBuilding, playerHouseBuilding, ragnarBuilding, researchTrainingBuilding,
         secCoBuilding, templeBuilding ];
 
+    playerHouseBuilding.on("click", enterPlayerBuilding);
     for (let i in buildingArray) {
+        buildingArray[i].interactive = true;
+        buildingArray[i].on("mouseover", buildingOverEnter);
         buildingArray[i].scale = {x:0.24, y:0.23};
         buildingArray[i].anchor = {x:0.5, y:0.5};
     };
@@ -1238,18 +1261,10 @@ function setup(dataFromBack) {
         // console.log("create vault table");7
 
         let clickFlag = false;
-        let layoutGroup = new PIXI.Container(); // x y width height
-        let scrollContainer = new GOWN.ScrollContainer();
-        scrollContainer._verticalScrollPolicy = GOWN.Scroller.INTERACTION_MOUSE;
-        scrollContainer.id = 10;
-        scrollContainer.viewPort = layoutGroup;
-        scrollContainer.x = 205;
-        scrollContainer.y = 130;
-        scrollContainer.height = 270;
-        scrollContainer.width = 900;
-
         changeTheTab = true;
-        vaultContainer.addChild(scrollContainer);
+         // x y width height
+        // let layoutGroup = new GOWN.LayoutGroup(GOWN.VERTICAL_ALIGNMENT, 900);
+        // layoutGroup.layout = new GOWN.layout.VerticalLayout();
 
         if (button) {
             if (button.isDown) {
@@ -1268,7 +1283,7 @@ function setup(dataFromBack) {
 
         let lastSpriteY = 0,
             lastSpriteX = 0;
-        textOptions.fontSize = 18;
+        textOptions.fontSize = 23;
         textOptions.fill = "#E2E9E9";
         if (clickFlag == true) {       // when filter applied
             console.log("clickflag true");
@@ -1316,6 +1331,16 @@ function setup(dataFromBack) {
             clickFlag = false;                  // filter not applied
         } else {
             console.log("clickflag false");
+            let layoutGroup = new PIXI.Container();
+            let scrollContainer = new GOWN.ScrollContainer();
+            scrollContainer._verticalScrollPolicy = GOWN.Scroller.INTERACTION_MOUSE;
+            scrollContainer.interactive = false;
+            scrollContainer.id = 10;
+            scrollContainer.viewPort = layoutGroup;
+            scrollContainer.x = 205;
+            scrollContainer.y = 130;
+            scrollContainer.height = (windowHeight / 3); //270
+            scrollContainer.width =(windowWidth / 2) ; //900
             for (let key in data) {     // break
                 for (let i in data[key]) {
                     let iconToDisplay = new PIXI.Sprite(nameOfKey(key));
@@ -1330,8 +1355,7 @@ function setup(dataFromBack) {
 
                     lastSpriteY += 61;
                     // lastSpriteX += 250;
-                    // iconToDisplay.scale = {x:0.2, y:0.2};
-                    iconToDisplay.height = 5;
+                    iconToDisplay.scale = {x:0.2, y:0.2};
                     iconToDisplay.anchor = {x:0.5, y:0.5};
                     iconToDisplay.position.y = lastSpriteY + 15;
                     iconToDisplay.position.x = lastSpriteX + 35;
@@ -1350,20 +1374,23 @@ function setup(dataFromBack) {
                     // textOfAmount.scale.x = 1.5;
                     // textOfAmount.scale.y = 1.5;
 
-
-                    vaultTabContents.push(iconToDisplay ,textOfType, textOfAmount, textOfIcon);
+                    vaultTabContents.push(textOfType, textOfAmount, textOfIcon);
                     for (let i in vaultTabContents) {
-                        vaultTabContents[i].scale.x = 1.5;
-                        vaultTabContents[i].scale.y = 1.5;
+                        // vaultTabContents[i].scale.x = 1.5;
+                        // vaultTabContents[i].scale.y = 1.5;
                         // vaultTabContents[i].height = 15;
                         // vaultTabContents[i].width = 15;
                         layoutGroup.addChild(vaultTabContents[i]);
                     }
-                    // layoutGroup.addChild(iconToDisplay);
+                    iconToDisplay.width = 20;
+                    iconToDisplay.height = 20;
+                    layoutGroup.addChild(iconToDisplay);
                     iconArray.push(iconToDisplay);
                     textOptions.fill = "white";
                 }
             }
+            vaultContainer.addChild(scrollContainer);
+           vaultTabContents.push(layoutGroup, scrollContainer);
         }
     };
 
