@@ -14,6 +14,10 @@
     left: 0;
 }
 
+body {
+     overflow-x: hidden;
+ }
+
 #feastOf {
     position: absolute;
     max-width: 100%;
