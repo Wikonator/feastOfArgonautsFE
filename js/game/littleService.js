@@ -186,7 +186,8 @@ function resize () {
     windowWidth = document.body.clientWidth;
     // console.log('document.body.clientWidth:', document.body.clientWidth);
     // console.log('window.outerWidth:', window.outerWidth);
-    windowHeight = window.outerHeight;
+    // windowHeight = window.outerHeight;
+    windowHeight = window.outerHeight * stage.scale.y - 30;
     // console.log('window.outerHeight:', window.outerHeight);
     // console.log('document.body.clientHeight:', document.body.clientHeight);
     let ratio = (windowWidth / uiWidth);
