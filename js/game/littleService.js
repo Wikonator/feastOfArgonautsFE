@@ -189,6 +189,12 @@ window.addEventListener('resize', resize);
 function resize () {
     console.log("I resized");
     windowWidth = document.body.clientWidth;
+    // console.log('document.body.clientWidth:', document.body.clientWidth);
+    // console.log('window.outerWidth:', window.outerWidth);
+    // windowHeight = window.outerHeight;
+    windowHeight = window.outerHeight * stage.scale.y - 30;
+    // console.log('window.outerHeight:', window.outerHeight);
+    // console.log('document.body.clientHeight:', document.body.clientHeight);
     windowHeight = window.outerHeight;
     let ratio = (windowWidth / uiWidth);
 
@@ -242,7 +248,6 @@ foAapp.factory('littleService', function ($http, $location, sessionService) {
             socket.on('ui:onRefresh', function (data) {
 
                 console.log("ui on ref emit");
-                console.log(data);
                 dataFromBack = data;
                 dataCameSwitch = true;
                 startLoad();
