@@ -502,13 +502,10 @@ function setup(dataFromBack) {
     };
     //////////////////////////////////////////// Town Map Building Functions / /////////////// / / / / / /
     function buildingOverEnter() {
-        console.log("HEY Im here!");
 
-        // console.log(this);
     }
 
     function buildingOverEnd() {
-        console.log("aaaaan its gone");
     }
 
 
@@ -774,7 +771,9 @@ function setup(dataFromBack) {
     playArea.addChild(backGroundSprite);
     for (let i in buildingArray) {
         // console.log(buildingArray);
-        // buildingArray[i].interactive = true;
+        buildingArray[i].interactive = true;
+        buildingArray[i].cursor = "wait";
+        buildingArray[i].hitArea = new PIXI.Rectangle( buildingArray[i].texture.trim.x, buildingArray[i].texture.trim.y, buildingArray[i].texture.trim.width, buildingArray[i].texture.trim.height);
         buildingArray[i].on("mouseover", buildingOverEnter);
         // buildingArray[i].on("mouseout", buildingOverEnd);
     };
