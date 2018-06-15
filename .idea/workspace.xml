@@ -4,23 +4,8 @@
     <bookmark url="file://$PROJECT_DIR$/public/styles.css" line="151" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90ac826e-538f-4d1f-98af-db2b117335e0" name="Default" comment="&quot;scale concept complete&quot;">
+    <list default="true" id="90ac826e-538f-4d1f-98af-db2b117335e0" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/css/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/css/styles.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/Thumbs.db" beforeDir="false" afterPath="$PROJECT_DIR$/images/Thumbs.db" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/high/town/Sources/Thumbs.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/high/town/Sources/airport.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/high/town/Sources/all.psd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/high/town/Sources/generalStore.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/high/town/Sources/governorsHouse.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/high/town/Sources/market.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/high/town/Sources/playerHouse.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/high/town/Sources/pozadie-budovy-1920.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/high/town/Sources/ragnar.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/high/town/Sources/researchTraining.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/high/town/Sources/secCo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/high/town/Sources/temple.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/images/high/town/Sources/townMap.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/js/game/Setup.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game/Setup.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/js/game/littleService.js" beforeDir="false" afterPath="$PROJECT_DIR$/js/game/littleService.js" afterDir="false" />
     </list>
@@ -39,26 +24,17 @@
       <file leaf-file-name="Setup.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/game/Setup.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="768" column="56" lean-forward="true" selection-start-line="768" selection-start-column="56" selection-end-line="768" selection-end-column="56" />
+            <state relative-caret-position="341">
+              <caret line="777" column="47" lean-forward="true" selection-start-line="777" selection-start-column="47" selection-end-line="777" selection-end-column="47" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="littleService.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="littleService.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/game/littleService.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="250" column="47" lean-forward="true" selection-start-line="250" selection-start-column="47" selection-end-line="250" selection-end-column="47" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="styles.css" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/css/styles.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="78">
-              <caret line="661" column="5" lean-forward="true" selection-start-line="661" selection-start-column="5" selection-end-line="661" selection-end-column="5" />
+            <state relative-caret-position="204">
+              <caret line="55" column="47" lean-forward="true" selection-start-line="55" selection-start-column="47" selection-end-line="55" selection-end-column="47" />
             </state>
           </provider>
         </entry>
@@ -84,9 +60,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>townMapSprite.width</find>
-      <find>airport</find>
-      <find>onComplete</find>
       <find>mapSprite.wid</find>
       <find>playArea.width</find>
       <find>townMapSprite.height</find>
@@ -111,9 +84,12 @@
       <find>playArea</find>
       <find>noSheet</find>
       <find>mouseover</find>
-      <find>buildingOverEnter</find>
-      <find>canvas</find>
       <find>player</find>
+      <find>canvas</find>
+      <find>building</find>
+      <find>buildingArray</find>
+      <find>backgroundSprite.</find>
+      <find>buildingOverEnter</find>
     </findStrings>
     <replaceStrings>
       <replace>IpAddress</replace>
@@ -148,9 +124,9 @@
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/public/styles.css" />
         <option value="$PROJECT_DIR$/controller.js" />
-        <option value="$PROJECT_DIR$/js/game/littleService.js" />
-        <option value="$PROJECT_DIR$/js/game/Setup.js" />
         <option value="$PROJECT_DIR$/css/styles.css" />
+        <option value="$PROJECT_DIR$/js/game/Setup.js" />
+        <option value="$PROJECT_DIR$/js/game/littleService.js" />
       </list>
     </option>
   </component>
@@ -229,7 +205,7 @@
       <workItem from="1528904942541" duration="53000" />
       <workItem from="1528905195006" duration="655000" />
       <workItem from="1528969189296" duration="17549000" />
-      <workItem from="1529052806283" duration="24673000" />
+      <workItem from="1529052806283" duration="26160000" />
     </task>
     <task id="LOCAL-00001" summary="&quot;Added landing page&quot;">
       <created>1525454140550</created>
@@ -280,11 +256,18 @@
       <option name="project" value="LOCAL" />
       <updated>1528971239804</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="&quot;scale concept complete&quot;">
+      <created>1529078383571</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1529078383571</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="262594000" />
+    <option name="totallyTimeSpent" value="264081000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1618" height="870" extended-state="6" />
@@ -292,10 +275,10 @@
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.20625" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info active="true" anchor="bottom" id="Messages" order="12" visible="true" weight="0.6303116" />
+      <window_info anchor="bottom" id="Messages" order="12" weight="0.6303116" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" weight="0.32947367" />
-      <window_info anchor="bottom" id="Version Control" order="9" weight="0.3286119" />
+      <window_info anchor="bottom" id="Version Control" order="9" weight="0.9589235" />
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Terminal" order="8" />
@@ -539,24 +522,24 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/css/styles.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="78">
+          <caret line="661" column="5" lean-forward="true" selection-start-line="661" selection-start-column="5" selection-end-line="661" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/game/Setup.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="768" column="56" lean-forward="true" selection-start-line="768" selection-start-column="56" selection-end-line="768" selection-end-column="56" />
+        <state relative-caret-position="341">
+          <caret line="777" column="47" lean-forward="true" selection-start-line="777" selection-start-column="47" selection-end-line="777" selection-end-column="47" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/game/littleService.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="250" column="47" lean-forward="true" selection-start-line="250" selection-start-column="47" selection-end-line="250" selection-end-column="47" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/styles.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="78">
-          <caret line="661" column="5" lean-forward="true" selection-start-line="661" selection-start-column="5" selection-end-line="661" selection-end-column="5" />
+        <state relative-caret-position="204">
+          <caret line="55" column="47" lean-forward="true" selection-start-line="55" selection-start-column="47" selection-end-line="55" selection-end-column="47" />
         </state>
       </provider>
     </entry>

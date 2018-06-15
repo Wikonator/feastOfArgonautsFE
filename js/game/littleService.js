@@ -60,17 +60,14 @@ function renderResize() {
 
     if (screenRatio < sceneRatio)
     {
-        console.log("Kua1");
         canvasHeight = windowHeight;
         let otherRatio = canvasHeight / relativeHeight;
         canvasWidth = relativeWidth * otherRatio;
     } else {
-        console.log("Kua2");
         canvasWidth = windowWidth;
         let otherRatio = canvasWidth / relativeWidth;
         canvasHeight = (relativeHeight * otherRatio);
     }
-
 }
 renderResize();
 

@@ -502,7 +502,6 @@ function setup(dataFromBack) {
     };
     //////////////////////////////////////////// Town Map Building Functions / /////////////// / / / / / /
     function buildingOverEnter() {
-        console.log(this);
         console.log("HEY Im here!");
 
         // console.log(this);
@@ -759,33 +758,29 @@ function setup(dataFromBack) {
 
 
     playerHouseBuilding.position = {x: 80, y: 250};
-    backGroundSprite.scale.x = 1;
+    // backGroundSprite.scale.x = 1;
 
     // playArea.width = townMapSprite.texture.width;
     // playArea.height = townMapSprite.texture.height;
 
     playerHouseBuilding.sceneId = 1;
     playerHouseBuilding.on("click", enterPlayerBuilding);
-    // playerHouseBuilding.on("mouseover", buildingOverEnter);
+    playerHouseBuilding.on("mouseover", buildingOverEnter);
     playerHouseBuilding.on("mouseout", buildingOverEnd);
     playerHouseBuilding.interactive = true;
 
-    // backGroundSprite.addChild();
-    playArea.addChild(backGroundSprite, airportBuilding, generalStoreBuilding, governorsHouseBuilding,
+    backGroundSprite.addChild(airportBuilding, generalStoreBuilding, governorsHouseBuilding,
         marketBuilding, playerHouseBuilding, ragnarBuilding, templeBuilding, researchTrainingBuilding, secCoBuilding );
+    playArea.addChild(backGroundSprite);
     for (let i in buildingArray) {
         // console.log(buildingArray);
-        buildingArray[i].interactive = true;
-        console.log(buildingArray[i].texture.trim.width);
-        buildingArray[i].position = {x: buildingArray[i].texture.trim.x, y: buildingArray[i].texture.trim.y}
-        // buildingArray[i].width = buildingArray[i].texture.trim.width;
-        // buildingArray[i].height = buildingArray[i].texture.trim.height;
+        // buildingArray[i].interactive = true;
         buildingArray[i].on("mouseover", buildingOverEnter);
         // buildingArray[i].on("mouseout", buildingOverEnd);
     };
-    backGroundSprite.mouseover = function (e) {
-        e.stopPropagation()
-    };
+    // playArea.mouseover = function (e) {
+    //     e.stopPropagation()
+    // };
 
     // playArea.width
 
