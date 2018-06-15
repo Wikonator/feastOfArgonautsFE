@@ -38,21 +38,50 @@ let                                          // GUI texts
     messagesUnreadTxt = new PIXI.Text('', { fontFamily : 'conthrax', fontSize: 22, fill : "#1BFE8B", align : 'left' })
 ;
 
-let windowWidth = window.outerWidth ,
-    windowHeight = window.outerWidth;
+let windowWidth = window.innerWidth ,
+    windowHeight = window.innerHeight;
 console.log(windowHeight);
 let uiWidth = 1520;
 let backgroundWidth = 1920;
 
-let renderer = PIXI.autoDetectRenderer(windowWidth, windowHeight, {
+let sceneRatio = 0.56;
+let relativeWidth = 1920;
+let relativeHeight = 1080;
+let canvasWidth = 0;
+let canvasHeight = 0;
+let renderer;
+
+function renderResize() {
+    let windowWidth = window.innerWidth ,
+        windowHeight = window.innerHeight - 90;
+    let screenRatio = windowHeight / windowWidth;
+    canvasWidth = 0;
+    canvasHeight = 0;
+
+    if (screenRatio < sceneRatio)
+    {
+        console.log("Kua1");
+        canvasHeight = windowHeight;
+        let otherRatio = canvasHeight / relativeHeight;
+        canvasWidth = relativeWidth * otherRatio;
+    } else {
+        console.log("Kua2");
+        canvasWidth = windowWidth;
+        let otherRatio = canvasWidth / relativeWidth;
+        canvasHeight = (relativeHeight * otherRatio);
+    }
+    console.log("WINDOW " + windowWidth + " A PICE " + windowHeight);
+    console.log("KURVY " + canvasWidth + " A PICE " + canvasHeight);
+
+}
+renderResize();
+
+renderer = PIXI.autoDetectRenderer(canvasWidth, canvasHeight, {
     transparent: true,
     resolution: 1
 });
 
 let display;
-
-
-
 let app;
 
 
@@ -74,9 +103,9 @@ let negativePanelContainer = new PIXI.Container(),
 let rect = new PIXI.Rectangle(0,20,150,200);
 negativePanelContainer.up = true;
 
-
+let resolutionParameter;
 function startLoad(){
-    let resolutionParameter = dataFromBack.quality;
+    resolutionParameter = dataFromBack.quality;
     PIXI.loader
         .add("buyPanel", 'images/' + resolutionParameter + '/GUI/buyPanel/buy_panel.json')
         .add("tradePanel", 'images/' + resolutionParameter + '/GUI/tradePanel/trade_panel.json')
@@ -88,21 +117,12 @@ function startLoad(){
         .add("campsVaultTable", "images/" + resolutionParameter + "/GUI/campsVaultTable/campsvault_table.json")
         .add("messagePanel", "images/" + resolutionParameter + "/GUI/messagePanel/message_panel.json")
         .add("messageTable", "images/" + resolutionParameter + "/GUI/messageTable/message_panel.json")
-        .add("townMap", "images/" + resolutionParameter + "/town/Sources/townMap.jpg")
-        .add("airport", "images/" + resolutionParameter + "/town/Sources/airport.png")
-        .add("generalStore", "images/" + resolutionParameter + "/town/Sources/generalStore.png")
-        .add("governorsHouse", "images/" + resolutionParameter + "/town/Sources/governorsHouse.png")
-        .add("market", "images/" + resolutionParameter + "/town/Sources/market.png")
-        .add("playerHouse", "images/" + resolutionParameter + "/town/Sources/playerHouse.png")
-        .add("ragnar", "images/" + resolutionParameter + "/town/Sources/ragnar.png")
-        .add("researchTraining", "images/" + resolutionParameter + "/town/Sources/researchTraining.png")
-        .add("secCo", "images/" + resolutionParameter + "/town/Sources/secCo.png")
-        .add("temple", "images/" + resolutionParameter + "/town/Sources/temple.png")
+        .add("townMap", "images/" + resolutionParameter + "/town/townMap.json")
+        .add("noSheet", "images/" +resolutionParameter+ "/town/noSheetMap.jpg" )
         .load(themeLoader(resolutionParameter));
 }
 
 let fontLoader;
-
 let theme;
 
 
@@ -114,8 +134,6 @@ function themeLoader(resolutionParameter) {
 
 // let gownApplication = new GOWN.Application(PIXI.settings.RENDER_OPTIONS, GOWN.Application.SCREEN_MODE_FULLSCREEN, "display", 1920, 1075, renderer, stage);
 ;
-// console.log(gownApplication);
-
 function onComplete () {
 
     setup(dataFromBack)
@@ -169,32 +187,37 @@ function checkRefresh() {
     }
 }
 
-let resize_orig = function () {
-    windowWidth = document.body.scrollWidth;
-    windowHeight = document.body.scrollHeight;
-    let ratio = (windowWidth / uiWidth);
-    let playAreaWidthRatio = (windowWidth / backgroundWidth);
-    let playAreaHeightRatio =( windowHeight / 1075 );
-
-    // console.log(playAreaWidthRatio);
-    GUIArea.scale.x = GUIArea.scale.y = ratio;
-    playArea.scale.x =  playAreaWidthRatio;
-    playArea.scale.y =  playAreaHeightRatio;
-
-    renderer.resize(windowWidth, windowHeight);
-};
+// let resize_orig = function () {
+//     windowWidth = document.body.scrollWidth;
+//     windowHeight = document.body.scrollHeight;
+//     let ratio = (windowWidth / uiWidth);
+//     let playAreaWidthRatio = (windowWidth / backgroundWidth);
+//     let playAreaHeightRatio =( windowHeight / 1075 );
+//
+//     GUIArea.scale.x = GUIArea.scale.y = ratio;
+//
+//     renderer.resize(windowWidth, windowHeight);
+// };
 
 window.addEventListener('resize', resize);
 
-function resize () {
-    console.log("this event fired");
-    // console.log("I resized");
-    windowWidth = document.body.clientWidth;
-    windowHeight = window.outerHeight * stage.scale.y - 30;
-    let ratio = (windowWidth / uiWidth);
 
-    stage.scale.x = stage.scale.y = ratio;
-    renderer.resize(windowWidth, windowHeight);
+function resize () {
+
+    renderResize();
+
+    let UIratio = (canvasWidth / uiWidth);
+
+    console.log("yeahboy");
+    GUIArea.scale.x = GUIArea.scale.y = UIratio;
+    playArea.children[0].width = canvasWidth;
+    playArea.children[0].height = canvasHeight;
+
+    console.log("play area height: " + playArea.height);
+    console.log("play area width: "+ playArea.width);
+    console.log("mapSprite width: "+ playArea.children[0].width);
+    console.log("mapSprite Hight: " +playArea.children[0].height);
+    renderer.resize(canvasWidth, canvasHeight);
 }
 
 
@@ -225,7 +248,6 @@ foAapp.factory('littleService', function ($http, $location, sessionService) {
             app = new PIXI.Application(windowWidth, windowHeight, {transparent: true});
 
             display = document.getElementById('display');
-
             display.appendChild(renderer.view);
             // display.addEventListener("wheel", scrollyScrolly, false);
 

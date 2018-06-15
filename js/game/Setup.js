@@ -187,35 +187,35 @@ function setup(dataFromBack) {
         messageTabSlider = new PIXI.Sprite(
             PIXI.loader.resources["messageTable"].textures['message_table_scroll.png']
         ),
-        townMapSprite = new PIXI.Sprite(
-            PIXI.loader.resources["townMap"].texture
+        backGroundSprite = new PIXI.Sprite(
+            PIXI.loader.resources["noSheet"].texture
         ),
         airportBuilding = new PIXI.Sprite(
-            PIXI.loader.resources["airport"].texture
+            PIXI.loader.resources["townMap"].textures["airport.png"]
         ),
         generalStoreBuilding = new PIXI.Sprite(
-            PIXI.loader.resources["generalStore"].texture
+            PIXI.loader.resources["townMap"].textures["OQ.png"]
         ),
         governorsHouseBuilding = new PIXI.Sprite(
-            PIXI.loader.resources["governorsHouse"].texture
+            PIXI.loader.resources["townMap"].textures["house.png"]
         ),
         marketBuilding = new PIXI.Sprite(
-            PIXI.loader.resources["market"].texture
+            PIXI.loader.resources["townMap"].textures["market.png"]
         ),
         playerHouseBuilding = new PIXI.Sprite(
-            PIXI.loader.resources["playerHouse"].texture
+            PIXI.loader.resources["townMap"].textures["player_house.png"]
         ),
         ragnarBuilding = new PIXI.Sprite(
-            PIXI.loader.resources["ragnar"].texture
+            PIXI.loader.resources["townMap"].textures["ragnar.png"]
         ),
         researchTrainingBuilding = new PIXI.Sprite(
-            PIXI.loader.resources["researchTraining"].texture
+            PIXI.loader.resources["townMap"].textures["research_training.png"]
         ),
         secCoBuilding = new PIXI.Sprite(
-            PIXI.loader.resources["secCo"].texture
+            PIXI.loader.resources["townMap"].textures["research.png"]
         ),
         templeBuilding = new PIXI.Sprite(
-            PIXI.loader.resources["temple"].texture
+            PIXI.loader.resources["townMap"].textures["temple.png"]
         )
         ;
 
@@ -502,19 +502,52 @@ function setup(dataFromBack) {
     };
     //////////////////////////////////////////// Town Map Building Functions / /////////////// / / / / / /
     function buildingOverEnter() {
+        console.log("HEY Im here!");
+
+        // console.log(this);
+    }
+
+    function buildingOverEnd() {
+        console.log("aaaaan its gone");
+    }
+
+
+
+    function loadNextScene (sceneLoader, resources, sceneId) {
+        backGroundSprite.texture = resources.houseInterior.texture;
+        let table = new PIXI.Graphics;
+        table.beginFill();
+        table.drawRect(1200, 1350, 500, 450);
+        table.endFill();
+        table.interactive = true;
+        table.on("click", showStelaContainer);
+        backGroundSprite.addChild(table);
+
+        function showStelaContainer() {
+            console.log('Click');
+            let tableContainer = new PIXI.Sprite(
+                resources.stelaTable.texture
+            );
+            backGroundSprite.addChild(tableContainer);
+        }
 
     }
 
     function enterPlayerBuilding() {
-        console.log("knock knock, whos there, mary, mary who? marihuana");
-        // stage.removeChild(playArea);
-        let mapAreaArray = playArea.children;
-        console.log(mapAreaArray);
-        for (let child in mapAreaArray) {
-            console.log(mapAreaArray[child]);
-            playArea.removeChild(mapAreaArray[child]);
+        console.log("click");
+        let sceneId = this.sceneId;
+        for (let i in buildingArray) {
+            backGroundSprite.removeChild(buildingArray[i]);
         }
-        // townMapSprite.text
+            // fog transition
+            // add loading screen here
+        let sceneLoader = new PIXI.loaders.Loader();
+        sceneLoader.add("houseInterior", 'images/' + resolutionParameter + '/playerHouse/interior.png')
+            .add("stelaTable", "images/" + resolutionParameter + '/playerHouse/tableView.png')
+        .load((sceneLoader, resources, sceneId ) => {
+            loadNextScene(sceneLoader, resources, sceneId);
+        });
+        // loadNextScene(sceneId);
     }
 
     // lights testing
@@ -722,46 +755,35 @@ function setup(dataFromBack) {
         marketBuilding, playerHouseBuilding, ragnarBuilding, researchTrainingBuilding,
         secCoBuilding, templeBuilding ];
 
+
+
+    playerHouseBuilding.position = {x: 80, y: 250};
+    backGroundSprite.scale.x = 1;
+
+    // playArea.width = townMapSprite.texture.width;
+    // playArea.height = townMapSprite.texture.height;
+
+    playerHouseBuilding.sceneId = 1;
     playerHouseBuilding.on("click", enterPlayerBuilding);
+    // playerHouseBuilding.on("mouseover", buildingOverEnter);
+    playerHouseBuilding.on("mouseout", buildingOverEnd);
+    playerHouseBuilding.interactive = true;
+
+    backGroundSprite.addChild(airportBuilding, generalStoreBuilding, governorsHouseBuilding,
+        marketBuilding, playerHouseBuilding, ragnarBuilding, templeBuilding, researchTrainingBuilding, secCoBuilding );
+    playArea.addChild(backGroundSprite);
     for (let i in buildingArray) {
+        // console.log(buildingArray);
         buildingArray[i].interactive = true;
         buildingArray[i].on("mouseover", buildingOverEnter);
-        buildingArray[i].scale = {x:0.24, y:0.23};
-        buildingArray[i].anchor = {x:0.5, y:0.5};
+        // buildingArray[i].on("mouseout", buildingOverEnd);
     };
+    // playArea.mouseover = function (e) {
+    //     e.stopPropagation()
+    // };
 
-    airportBuilding.position = {x:950, y:690};
-    airportBuilding.scale = {x: 0.33, y:0.33};
+    // playArea.width
 
-    generalStoreBuilding.position = {x:1260, y:860};
-    generalStoreBuilding.scale = {x: 0.33, y:0.33};
-
-    governorsHouseBuilding.position = {x:800, y:900};
-    governorsHouseBuilding.scale = {x: 0.33, y:0.33};
-
-    marketBuilding.position = {x:1475, y:785};
-    marketBuilding.scale = {x: 0.33, y:0.33};
-
-    playerHouseBuilding.position = {x:325, y:740}; // old x260 y537
-    playerHouseBuilding.scale = {x: 0.33, y:0.33};
-
-    ragnarBuilding.position = {x:440, y:235};
-    ragnarBuilding.scale = {x:-0.23,y: 0.19};
-
-    researchTrainingBuilding.position = {x:1700, y:690};
-    researchTrainingBuilding.scale = {x: 0.33, y:0.33};
-
-    secCoBuilding.position = {x:1500, y:610};
-    secCoBuilding.scale = {x:0.125, y:0.125};
-
-    templeBuilding.position = {x: 1065, y:515};
-    templeBuilding.scale = {x:0.18, y:0.18};
-
-    townMapSprite.width = windowWidth / playArea.scale.x;
-    townMapSprite.height = windowHeight / playArea.scale.y;
-
-    playArea.addChild(townMapSprite, airportBuilding, generalStoreBuilding, governorsHouseBuilding,
-        marketBuilding, playerHouseBuilding, ragnarBuilding, researchTrainingBuilding, secCoBuilding, templeBuilding);
     GUIArea.addChild(scarab, buyPanel, buyButton, buyButtonText,
         negPanelBottom1, negPanelBottom2, negPanelBottom3, negPanelBottom4, tradePanel,
         tradeButton, tradeButtonText, miningPanel, miningPanelButtonBigFirst, miningTextFirst,
@@ -1744,6 +1766,7 @@ function setup(dataFromBack) {
         //     stage.addChild(negativePanelContainer);
         //     let up = true;
         //     moveNegPanel(up);
-    }
-
+    };
+    // const ratio = (playArea.children[0].texture.height / playArea.children[0].texture.width );
+    resize();
 }
