@@ -1,0 +1,92 @@
+{"frames": {
+
+"airport.png":
+{
+	"frame": {"x":1,"y":1078,"w":569,"h":284},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":724,"y":536,"w":569,"h":284},
+	"sourceSize": {"w":1920,"h":1075}
+},
+"house.png":
+{
+	"frame": {"x":572,"y":1078,"w":333,"h":245},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":651,"y":782,"w":333,"h":245},
+	"sourceSize": {"w":1920,"h":1075}
+},
+"market.png":
+{
+	"frame": {"x":1235,"y":1290,"w":138,"h":160},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1396,"y":683,"w":138,"h":160},
+	"sourceSize": {"w":1920,"h":1075}
+},
+"OQ.png":
+{
+	"frame": {"x":1,"y":1364,"w":171,"h":94},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1383,"y":529,"w":171,"h":94},
+	"sourceSize": {"w":1920,"h":1075}
+},
+"player_house.png":
+{
+	"frame": {"x":1235,"y":1078,"w":241,"h":210},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":211,"y":633,"w":241,"h":210},
+	"sourceSize": {"w":1920,"h":1075}
+},
+"pozadie.png":
+{
+	"frame": {"x":1,"y":1,"w":1920,"h":1075},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":1920,"h":1075},
+	"sourceSize": {"w":1920,"h":1075}
+},
+"ragnar.png":
+{
+	"frame": {"x":1694,"y":1272,"w":175,"h":169},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":345,"y":123,"w":175,"h":169},
+	"sourceSize": {"w":1920,"h":1075}
+},
+"research.png":
+{
+	"frame": {"x":1478,"y":1078,"w":249,"h":192},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1135,"y":766,"w":249,"h":192},
+	"sourceSize": {"w":1920,"h":1075}
+},
+"research_training.png":
+{
+	"frame": {"x":907,"y":1078,"w":326,"h":229},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":1531,"y":591,"w":326,"h":229},
+	"sourceSize": {"w":1920,"h":1075}
+},
+"temple.png":
+{
+	"frame": {"x":1478,"y":1272,"w":214,"h":186},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":970,"y":441,"w":214,"h":186},
+	"sourceSize": {"w":1920,"h":1075}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "townMap.png",
+	"format": "RGBA8888",
+	"size": {"w":1922,"h":1459},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:9cb1b7476b7ab6048bc59b66422115f9:c8fcc6367d68cf5a964e269255422e95:d48ffdf4da5c3cca14f8a3e878abcd45$"
+}
+}

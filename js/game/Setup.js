@@ -502,6 +502,7 @@ function setup(dataFromBack) {
     };
     //////////////////////////////////////////// Town Map Building Functions / /////////////// / / / / / /
     function buildingOverEnter() {
+        console.log(this);
         console.log("HEY Im here!");
 
         // console.log(this);
@@ -769,18 +770,22 @@ function setup(dataFromBack) {
     playerHouseBuilding.on("mouseout", buildingOverEnd);
     playerHouseBuilding.interactive = true;
 
-    backGroundSprite.addChild(airportBuilding, generalStoreBuilding, governorsHouseBuilding,
+    // backGroundSprite.addChild();
+    playArea.addChild(backGroundSprite, airportBuilding, generalStoreBuilding, governorsHouseBuilding,
         marketBuilding, playerHouseBuilding, ragnarBuilding, templeBuilding, researchTrainingBuilding, secCoBuilding );
-    playArea.addChild(backGroundSprite);
     for (let i in buildingArray) {
         // console.log(buildingArray);
         buildingArray[i].interactive = true;
+        console.log(buildingArray[i].texture.trim.width);
+        buildingArray[i].position = {x: buildingArray[i].texture.trim.x, y: buildingArray[i].texture.trim.y}
+        // buildingArray[i].width = buildingArray[i].texture.trim.width;
+        // buildingArray[i].height = buildingArray[i].texture.trim.height;
         buildingArray[i].on("mouseover", buildingOverEnter);
         // buildingArray[i].on("mouseout", buildingOverEnd);
     };
-    // playArea.mouseover = function (e) {
-    //     e.stopPropagation()
-    // };
+    backGroundSprite.mouseover = function (e) {
+        e.stopPropagation()
+    };
 
     // playArea.width
 

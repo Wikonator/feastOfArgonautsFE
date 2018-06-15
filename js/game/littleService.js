@@ -70,8 +70,6 @@ function renderResize() {
         let otherRatio = canvasWidth / relativeWidth;
         canvasHeight = (relativeHeight * otherRatio);
     }
-    console.log("WINDOW " + windowWidth + " A PICE " + windowHeight);
-    console.log("KURVY " + canvasWidth + " A PICE " + canvasHeight);
 
 }
 renderResize();
@@ -208,15 +206,14 @@ function resize () {
 
     let UIratio = (canvasWidth / uiWidth);
 
-    console.log("yeahboy");
+    // console.log("yeahboy");
     GUIArea.scale.x = GUIArea.scale.y = UIratio;
     playArea.children[0].width = canvasWidth;
     playArea.children[0].height = canvasHeight;
-
-    console.log("play area height: " + playArea.height);
-    console.log("play area width: "+ playArea.width);
-    console.log("mapSprite width: "+ playArea.children[0].width);
-    console.log("mapSprite Hight: " +playArea.children[0].height);
+    // console.log("play area height: " + playArea.height);
+    // console.log("play area width: "+ playArea.width);
+    // console.log("mapSprite width: "+ playArea.children[0].width);
+    // console.log("mapSprite Hight: " +playArea.children[0].height);
     renderer.resize(canvasWidth, canvasHeight);
 }
 
