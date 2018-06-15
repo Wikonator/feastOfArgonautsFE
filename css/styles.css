@@ -15,8 +15,10 @@
 }
 
 body {
-     overflow-x: hidden;
+    overflow-x: hidden;
+    background-color: black;
  }
+
 
 #feastOf {
     position: absolute;
@@ -745,4 +747,19 @@ form.index-next-form {
 
 .InputAddOn-item {
     /* item styles */
+}
+
+.gameContent {
+    background-color: black;
+}
+
+canvas {
+    padding: 0;
+    margin: auto;
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 30;
+    left: 0;
+    right: 0;
 }
