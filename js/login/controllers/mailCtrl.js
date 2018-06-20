@@ -1,7 +1,6 @@
 'use strict';
 
 foAapp.controller('mailCtrl', ['$scope', '$routeParams', 'welcomeService', function ($scope, $routeParams, welcomeService) {
-// app.controller('mailCtrl', function ($scope, welcomeService) {
     $scope.msgtxt = '';
     $scope.passHash = $routeParams;
 

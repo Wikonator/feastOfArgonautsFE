@@ -2,50 +2,51 @@
     <div class="registerPageDetailsGroup" ng-controller="inputValidation">
         <span class="logregText" id="capitalsLogRegBox"> register </span>
         <br>
-        <form id="registerGate" name="localLoginForm" >
-            <div ng-show="hideLogin">
-                <div class="logregText" >
-                    <span style="float: left">Login</span>
-                    <span style="float: right">{{msgRegistrationStatus}}/3</span>
-                    <br>
-                </div>
-                <div class="InputAddOn" >
-                    <input type="text" id="nickname" class="loginInputBoxLeft" placeholder=" 5-30 alphanumerical characters " ng-change="loginVal('register')" required ng-model="register.login" >
-                    <button id="blueSubmitButton1" class="blueSubmitButton" ng-click="go2Mail('register')" > >> </button>
-                </div>
+            <div name="LoginText" ng-show="hideLogin">
+                <form id="registerGate1" name="localLoginForm1">
+                    <div class="logregText" >
+                        <span style="float: left">Login</span>
+                        <span style="float: right">{{msgRegistrationStatus}}/3</span>
+                        <br>
+                    </div>
+                    <div name="EnterLogin" class="InputAddOn" >
+                        <input type="text" id="nickname" class="loginInputBoxLeft" placeholder=" 5-30 alphanumerical characters " ng-change="loginVal('register')" required ng-model="register.login" >
+                        <button id="blueSubmitButton1" type="submit" class="blueSubmitButton" ng-disabled="loginerr" ng-click="go2Mail('register')" > >> </button>
+                    </div>
+                </form>
             </div>
             <div ng-show="hideMail">
-                <div class="logregText" >
-                    <span style="float: left">Mail</span>
-                    <span style="float: right">{{msgRegistrationStatus}}/3</span>
-                    <br>
-                </div>
-                <div class="InputAddOn" >
-                    <input type="email" id="mail" class="loginInputBoxLeft" placeholder=" Enter valid email " ng-change="mailVal('register')" required ng-model="register.mail" ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/">
-                    <button id="blueSubmitButton2" class="blueSubmitButton" ng-click="go2Accept()" > >> </button>
-                </div>
+                <form id="registerGate2" name="localLoginForm2">
+                    <div class="logregText" >
+                        <span style="float: left">Mail</span>
+                        <span style="float: right">{{msgRegistrationStatus}}/3</span>
+                        <br>
+                    </div>
+                    <div class="InputAddOn" >
+                        <input type="email" id="mail" class="loginInputBoxLeft" placeholder=" Enter valid email " ng-change="mailVal('register')" required ng-model="register.mail" ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/">
+                        <button id="blueSubmitButton2" type="submit" class="blueSubmitButton" ng-click="go2Accept('register')" > >> </button>
+                    </div>
+                </form>
             </div>
-            <!--<div ng-if="hideAccept">-->
-            <div ng-show="hideAccept">
-                <div class="logregText" >
-                    <span style="float: left">Accept</span>
-                    <span style="float: right">{{msgRegistrationStatus}}/3</span>
-                    <br>
-                </div>
-                <div class="InputAddOn" >
-                    <input type="checkbox" name="favoriteColors" ng-if="hideAccept" ng-checked="acceptVal(accept)" ng-model="accept">
-                    <!--<span style="float: left; color: white" ng-change="acceptVal('register')" required ng-model="register.accept"> Check for Accept Terms of use and Privacy policy </span>-->
-                    <span style="float: left; color: white" > Check for Accept Terms of use and Privacy policy </span>
-                </div>
-                <div class="logregText" >
-                    <br>
-                    <button id="greenRegisterButton3" class="greenRegisterButton" type="button" ng-disabled="(!accept)" ng-controller="signInCtrl" ng-click="sendLogin(register, accept)" style="float: left"> Finish and Play </button>
-                </div>
-                <br><br><br><br>
+            <div ng-if="hideAccept">
+                <form id="registerGate3" name="localLoginForm3">
+                    <div class="logregText" >
+                        <span style="float: left">Accept</span>
+                        <span style="float: right">{{msgRegistrationStatus}}/3</span>
+                        <br>
+                    </div>
+                    <div class="InputAddOn" >
+                        <input type="checkbox" name="TermsCheck" ng-checked="acceptVal(acceptOK, hideAccept)" ng-model="acceptOK">
+                        <span style="float: left; color: white" > Check for Accept Terms of use and Privacy policy </span>
+                    </div>
+                    <div class="logregText" >
+                        <br>
+                        <button id="greenRegisterButton3" type="submit" class="greenRegisterButton" ng-disabled="(!acceptOK)" ng-click="reg2game(acceptOK)" style="float: left"> Finish and Play </button>
+                    </div>
+                    <br><br><br><br>
+                </form>
             </div>
-
             <p style="color: red">{{msgtxt}}</p>
-        </form>
     </div>
     <div class="loginPageDetailsGroup" >
         <div class="logregText" id="capitalsLogRegBox1"> Login </div>
@@ -55,13 +56,12 @@
                 <p style="color: red">{{msgtxtlogin}}</p>
                 <input type="password" id="password" class="loginInputBox" placeholder=" Enter password " required ng-model="user.pass">
                 <p style="color: red">{{msgtxtpass}}</p>
-                <button id="greenRegisterButton" type="button" ng-disabled="localLoginForm.$invalid" ng-click="login(user)"> LOGIN </button>
+                <button id="greenRegisterButton" type="submit" ng-disabled="localLoginForm.$invalid" ng-click="login(user)"> LOGIN </button>
                 <div class="logregText" >
                     <a href="" style="color: white; float: right" ng-click="forgotShowHide('show', 'forgot');" > Forgot your password? </a><br>
                     <p style="color: red" ng-bind="msgKOtxt" ></p>
                     <p style="color: green" ng-bind="msgOKtxt"></p>
                 </div>
-                <!--<br>-->
                 <div class="logregTextCenter" >
                     <br>
                     <span class="capitalsLogRegBox" > - OR - </span>
