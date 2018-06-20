@@ -76,29 +76,30 @@ renderer = PIXI.autoDetectRenderer(canvasWidth, canvasHeight, {
     resolution: 1
 });
 
-let display;
-let app;
-
+let scrollContainerSelector;
 
 function scrollyScrolly(delta) {
-    let scrollContainer = vaultContainer.children.find(function (elem) {
+    console.log("scrolly Scrolly"); // I swear to Machine God, if you erase this again I will end Ü
+    // console.log(scrollContainerSelector);
+    let scroller = scrollContainerSelector.children.find(function (elem) {
         return elem.id === 10;
     });
-    scrollContainer.verticalScrollPosition -= delta.deltaY;
-    scrollContainer._startTouch.y = scrollContainer.verticalScrollPosition;
-    scrollContainer.updateVerticalScrollFromTouchPosition(delta.deltaY, true);
+    scroller.verticalScrollPosition -= delta.deltaY*2;
+    scroller._startTouch.y = scroller.verticalScrollPosition;
+    scroller.updateVerticalScrollFromTouchPosition(delta.deltaY, true);
 }
 
-
 let stage = new PIXI.Container(), playArea = new PIXI.Container(), GUIArea = new PIXI.Container();
-let negativePanelContainer = new PIXI.Container(),
-    vaultContainer = new PIXI.Container(),
-    messageContainer = new PIXI.Container(),
-    campsContainer = new PIXI.Container();
-let rect = new PIXI.Rectangle(0,20,150,200);
+let negativePanelContainer = new PIXI.Container(), vaultContainer = new PIXI.Container(),
+    vaultScrollContainer = new PIXI.Container(), messageScrollContainer = new PIXI.Container(),
+    campScrollContainer = new PIXI.Container(), messageContainer = new PIXI.Container(),
+    campsContainer = new PIXI.Container(); let rect = new PIXI.Rectangle(0,20,150,200);
 negativePanelContainer.up = true;
 
 let resolutionParameter;
+let display;
+let app;
+
 function startLoad(){
     resolutionParameter = dataFromBack.quality;
     PIXI.loader
@@ -129,12 +130,14 @@ function themeLoader(resolutionParameter) {
 
 // let gownApplication = new GOWN.Application(PIXI.settings.RENDER_OPTIONS, GOWN.Application.SCREEN_MODE_FULLSCREEN, "display", 1920, 1075, renderer, stage);
 ;
-function onComplete () {
-
-    setup(dataFromBack)
+function onComplete() {
+    setup(dataFromBack);
 }
 
-let nameOfKey = function (key) {            // function returns the icon for the vault tab
+let nameOfKey = function (key, buttonName) {            // function returns the icon for the vault tab
+    if (buttonName) {
+        key = buttonName;
+    }
     key = key + "";
     switch(key) {
         case '1':
@@ -182,17 +185,6 @@ function checkRefresh() {
     }
 }
 
-// let resize_orig = function () {
-//     windowWidth = document.body.scrollWidth;
-//     windowHeight = document.body.scrollHeight;
-//     let ratio = (windowWidth / uiWidth);
-//     let playAreaWidthRatio = (windowWidth / backgroundWidth);
-//     let playAreaHeightRatio =( windowHeight / 1075 );
-//
-//     GUIArea.scale.x = GUIArea.scale.y = ratio;
-//
-//     renderer.resize(windowWidth, windowHeight);
-// };
 
 window.addEventListener('resize', resize);
 
@@ -200,17 +192,10 @@ window.addEventListener('resize', resize);
 function resize () {
 
     renderResize();
-
     let UIratio = (canvasWidth / uiWidth);
-
-    // console.log("yeahboy");
     GUIArea.scale.x = GUIArea.scale.y = UIratio;
     playArea.children[0].width = canvasWidth;
     playArea.children[0].height = canvasHeight;
-    // console.log("play area height: " + playArea.height);
-    // console.log("play area width: "+ playArea.width);
-    // console.log("mapSprite width: "+ playArea.children[0].width);
-    // console.log("mapSprite Hight: " +playArea.children[0].height);
     renderer.resize(canvasWidth, canvasHeight);
 }
 
@@ -243,7 +228,6 @@ foAapp.factory('littleService', function ($http, $location, sessionService) {
 
             display = document.getElementById('display');
             display.appendChild(renderer.view);
-            // display.addEventListener("wheel", scrollyScrolly, false);
 
             fontLoader = new type.Loader();
 
@@ -257,7 +241,8 @@ foAapp.factory('littleService', function ($http, $location, sessionService) {
 
             socket.on('ui:onRefresh', function (data) {
 
-                console.log("ui on ref emit");
+                console.log("data from back: ");
+                console.log(data);
                 dataFromBack = data;
                 dataCameSwitch = true;
                 startLoad();

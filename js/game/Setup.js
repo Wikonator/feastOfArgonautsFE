@@ -397,6 +397,7 @@ function setup(dataFromBack) {
     //////////////////////////////////////////// Left panel button functions / /////////////// / / / / / /
 
     function openMessageTab() {
+        scrollContainerSelector = messageScrollContainer;
         display.removeEventListener("wheel", scrollyScrolly, false);
 
         if (messagePanelButton.isClicked == true) {
@@ -429,6 +430,7 @@ function setup(dataFromBack) {
 
     function openVaultTab() {
         display.removeEventListener("wheel", scrollyScrolly, false);
+        scrollContainerSelector = vaultScrollContainer;
 
         if (!vaultPanelButton.isClicked) {
             vaultPanelButton.isClicked = true;
@@ -457,7 +459,7 @@ function setup(dataFromBack) {
 
     function openCampsTab() {
         display.removeEventListener("wheel", scrollyScrolly, false);
-
+        scrollContainerSelector = campScrollContainer;
         if (!campsPanelButton.isClicked) {
             campsPanelButton.isClicked = true;
             GUIArea.addChild(campsContainer);
@@ -525,6 +527,7 @@ function setup(dataFromBack) {
             let tableContainer = new PIXI.Sprite(
                 resources.stelaTable.texture
             );
+            tableContainer.position.y = 55; //{x:,y:}
             backGroundSprite.addChild(tableContainer);
         }
 
@@ -754,7 +757,7 @@ function setup(dataFromBack) {
 
 
 
-    playerHouseBuilding.position = {x: 80, y: 250};
+    // playerHouseBuilding.position = {x: 80, y: 250};
     // backGroundSprite.scale.x = 1;
 
     // playArea.width = townMapSprite.texture.width;
@@ -777,11 +780,6 @@ function setup(dataFromBack) {
         buildingArray[i].on("mouseover", buildingOverEnter);
         // buildingArray[i].on("mouseout", buildingOverEnd);
     };
-    // playArea.mouseover = function (e) {
-    //     e.stopPropagation()
-    // };
-
-    // playArea.width
 
     GUIArea.addChild(scarab, buyPanel, buyButton, buyButtonText,
         negPanelBottom1, negPanelBottom2, negPanelBottom3, negPanelBottom4, tradePanel,
@@ -962,20 +960,22 @@ function setup(dataFromBack) {
             this.isdown = true;
             this.texture = this.pressed;
             this.alpha = 1;
-            let campsOrAreas = [];
+            let campsOrAreas = {};
+            console.log(dataFromBack);
+            campsOrAreas.vault.camps = [];
             if (this.btn.name == "camps") {
-                campsOrAreas = dataFromBack.camps.filter( camp => camp.uLevel > 0);
+                campsOrAreas.vault.camps = dataFromBack.vault.camps.filter( camp => camp.uLevel > 0);
                 createCampsTable(campsOrAreas);
             }
             else {
-                campsOrAreas = dataFromBack.camps.filter( camp => camp.uLevel <= 0);
+                campsOrAreas.vault.camps = dataFromBack.vault.camps.filter( camp => camp.uLevel <= 0);
                 createCampsTable(campsOrAreas);
             }
         } else {
             button.isDown = false;
             this.isdown = false;
             this.texture = this.hover;
-            createCampsTable(dataFromBack.camps);
+            createCampsTable(dataFromBack.vault.camps);
         }
     };
 
@@ -1036,7 +1036,9 @@ function setup(dataFromBack) {
     hardCurTxt.position.y = 19;
 
     let vaultBtnClick = function () {
-
+        // let findContainer =
+        scrollContainerSelector = vaultScrollContainer;
+        console.log(scrollContainerSelector);
         let button = this.btn;
         if (button.isDown == false) {           // ak nebol stlaceny predtym
             for (let butt in vaultTabButtonArray) {
@@ -1048,15 +1050,13 @@ function setup(dataFromBack) {
             this.isdown = true;
             this.texture = this.pressed;
             this.alpha = 1;
-            createVaultTable(dataFromBack.vault, button);
+            createVaultTable(dataFromBack.vault.items, button);
 
-            // redoTab(this.btn);
         } else {                        // ak bol stralceny predtym
             this.btn.isDown = false;
             this.isdown = false;
             this.texture = this.hover;
-            createVaultTable(dataFromBack.vault, button);
-            // redoTab(this.btn);
+            createVaultTable(dataFromBack.vault.items, button);
         }
 
 
@@ -1140,13 +1140,13 @@ function setup(dataFromBack) {
     let headerMessageFrom = new PIXI.Text("Message from", {
             fontFamily: 'bariol',
             fontSize: 20,
-            fill: "#18A763",
+            fill: "#0BF780",
             textBaseline: "alphabet"
         }),
         headerText = new PIXI.Text("Text", {
             fontFamily: 'bariol',
             fontSize: 20,
-            fill: "#18A763",
+            fill: "#0BF780",
             textBaseline: "alphabet"
         });
     headerMessageFrom.position.x = 305;
@@ -1163,10 +1163,7 @@ function setup(dataFromBack) {
 
     // renderer.render(stage);
 
-    let count;
-    let hours;
-    let minutes;
-    let seconds;
+    let count, hours, minutes, seconds;
 
     app.ticker.add(function (deltaTime) {
         for (let i in runningArtifacts) {
@@ -1178,12 +1175,12 @@ function setup(dataFromBack) {
         }
     });
 
-    // app.ticker.speed = 0.01;
-
     setupIsDone = true;
 
-
-    function returnNameOfvaultKey(number) {
+    function returnNameOfvaultKey(number, buttonName) {
+        if (buttonName) {
+            number = buttonName;
+        }
         number = number + "";
         switch (number) {
             case '1':
@@ -1225,9 +1222,10 @@ function setup(dataFromBack) {
     }
 
     let vaultTabContents = [], iconArray = [], campsTabContents = [], messageTabContents = [];
+    let messageScroller, messageLayoutGroup, messageMaskingRectangle;
 
     createMessageTable = function (data) {
-        // console.log("creating message table");
+        console.log("creating message table");
 
         let messageTextOptions = {
             wordWrap: true,
@@ -1239,15 +1237,34 @@ function setup(dataFromBack) {
             textBaseline: "alphabet"
         };
 
-        if (changeTheTab == true) {
+        if (changeTheTab === true) {                          // deleting previous
             for (let i = 0; i <= messageTabContents.length; ++i) {
                 messageContainer.removeChild(messageTabContents[i]);
-
             }
             messageTabContents = [];
+            messageScrollContainer.removeChild(messageScroller, messageLayoutGroup, messageMaskingRectangle);
+
         }
-        // if (counter > 11) break;
-        let lastLineY = 145;
+        messageLayoutGroup = new PIXI.Container;
+        messageScroller = new GOWN.ScrollContainer();
+        messageScroller.id = 10;
+        messageScroller._verticalScrollPolicy = GOWN.Scroller.INTERACTION_MOUSE;
+        messageScroller.interactive = false;
+        messageScroller.viewPort = messageLayoutGroup;
+        messageScroller.x = 250;
+        messageScroller.y = 350;
+        messageScroller.height = (windowHeight / 2); //270
+        messageScroller.width =(windowWidth / 2) ; //900
+        messageMaskingRectangle = new PIXI.Graphics();
+        messageMaskingRectangle.drawRect(0, 0, 2050, 715); // x,y,width and height << this clips everything outside of this rectangle and determines what is visible
+        // maskingRectangle.renderable = true;
+        // maskingRectangle.cacheAsBitmap = true;
+        // messageScrollContainer.scale = {x:2, y:2};
+        messageScrollContainer.addChild(messageScroller, messageLayoutGroup, messageMaskingRectangle);
+        messageScrollContainer.mask = messageMaskingRectangle;
+        messageScrollContainer.position = {x: 285, y: 145};
+        messageContainer.addChild(messageScrollContainer);
+        let lastLineY = 0; //145
         for (let message in data) {
             // if (counter > 11) break;
             messageTextOptions.fill = ("#" + data[message][1].colour);
@@ -1256,165 +1273,121 @@ function setup(dataFromBack) {
             let messageTxt = new PIXI.Text(data[message][2].text, messageTextOptions);
 
             messageFrom.position.y = lastLineY;
-            messageFrom.position.x = 305;
+            messageFrom.position.x = 0; //305
             messageFrom.scale = {x: 1.5, y: 1.5};
             messageTxt.position.y = lastLineY;
-            messageTxt.position.x = 540;
-            messageTxt.scale.x = 1.5;
-            messageTxt.scale.y = 1.5;
+            messageTxt.position.x = 150;    //540
+            messageTxt.scale = {x:1.5, y:1.5};
 
             lastLineY += (messageFrom.height + messageTxt.height);
 
-            if ((lastLineY - messageFrom.height) >= 920) {
+            messageLayoutGroup.addChild(messageFrom, messageTxt);
                 messageTabContents.push(messageFrom, messageTxt);
-                break
-            } else {
-                messageContainer.addChild(messageFrom, messageTxt);
-                messageTabContents.push(messageFrom, messageTxt);
-            }
         }
         changeTheTab = true;
         dataCameSwitch = false;
     };
+    // ////// ////// ////// layout group and scroll container ////// ////// ////// //////
+
+   let vaultScroller, VaultLayoutGroup, vaultMaskingRectangle;
 
     createVaultTable = function (data, button) {
-        console.log("create vault tab");
-        // console.log("create vault table");7
-
         let clickFlag = false;
         changeTheTab = true;
-         // x y width height
-        // let layoutGroup = new GOWN.LayoutGroup(GOWN.VERTICAL_ALIGNMENT, 900);
-        // layoutGroup.layout = new GOWN.layout.VerticalLayout();
-
         if (button) {
+            console.log("button bol true");
+            vaultScrollContainer.removeChild(vaultScroller, VaultLayoutGroup, vaultMaskingRectangle);
+            vaultContainer.removeChild(vaultScrollContainer);
             if (button.isDown) {
-                data = data[button.name];
+                console.log("button bol down");
+                data = {0: data[button.name]};
                 clickFlag = true;
             }
         }
+        VaultLayoutGroup = new PIXI.Container;
+        vaultScroller = new GOWN.ScrollContainer();
+        vaultScroller.id = 10;
+        vaultScroller._verticalScrollPolicy = GOWN.Scroller.INTERACTION_MOUSE;
+        vaultScroller.interactive = false;
+        vaultScroller.viewPort = VaultLayoutGroup;
+        vaultScroller.x = 205;
+        vaultScroller.y = 70;
+        vaultScroller.height = (windowHeight / 2); //270
+        vaultScroller.width =(windowWidth / 2) ; //900
+        vaultMaskingRectangle = new PIXI.Graphics();
+        vaultMaskingRectangle.drawRect(0, 0, 850, 400); // x,y,width and height << this clips everything outside of this rectangle and determines what is visible
+        // maskingRectangle.renderable = true;
+        // maskingRectangle.cacheAsBitmap = true;
+        vaultScrollContainer.scale = {x:2, y:2};
+        vaultScrollContainer.addChild(vaultScroller, VaultLayoutGroup, vaultMaskingRectangle);
+        vaultScrollContainer.mask = vaultMaskingRectangle;
+        vaultScrollContainer.position = {x: 100, y: 105};
+        vaultContainer.addChild(vaultScrollContainer);
+
         for (let i = 0; i <= vaultTabContents.length; ++i) {
-            vaultContainer.removeChild(vaultTabContents[i]);
+            VaultLayoutGroup.removeChild(vaultTabContents[i]);
         }
         vaultTabContents = [];
         for (let i in iconArray) {
-            vaultContainer.removeChild(iconArray[i])
+            VaultLayoutGroup.removeChild(iconArray[i])
         }
         iconArray = [];
-
-        let lastSpriteY = 0,
+        let lastSpriteY = 8,
             lastSpriteX = 0;
-        textOptions.fontSize = 23;
+
+        textOptions.fontSize = 18;
         textOptions.fill = "#E2E9E9";
-        if (clickFlag == true) {       // when filter applied
-            console.log("clickflag true");
-            for (let idx in data) {
-                let iconToDisplay = new PIXI.Sprite(nameOfKey(button.name));
-                let textOfIcon = new PIXI.Text(returnNameOfvaultKey(button.name), textOptions);
 
-                if (button.name === 1) {
-                    textOptions.fill = ("#" + data[idx][1].colour);
-                }
-                let textOfType = new PIXI.Text(data[idx][1].text, textOptions);
-                textOptions.fill = "#E2E9E9";
-                let textOfAmount = new PIXI.Text(data[idx][3].count, textOptions);
-                let textOfOther = new PIXI.Text(data[idx][2].text, textOptions);
-                lastSpriteY += 61;
-
-                iconToDisplay.position.y = lastSpriteY;
-                iconToDisplay.position.x = lastSpriteX;
-                textOfIcon.position.y = lastSpriteY;
-                textOfIcon.position.x = lastSpriteX + 55; //85
-                // textOfIcon.scale.x = 1.5; textOfIcon.scale.y = 1.5;
-                // iconToDisplay.scale.x = 1.5; iconToDisplay.scale.y = 1.5;
-                textOfAmount.position.x = lastSpriteX + 120;//750;
-                textOfAmount.position.y = lastSpriteY;
-                textOfType.position.x = lastSpriteX + 200; //400;
-                textOfType.position.y = lastSpriteY;
-                // textOfType.scale.x = 1.5; textOfType.scale.y = 1.5;
-                // textOfAmount.scale.x = 1.5; textOfAmount.scale.y = 1.5;
-                // textOfOther.scale.x = 1.5;
-                textOfOther.position.x = lastSpriteX + 300;// + 950;
-                textOfOther.position.y = lastSpriteY;
-
-                // vaultContainer.addChild(iconToDisplay, textOfType, textOfAmount, textOfIcon, textOfOther);
-                vaultTabContents.push(textOfType, textOfAmount, textOfIcon, textOfOther);
-                for (let i in vaultTabContents) {
-                    vaultTabContents[i].scale.x = 1.5;
-                    vaultTabContents[i].scale.y = 1.5;
-                    layoutGroup.addChild(vaultTabContents[i])
-                }
-                layoutGroup.addChild(iconToDisplay);
-                iconArray.push(iconToDisplay);
-                textOptions.fill = "#E2E9E9";
-            }
-
-            clickFlag = false;                  // filter not applied
-        } else {
-            console.log("clickflag false");
-            let layoutGroup = new PIXI.Container();
-            let scrollContainer = new GOWN.ScrollContainer();
-            scrollContainer._verticalScrollPolicy = GOWN.Scroller.INTERACTION_MOUSE;
-            scrollContainer.interactive = false;
-            scrollContainer.id = 10;
-            scrollContainer.viewPort = layoutGroup;
-            scrollContainer.x = 205;
-            scrollContainer.y = 130;
-            scrollContainer.height = (windowHeight / 3); //270
-            scrollContainer.width =(windowWidth / 2) ; //900
+        function createAScroller(data, buttonName) {        // creates the scroll container
             for (let key in data) {     // break
                 for (let i in data[key]) {
-                    let iconToDisplay = new PIXI.Sprite(nameOfKey(key));
-                    let textOfIcon = new PIXI.Text(returnNameOfvaultKey(key), textOptions);
-                    // console.log(data[key][i]); // riadok
-                    // console.log(data[key][i][1]); // stlpec
+                    let iconToDisplay = new PIXI.Sprite(nameOfKey(key, buttonName));
+                    let textOfIcon = new PIXI.Text(returnNameOfvaultKey(key, buttonName), textOptions);
                     textOptions.fill = ("#" + data[key][i][1].colour);
                     let textOfType = new PIXI.Text(data[key][i][1].text, textOptions);
 
                     textOptions.fill = "#E2E9E9";
                     let textOfAmount = new PIXI.Text(data[key][i][3].text, textOptions);
 
-                    lastSpriteY += 61;
-                    // lastSpriteX += 250;
-                    iconToDisplay.scale = {x:0.2, y:0.2};
-                    iconToDisplay.anchor = {x:0.5, y:0.5};
-                    iconToDisplay.position.y = lastSpriteY + 15;
+                    lastSpriteY += 30;
+                    // iconToDisplay.anchor = {x:0.5, y:0.5};
+                    iconToDisplay.position.y = lastSpriteY;
                     iconToDisplay.position.x = lastSpriteX + 35;
+                    iconToDisplay.height = 50;
+                    iconToDisplay.width = 50;
                     textOfIcon.position.y = lastSpriteY;
                     textOfIcon.position.x = lastSpriteX + 95;
-                    // textOfIcon.scale.x = 1.5;
-                    // textOfIcon.scale.y = 1.5;
-                    // iconToDisplay.scale.x = 1.5;
-                    // iconToDisplay.scale.x = 1.5;
-                    textOfType.position.x = lastSpriteX + 400;
+                    textOfType.position.x = lastSpriteX + 350;
                     textOfType.position.y = lastSpriteY;
-                    textOfAmount.position.x = lastSpriteX + 750;
+                    textOfAmount.position.x = lastSpriteX + 650;
                     textOfAmount.position.y = lastSpriteY;
-                    // textOfType.scale.x = 1.5;
-                    // textOfType.scale.y = 1.5;
-                    // textOfAmount.scale.x = 1.5;
-                    // textOfAmount.scale.y = 1.5;
 
                     vaultTabContents.push(textOfType, textOfAmount, textOfIcon);
                     for (let i in vaultTabContents) {
-                        // vaultTabContents[i].scale.x = 1.5;
-                        // vaultTabContents[i].scale.y = 1.5;
-                        // vaultTabContents[i].height = 15;
-                        // vaultTabContents[i].width = 15;
-                        layoutGroup.addChild(vaultTabContents[i]);
+                        VaultLayoutGroup.addChild(vaultTabContents[i]);
                     }
-                    iconToDisplay.width = 20;
-                    iconToDisplay.height = 20;
-                    layoutGroup.addChild(iconToDisplay);
+                    iconToDisplay.width = 25;
+                    iconToDisplay.height = 25;
+                    VaultLayoutGroup.addChild(iconToDisplay);
                     iconArray.push(iconToDisplay);
                     textOptions.fill = "white";
                 }
             }
-            vaultContainer.addChild(scrollContainer);
-           vaultTabContents.push(layoutGroup, scrollContainer);
+
+            //vaultTabContents.push(layoutGroup, scroller, vaultScrollContainer, maskingRectangle);
+        }
+        //////////////////// if three starts here ///////////////
+        if (clickFlag == true) {       // when filter applied
+            console.log("clickflag true - pouzivam filter");
+            console.log(data);
+            createAScroller(data, button.name);
+            clickFlag = false;                  // filter not applied
+        } else {
+            console.log("clickflag false");
+            createAScroller(data);
         }
     };
-
+///////////////////////////////////////// create camp table for the Camps tab ////////////////////////////////
     let getCampItemIcon = function (itemGroup) {
         switch (itemGroup) {
             case "inventory":
@@ -1443,67 +1416,71 @@ function setup(dataFromBack) {
     };
 
     let clickedCampArray = [];
-
+    let campScroller, campLayoutGroup, campMaskingRectangle;
     let unFoldCamp = function (position) {          // what happens after Camp site click
 
         let cleanUpTheCampTab = function (buttonWasPressed) {           // cleanup function
 
+            if (buttonWasPressed) {
+                console.log("button was pressed during cleanup");
+                // do stuff
+            } else if (nameOfThisObject.clickedCampFlag === true){
+                console.log("wow look at that the clicked camp flag is on");
+                let thisObject = campsTabContents.indexOf(nameOfThisObject);
+                console.log(campsTabContents);
+                let addY = 30;
+                let advance = thisObject + 5;
+                for (let i = 0; i <= campsTabContents.length/6; ++i) {
+                    console.log("i: "+i);
+                    if (advance >= campsTabContents.length) {break};
+                    for (let idx = 1; idx <= 6; ++idx) {
+                        console.log("advance: "+ advance);
+                        campsTabContents[advance].position.y = position.position.y + addY;
+                        console.log("position: "+ campsTabContents[advance].position.y);
+                        ++advance;
+                    }
+                    addY += 30;
+                }
+            }
+            else {
+                //??? didnt get this far yet log I guess?
+                console.log("cool....what now?");
+            }
             for (let i = 0; i < clickedCampArray.length; ++i) {
-                campsContainer.removeChild(clickedCampArray[i]);
+                campLayoutGroup.removeChild(clickedCampArray[i]);
             }
             clickedCampArray = [];
-            if (buttonWasPressed) {     // cleanup on button click
-
-                let thisObject = campsTabContents.indexOf(nameOfThisObject);
-                for (let idx = thisObject + 5; idx < campsTabContents.length; ++idx) {
-                    campsTabContents[idx].visible = false;
-                }
-            } else {                                                // cleanup on camp click
-                nameOfThisObject.clickedCampFlag = false;
-                let thisObject = campsTabContents.indexOf(nameOfThisObject);
-                for (let idx = thisObject + 5; idx < campsTabContents.length; ++idx) {
-                    campsTabContents[idx].visible = true;
-                }
-            }
         };
 
         let nameOfThisObject = position;            // set the global object to the PIXI.object that was clicked
-        console.log(nameOfThisObject.isDown);
+
         if (nameOfThisObject.isText != true && nameOfThisObject.isDown == true) {              // filter button press
             let ButtonWasPressed = true;
             cleanUpTheCampTab(ButtonWasPressed);
 
-            let clickedCampX = nameOfThisObject.position.x + 30, clickedCampY = nameOfThisObject.position.y;
+            let clickedCampX = nameOfThisObject.position.x + 45,
+                clickedCampY = nameOfThisObject.position.y + 100;
             for (let item in nameOfThisObject.all[nameOfThisObject.btn]) {
-                clickedCampY += 60;
-                if (clickedCampY >= 845) {
-                    break
-                }
+                clickedCampY += 65;                 // spacing of rows
+
                 let campItemIcon = new PIXI.Sprite(getCampItemIcon(nameOfThisObject.btn)),
                     campItemIconTxt = new PIXI.Text(capitalizeFirstLetter(nameOfThisObject.btn), textOptions),
-                    campItemDescription = new PIXI.Text(nameOfThisObject.all[nameOfThisObject.btn][item].label, textOptions)
-                ;
+                    campItemDescription = new PIXI.Text(nameOfThisObject.all[nameOfThisObject.btn][item].label, textOptions);
 
                 campItemIcon.position.x = clickedCampX;
-                campItemIcon.position.y = clickedCampY;
-                campItemIcon.scale.x = 1.5;
-                campItemIcon.scale.y = 1.5;
                 campItemIconTxt.position.x = clickedCampX + 70;
-                campItemIconTxt.position.y = clickedCampY;
-                campItemIconTxt.scale.x = 1.5;
-                campItemIconTxt.scale.y = 1.5;
                 campItemDescription.position.x = clickedCampX + 315;
-                campItemDescription.position.y = clickedCampY;
-                campItemDescription.scale.x = 1.5;
-                campItemDescription.scale.y = 1.5;
 
-                campsContainer.addChild(campItemIcon, campItemIconTxt, campItemDescription);
                 clickedCampArray.push(campItemIcon, campItemIconTxt, campItemDescription);
+                for (let i in clickedCampArray) {clickedCampArray[i].scale = {x:1.5, Y:1.5}; clickedCampArray[i].position.y = clickedCampY };
+                campLayoutGroup.addChild(campItemIcon, campItemIconTxt, campItemDescription);
+
 
             }
         } else {
             if (nameOfThisObject.clickedCampFlag != true) {         // if this is the 1st time a campSite is clicked
                 cleanUpTheCampTab();
+                console.log(nameOfThisObject.position.y);
                 nameOfThisObject.clickedCampFlag = true;
                 nameOfThisObject.isDown = false;
 
@@ -1513,47 +1490,35 @@ function setup(dataFromBack) {
                     campsTabFiltersArray[i].texture = campsTabFiltersArray[i].normal;
                 }
 
-                let thisObject = campsTabContents.indexOf(nameOfThisObject);
-                for (let idx = thisObject + 5; idx < campsTabContents.length; ++idx) {
-                    campsTabContents[idx].visible = false;
-                }
-
-                let clickedCampX = nameOfThisObject.position.x + 30, clickedCampY = nameOfThisObject.position.y;
+                let clickedCampX = nameOfThisObject.position.x + 45, clickedCampY = nameOfThisObject.position.y + 30;
                 for (let all in nameOfThisObject.all) {        // array = inventory, operators, exos, rents
 
                     let itemGroup = all;
-
                     for (let item in nameOfThisObject.all[all]) {
                         clickedCampY += 60;
-                        if (clickedCampY >= 845) {
-                            break
-                        }
                         let campItemIcon = new PIXI.Sprite(getCampItemIcon(itemGroup)),
                             campItemIconTxt = new PIXI.Text(capitalizeFirstLetter(itemGroup), textOptions),
                             campItemDescription = new PIXI.Text(nameOfThisObject.all[all][item].label, textOptions)
                         ;
 
-                        campItemIcon.position.x = clickedCampX;
-                        campItemIcon.position.y = clickedCampY;
-                        campItemIcon.scale.x = 1.5;
-                        campItemIcon.scale.y = 1.5;
-                        campItemIconTxt.position.x = clickedCampX + 70;
-                        campItemIconTxt.position.y = clickedCampY;
-                        campItemIconTxt.scale.x = 1.5;
-                        campItemIconTxt.scale.y = 1.5;
-                        campItemDescription.position.x = clickedCampX + 315;
-                        campItemDescription.position.y = clickedCampY;
-                        campItemDescription.scale.x = 1.5;
-                        campItemDescription.scale.y = 1.5;
-
-                        campsContainer.addChild(campItemIcon, campItemIconTxt, campItemDescription);
+                        campItemIcon.position = {x: clickedCampX, y: clickedCampY};
+                        campItemIcon.scale = {x:1.5, y: 1.5};
+                        campItemIconTxt.position.x = {x: clickedCampX + 70, y: clickedCampY};
+                        campItemIconTxt.scale = {x:1.5, y: 1.5};
+                        campItemDescription.position.x = {x: clickedCampX + 325, y: clickedCampY};
+                        campItemDescription.scale = {x:1.5, y: 1.5};
                         clickedCampArray.push(campItemIcon, campItemIconTxt, campItemDescription);
-
+                        campLayoutGroup.addChild(campItemIcon, campItemIconTxt, campItemDescription);
                     }
-
+                }
+                let thisObject = campsTabContents.indexOf(nameOfThisObject);
+                console.log(campLayoutGroup.height);
+                let moveSpritesY = campLayoutGroup.height - nameOfThisObject.position.y +30;
+                for (let idx = thisObject + 5; idx < campsTabContents.length; ++idx) {
+                    campsTabContents[idx].position.y += moveSpritesY;
                 }
             } else {
-
+                console.log("lets loose the camp panel");
                 cleanUpTheCampTab();            // close the camp panel
                 for (let i in campsTabFiltersArray) {               // make all the buttons disabled
                     campsTabFiltersArray[i].isDisabled = true;
@@ -1568,26 +1533,45 @@ function setup(dataFromBack) {
     createCampsTable = function (data) {            // make the Camps Tab
         console.log("create me a camps table");
         textOptions.fontSize = 18;
-
         // this is where the make camp starts
+
+
+        campLayoutGroup = new PIXI.Container;
+        campScroller = new GOWN.ScrollContainer();
+        campScroller.id = 10;
+        campScroller._verticalScrollPolicy = GOWN.Scroller.INTERACTION_MOUSE;
+        campScroller.viewPort = campLayoutGroup;
+        campScroller.x = 0;
+        campScroller.y = 0;
+        campScroller.height = (windowHeight / 2); //270
+        campScroller.width =(windowWidth / 2) ; //900
+        campMaskingRectangle = new PIXI.Graphics();
+        campMaskingRectangle.beginFill(0xFFFFFF);
+        campMaskingRectangle.drawRect(0, 0, 2050, 715); // x,y,width and height << this clips everything outside of this rectangle and determines what is visible
+        campMaskingRectangle.hitArea = new PIXI.Rectangle( 0, 0, 2050, 715);
+        campMaskingRectangle.endFill();
+        campScrollContainer.addChild(campScroller, campLayoutGroup
+            , campMaskingRectangle
+        );
+        campScrollContainer.mask = campMaskingRectangle;
+        campScrollContainer.position = {x: 65, y: 85};
+        campsContainer.addChild(campScrollContainer);
         if (changeTheTab == true) {
             for (let i = 0; i <= campsTabContents.length; ++i) {
-                campsContainer.removeChild(campsTabContents[i]);
-
+                campLayoutGroup.removeChild(campsTabContents[i]);
             }
             campsTabContents = [];
             for (let pop in clickedCampArray) {
-                campsContainer.removeChild(clickedCampArray[pop]);
+                campLayoutGroup.removeChild(clickedCampArray[pop]);
             }
         }
-        let lastSpriteY = 120,
-            lastSpriteX = 200;
-        let counter = 0;
+
+        let lastSpriteY = 20,
+            lastSpriteX = 80;
         textOptions.fontSize = 18;
         textOptions.fill = "white";
 
         for (let key in data) {     // break
-            if (counter > 11) break;
             textOptions.fill = "#33ffbd";
             let iconToDisplay = new PIXI.Sprite(iconOfCamp(data[key])),
                 nameToDisplay = new PIXI.Text(campOrArea(data[key]), textOptions);
@@ -1607,34 +1591,22 @@ function setup(dataFromBack) {
             nameToDisplay.position.x = lastSpriteX + 85;
             nameToDisplay.on("click", callUnFoldCamp);
             nameToDisplay.isText = true;
-            nameToDisplay.scale.x = 1.5;
-            nameToDisplay.scale.y = 1.5;
             iconToDisplay.position.y = lastSpriteY;
             iconToDisplay.position.x = lastSpriteX;
-            iconToDisplay.scale.x = 1.5;
-            iconToDisplay.scale.x = 1.5;
             upgradeLevel.position.x = lastSpriteX + 600;
             upgradeLevel.position.y = lastSpriteY;
-            upgradeLevel.scale.x = 1.5;
-            upgradeLevel.scale.y = 1.5;
             maintenanceLevel.position.x = lastSpriteX + 950;
             maintenanceLevel.position.y = lastSpriteY;
-            maintenanceLevel.scale.x = 1.5;
-            maintenanceLevel.scale.y = 1.5;
-            areaAndSubarea.scale.x = 1.5;
-            areaAndSubarea.scale.y = 1.5;
             areaAndSubarea.position.x = lastSpriteX + 1400;
             areaAndSubarea.position.y = lastSpriteY;
-            campQuadrant.scale.x = 1.5;
-            campQuadrant.scale.y = 1.5;
             campQuadrant.position.x = lastSpriteX + 1650;
             campQuadrant.position.y = lastSpriteY;
 
 
-            campsContainer.addChild(iconToDisplay, nameToDisplay, upgradeLevel, maintenanceLevel, campQuadrant, areaAndSubarea);
+            campLayoutGroup.addChild(iconToDisplay, nameToDisplay, upgradeLevel, maintenanceLevel, campQuadrant, areaAndSubarea);
             campsTabContents.push(iconToDisplay, nameToDisplay, upgradeLevel, maintenanceLevel, campQuadrant, areaAndSubarea);
+            for (let i in campsTabContents) {campsTabContents[i].scale = {x:1.5, y:1.5}};
             textOptions.fill = "white";
-            counter++;
         }
         changeTheTab = true;
     };
@@ -1680,7 +1652,7 @@ function setup(dataFromBack) {
         }
     };
 
-    let makeTheContainer = function (daemon, no) {
+    let makeTheNegContainer = function (daemon, no) {
         let negativePanel = PIXI.loader.resources["negativePanel"].textures['negative_artefact_panel.png'];
         let negativeArtefactIcon = PIXI.loader.resources["negativePanel"].textures["artefact_example_with_mask.png"];
         if (no === 1) {
@@ -1742,7 +1714,7 @@ function setup(dataFromBack) {
                 return
             } else {
                 negativePanelContainer.up = tru;
-                makeTheContainer(daemon, 0);
+                makeTheNegContainer(daemon, 0);
                 let up = true;
                 moveNegPanel(up)
             }
@@ -1751,10 +1723,10 @@ function setup(dataFromBack) {
                 negativePanelContainer.up = false;
                 let down = false;
                 moveNegPanel(down);
-                makeTheContainer(daemon, 1);
+                makeTheNegContainer(daemon, 1);
             } else {
                 negativePanelContainer.up = false;
-                makeTheContainer(daemon, 1);
+                makeTheNegContainer(daemon, 1);
             }
         }
         // if (daemon.artefact.length > 0) {   /// must be more than
