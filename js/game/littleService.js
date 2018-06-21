@@ -78,15 +78,20 @@ renderer = PIXI.autoDetectRenderer(canvasWidth, canvasHeight, {
 
 let scrollContainerSelector;
 
-function scrollyScrolly(delta) {
-    console.log("scrolly Scrolly"); // I swear to Machine God, if you erase this again I will end Ü
+function scrollSelectedTab(delta) {
+    // console.log("scrolly Scrolly"); // I swear to Machine God, if you erase this again I will end Ü
     // console.log(scrollContainerSelector);
     let scroller = scrollContainerSelector.children.find(function (elem) {
         return elem.id === 10;
     });
-    scroller.verticalScrollPosition -= delta.deltaY*2;
-    scroller._startTouch.y = scroller.verticalScrollPosition;
+    // scroller.verticalScrollPosition -= delta.deltaY*2;
+    // console.log(delta.deltaY);
+    scroller._startTouch.y = scroller.verticalScrollPosition - (delta.deltaY*2);
+    // console.log(scroller._startTouch.y);
     scroller.updateVerticalScrollFromTouchPosition(delta.deltaY, true);
+    // console.log(scroller.verticalScrollPosition);
+    // console.log(scroller._scrollPosition);
+    // console.log(scroller._startScrollPosition);
 }
 
 let stage = new PIXI.Container(), playArea = new PIXI.Container(), GUIArea = new PIXI.Container();
@@ -215,6 +220,7 @@ function animationLoop() {
 foAapp.factory('littleService', function ($http, $location, sessionService) {
     return {
         runlittle: function () {
+            console.log("factory sa stala");
 
             socket = io.connect(actualBeServer, {query:"token=" + sessionService.get('token')});
 
@@ -251,7 +257,7 @@ foAapp.factory('littleService', function ($http, $location, sessionService) {
             });
 
             socket.on("town:onRefresh", function (data) {
-                // console.log("I shot the data");
+                console.log("I shot the data");
                 // console.log(data);
             });
         }

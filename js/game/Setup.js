@@ -398,7 +398,7 @@ function setup(dataFromBack) {
 
     function openMessageTab() {
         scrollContainerSelector = messageScrollContainer;
-        display.removeEventListener("wheel", scrollyScrolly, false);
+        display.removeEventListener("wheel", scrollSelectedTab, false);
 
         if (messagePanelButton.isClicked == true) {
             GUIArea.removeChild(messageContainer);
@@ -411,7 +411,7 @@ function setup(dataFromBack) {
             GUIArea.removeChild(messagePanel);
             GUIArea.addChild(messageContainer);
             GUIArea.addChild(messagePanel);
-            display.addEventListener("wheel", scrollyScrolly, false);
+            display.addEventListener("wheel", scrollSelectedTab, false);
             if (campsPanelButton.isClicked || vaultPanelButton.isClicked) {
                 vaultPanelButton.isClicked = false;
                 vaultPanelButton.isdown = false;
@@ -429,12 +429,12 @@ function setup(dataFromBack) {
     }
 
     function openVaultTab() {
-        display.removeEventListener("wheel", scrollyScrolly, false);
+        display.removeEventListener("wheel", scrollSelectedTab, false);
         scrollContainerSelector = vaultScrollContainer;
 
         if (!vaultPanelButton.isClicked) {
             vaultPanelButton.isClicked = true;
-            display.addEventListener("wheel", scrollyScrolly, false);
+            display.addEventListener("wheel", scrollSelectedTab, false);
             GUIArea.removeChild(vaultPanel);
             GUIArea.addChild(vaultContainer);
             GUIArea.addChild(vaultPanel);
@@ -458,12 +458,12 @@ function setup(dataFromBack) {
     }
 
     function openCampsTab() {
-        display.removeEventListener("wheel", scrollyScrolly, false);
+        display.removeEventListener("wheel", scrollSelectedTab, false);
         scrollContainerSelector = campScrollContainer;
         if (!campsPanelButton.isClicked) {
             campsPanelButton.isClicked = true;
             GUIArea.addChild(campsContainer);
-            display.addEventListener("wheel", scrollyScrolly, false);
+            display.addEventListener("wheel", scrollSelectedTab, false);
             this.bringToFront();
 
             if (vaultPanelButton.isClicked || messagePanelButton.isClicked) {
@@ -960,16 +960,15 @@ function setup(dataFromBack) {
             this.isdown = true;
             this.texture = this.pressed;
             this.alpha = 1;
-            let campsOrAreas = {};
+            let campsOrAreas = {vault: {camps: []}};
             console.log(dataFromBack);
-            campsOrAreas.vault.camps = [];
             if (this.btn.name == "camps") {
                 campsOrAreas.vault.camps = dataFromBack.vault.camps.filter( camp => camp.uLevel > 0);
-                createCampsTable(campsOrAreas);
+                createCampsTable(campsOrAreas.vault.camps);
             }
             else {
                 campsOrAreas.vault.camps = dataFromBack.vault.camps.filter( camp => camp.uLevel <= 0);
-                createCampsTable(campsOrAreas);
+                createCampsTable(campsOrAreas.vault.camps);
             }
         } else {
             button.isDown = false;
@@ -1081,7 +1080,6 @@ function setup(dataFromBack) {
         vaultTabButtonArray[button].on('mouseover', onButtonOver);
         vaultTabButtonArray[button].on('mouseout', onButtonOut);
         vaultTabButtonArray[button].on("click", vaultBtnClick);
-        // vaultTabButtonArray[button].on('click', onClick);
         vaultContainer.addChild(vaultTabButtonArray[button]);
     }
 
@@ -1102,7 +1100,6 @@ function setup(dataFromBack) {
         campOrSiteButtArray[button].on('mouseover', onButtonOver);
         campOrSiteButtArray[button].on('mouseout', onButtonOut);
         campOrSiteButtArray[button].on("click", campOrCampSiteBtnClick);
-        // campButtArray[button].on('click', onClick);
         campsContainer.addChild(campOrSiteButtArray[button]);
     }
 
@@ -1161,9 +1158,8 @@ function setup(dataFromBack) {
 
     messageContainer.addChild(messageTabTable, messageTabLines, messageTabSlider, headerMessageFrom, headerText);
 
-    // renderer.render(stage);
 
-    let count, hours, minutes, seconds;
+    let hours, minutes, seconds;
 
     app.ticker.add(function (deltaTime) {
         for (let i in runningArtifacts) {
@@ -1198,7 +1194,6 @@ function setup(dataFromBack) {
                 return "";
 
         }
-        // return number.charAt(0).toUpperCase() + number.slice(1);
     }
 
     function iconOfCamp(key) {
@@ -1257,9 +1252,7 @@ function setup(dataFromBack) {
         messageScroller.width =(windowWidth / 2) ; //900
         messageMaskingRectangle = new PIXI.Graphics();
         messageMaskingRectangle.drawRect(0, 0, 2050, 715); // x,y,width and height << this clips everything outside of this rectangle and determines what is visible
-        // maskingRectangle.renderable = true;
-        // maskingRectangle.cacheAsBitmap = true;
-        // messageScrollContainer.scale = {x:2, y:2};
+
         messageScrollContainer.addChild(messageScroller, messageLayoutGroup, messageMaskingRectangle);
         messageScrollContainer.mask = messageMaskingRectangle;
         messageScrollContainer.position = {x: 285, y: 145};
@@ -1316,8 +1309,6 @@ function setup(dataFromBack) {
         vaultScroller.width =(windowWidth / 2) ; //900
         vaultMaskingRectangle = new PIXI.Graphics();
         vaultMaskingRectangle.drawRect(0, 0, 850, 400); // x,y,width and height << this clips everything outside of this rectangle and determines what is visible
-        // maskingRectangle.renderable = true;
-        // maskingRectangle.cacheAsBitmap = true;
         vaultScrollContainer.scale = {x:2, y:2};
         vaultScrollContainer.addChild(vaultScroller, VaultLayoutGroup, vaultMaskingRectangle);
         vaultScrollContainer.mask = vaultMaskingRectangle;
@@ -1407,6 +1398,7 @@ function setup(dataFromBack) {
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
+    // seckoCoNapisalIvo();
 
     let callUnFoldCamp = function () {
 
@@ -1418,79 +1410,118 @@ function setup(dataFromBack) {
     let clickedCampArray = [];
     let campScroller, campLayoutGroup, campMaskingRectangle;
     let unFoldCamp = function (position) {          // what happens after Camp site click
-
+        console.log("position: "); console.log(position);
         let cleanUpTheCampTab = function (buttonWasPressed) {           // cleanup function
 
             if (buttonWasPressed) {
                 console.log("button was pressed during cleanup");
-                // do stuff
-            } else if (nameOfThisObject.clickedCampFlag === true){
-                console.log("wow look at that the clicked camp flag is on");
-                let thisObject = campsTabContents.indexOf(nameOfThisObject);
-                console.log(campsTabContents);
-                let addY = 30;
-                let advance = thisObject + 5;
-                for (let i = 0; i <= campsTabContents.length/6; ++i) {
-                    console.log("i: "+i);
-                    if (advance >= campsTabContents.length) {break};
-                    for (let idx = 1; idx <= 6; ++idx) {
-                        console.log("advance: "+ advance);
-                        campsTabContents[advance].position.y = position.position.y + addY;
-                        console.log("position: "+ campsTabContents[advance].position.y);
-                        ++advance;
-                    }
-                    addY += 30;
+                for (let i = 0; i < clickedCampArray.length; ++i) {
+                    campLayoutGroup.removeChild(clickedCampArray[i]);
                 }
+                clickedCampArray = [];
+            } else {
+                createCampsTable(dataFromBack.vault.camps);
+                    console.log("clicked camp flag is true");
+                    for (let i = 0; i < clickedCampArray.length; ++i) {
+                        campLayoutGroup.removeChild(clickedCampArray[i]);
+                    }
+                    clickedCampArray = [];
             }
-            else {
-                //??? didnt get this far yet log I guess?
-                console.log("cool....what now?");
-            }
-            for (let i = 0; i < clickedCampArray.length; ++i) {
-                campLayoutGroup.removeChild(clickedCampArray[i]);
-            }
-            clickedCampArray = [];
         };
 
         let nameOfThisObject = position;            // set the global object to the PIXI.object that was clicked
+        function moveCampsBelowClick(lastArrayLength, thisArrayLength) {                // moves the camps and campsites up or down after clicks
+            let thisObject = campsTabContents.indexOf(nameOfThisObject);    //expand
+            lastArrayLength /= 4;
+            thisArrayLength /= 4;
+            if (thisArrayLength == undefined ) {
+                let moveSpritesY = lastArrayLength * 60;
+                for (let idx = thisObject + 5; idx < campsTabContents.length; ++idx) {
+                    campsTabContents[idx].position.y += moveSpritesY;
+                }
+            } else {
+                let moveSpritesY = (lastArrayLength - thisArrayLength)*60;
+                if (lastArrayLength >= thisArrayLength) {
+                    for (let idx = thisObject + 5; idx < campsTabContents.length; ++idx) {
+                        campsTabContents[idx].position.y -= moveSpritesY;
+                    }
+                } else {
+                    for (let idx = thisObject + 5; idx < campsTabContents.length; ++idx) {
+                        campsTabContents[idx].position.y += moveSpritesY;
+                    }
+                }
+            }
 
+        }
         if (nameOfThisObject.isText != true && nameOfThisObject.isDown == true) {              // filter button press
+
             let ButtonWasPressed = true;
+            console.log(clickedCampArray); // previous clicked camp array
+            let lastArrayLength = clickedCampArray.length;
             cleanUpTheCampTab(ButtonWasPressed);
 
-            let clickedCampX = nameOfThisObject.position.x + 45,
-                clickedCampY = nameOfThisObject.position.y + 100;
+            let clickedCampX = nameOfThisObject.position.x + 45, clickedCampY = nameOfThisObject.position.y + 30;
+            let campItemIconName = getCampItemIcon(nameOfThisObject.btn);
+            let campItemIconTxtName = capitalizeFirstLetter(nameOfThisObject.btn);
             for (let item in nameOfThisObject.all[nameOfThisObject.btn]) {
                 clickedCampY += 65;                 // spacing of rows
 
-                let campItemIcon = new PIXI.Sprite(getCampItemIcon(nameOfThisObject.btn)),
-                    campItemIconTxt = new PIXI.Text(capitalizeFirstLetter(nameOfThisObject.btn), textOptions),
-                    campItemDescription = new PIXI.Text(nameOfThisObject.all[nameOfThisObject.btn][item].label, textOptions);
+                let campItemIcon = new PIXI.Sprite(campItemIconName),
+                    campItemIconTxt = new PIXI.Text(campItemIconTxtName, textOptions),
+                    campItemName = new PIXI.Text(nameOfThisObject.all[nameOfThisObject.btn][item].label, textOptions),
+                    campItemDescription = new PIXI.Text(nameOfThisObject.all[nameOfThisObject.btn][item].description, textOptions);
 
-                campItemIcon.position.x = clickedCampX;
-                campItemIconTxt.position.x = clickedCampX + 70;
-                campItemDescription.position.x = clickedCampX + 315;
+                campItemIcon.position = {x: clickedCampX, y: clickedCampY};
+                campItemIconTxt.position = {x:  clickedCampX + 70, y: clickedCampY};
+                campItemName.position = {x: clickedCampX + 315, y: clickedCampY};
+                campItemDescription.position = {x:  clickedCampX + 650, y: clickedCampY};
+                campItemIcon.scale = {x:1.5, y:1.5};
+                campItemIconTxt.scale = {x:1.5, y:1.5};
+                campItemName.scale = {x:1.5, y:1.5};
+                campItemDescription.scale = {x:1.5, y:1.5};
 
-                clickedCampArray.push(campItemIcon, campItemIconTxt, campItemDescription);
-                for (let i in clickedCampArray) {clickedCampArray[i].scale = {x:1.5, Y:1.5}; clickedCampArray[i].position.y = clickedCampY };
-                campLayoutGroup.addChild(campItemIcon, campItemIconTxt, campItemDescription);
-
+                clickedCampArray.push(campItemIcon, campItemIconTxt, campItemName, campItemDescription);
+                campLayoutGroup.addChild(campItemIcon, campItemIconTxt, campItemName, campItemDescription);
 
             }
+            nameOfThisObject = campsTabContents.find(function(e) {
+                return e.id === nameOfThisObject.id;
+            });
+
+            moveCampsBelowClick(lastArrayLength, clickedCampArray.length);
+
         } else {
             if (nameOfThisObject.clickedCampFlag != true) {         // if this is the 1st time a campSite is clicked
+                console.log("text position before cleanup: "+ nameOfThisObject.position.y);
                 cleanUpTheCampTab();
-                console.log(nameOfThisObject.position.y);
-                nameOfThisObject.clickedCampFlag = true;
-                nameOfThisObject.isDown = false;
+                console.log("text position after cleanup but before find: "+ nameOfThisObject.position.y);
+
+                console.log("text position after cleanup and find: "+ nameOfThisObject.position.y);
+                console.log(campScroller.verticalScrollPosition);
+                let kam = {};
+                kam.deltaY = nameOfThisObject.position.y;
+                // campScroller._startTouch.y = campScroller.verticalScrollPosition - kam.deltaY;
+
+                nameOfThisObject = campsTabContents.find(function(e) {
+                    return e.id === nameOfThisObject.id;
+                });
+                console.log(kam);
+                console.log(campScroller._startTouch.y);
+                console.log(campScroller._scrollPosition);
+                console.log(campScroller._startScrollPosition);
+                campScroller.updateVerticalScrollFromTouchPosition(kam.deltaY, true);
+
+                console.log(campScroller.verticalScrollPosition);
+                // scrollSelectedTab(kam);
 
                 for (let i in campsTabFiltersArray) {               // make all the buttons enabled
                     campsTabFiltersArray[i].isDisabled = false;
                     campsTabFiltersArray[i].isDown = false;
                     campsTabFiltersArray[i].texture = campsTabFiltersArray[i].normal;
                 }
+                // console.log("this texts positionY: " + nameOfThisObject.position.y);
 
-                let clickedCampX = nameOfThisObject.position.x + 45, clickedCampY = nameOfThisObject.position.y + 30;
+                let clickedCampX = nameOfThisObject.position.x + 45, clickedCampY = nameOfThisObject.position.y ;
                 for (let all in nameOfThisObject.all) {        // array = inventory, operators, exos, rents
 
                     let itemGroup = all;
@@ -1498,27 +1529,29 @@ function setup(dataFromBack) {
                         clickedCampY += 60;
                         let campItemIcon = new PIXI.Sprite(getCampItemIcon(itemGroup)),
                             campItemIconTxt = new PIXI.Text(capitalizeFirstLetter(itemGroup), textOptions),
-                            campItemDescription = new PIXI.Text(nameOfThisObject.all[all][item].label, textOptions)
-                        ;
+                            campItemName = new PIXI.Text(nameOfThisObject.all[all][item].label, textOptions),
+                            campItemDescription = new PIXI.Text(nameOfThisObject.all[all][item].description, textOptions);
 
                         campItemIcon.position = {x: clickedCampX, y: clickedCampY};
                         campItemIcon.scale = {x:1.5, y: 1.5};
-                        campItemIconTxt.position.x = {x: clickedCampX + 70, y: clickedCampY};
+                        campItemIconTxt.position = {x: clickedCampX + 70, y: clickedCampY};
                         campItemIconTxt.scale = {x:1.5, y: 1.5};
-                        campItemDescription.position.x = {x: clickedCampX + 325, y: clickedCampY};
+                        campItemName.position = {x: clickedCampX + 325, y: clickedCampY};
+                        campItemName.scale = {x:1.5, y: 1.5};
+                        campItemDescription.position = {x: clickedCampX + 650, y: clickedCampY};
                         campItemDescription.scale = {x:1.5, y: 1.5};
-                        clickedCampArray.push(campItemIcon, campItemIconTxt, campItemDescription);
-                        campLayoutGroup.addChild(campItemIcon, campItemIconTxt, campItemDescription);
+
+                        clickedCampArray.push(campItemIcon, campItemIconTxt, campItemName, campItemDescription);
+                        campLayoutGroup.addChild(campItemIcon, campItemIconTxt, campItemName, campItemDescription);
                     }
                 }
-                let thisObject = campsTabContents.indexOf(nameOfThisObject);
-                console.log(campLayoutGroup.height);
-                let moveSpritesY = campLayoutGroup.height - nameOfThisObject.position.y +30;
-                for (let idx = thisObject + 5; idx < campsTabContents.length; ++idx) {
-                    campsTabContents[idx].position.y += moveSpritesY;
-                }
+                nameOfThisObject.clickedCampFlag = true;
+                nameOfThisObject.isDown = false;
+
+                moveCampsBelowClick(clickedCampArray.length);
+
             } else {
-                console.log("lets loose the camp panel");
+                console.log("close the camp and disable buttons: now comes the cleanup");
                 cleanUpTheCampTab();            // close the camp panel
                 for (let i in campsTabFiltersArray) {               // make all the buttons disabled
                     campsTabFiltersArray[i].isDisabled = true;
@@ -1530,33 +1563,35 @@ function setup(dataFromBack) {
         }
     };
 
+    /////////////////////////// camps table creation //////////////////////////////////////
+
+    campLayoutGroup = new PIXI.Container;
+    campScroller = new GOWN.ScrollContainer();
+    campScroller.id = 10;
+    campScroller._verticalScrollPolicy = GOWN.Scroller.INTERACTION_MOUSE;
+    campScroller.viewPort = campLayoutGroup;
+    campScroller.x = 0;
+    campScroller.y = 0;
+    campScroller.height = (windowHeight / 2); //270
+    campScroller.width =(windowWidth / 2) ; //900
+    campMaskingRectangle = new PIXI.Graphics();
+    campMaskingRectangle.beginFill(0xFFFFFF);
+    campMaskingRectangle.drawRect(0, 0, 2050, 715); // x,y,width and height << this clips everything outside of this rectangle and determines what is visible
+    campMaskingRectangle.hitArea = new PIXI.Rectangle( 0, 0, 2050, 715);
+    campMaskingRectangle.endFill();
+    campScrollContainer.addChild(campScroller, campLayoutGroup, campMaskingRectangle);
+    campScrollContainer.mask = campMaskingRectangle;
+    campScrollContainer.position = {x: 65, y: 85};
+    campsContainer.addChild(campScrollContainer);
+
     createCampsTable = function (data) {            // make the Camps Tab
         console.log("create me a camps table");
+        console.log(data);
         textOptions.fontSize = 18;
         // this is where the make camp starts
 
-
-        campLayoutGroup = new PIXI.Container;
-        campScroller = new GOWN.ScrollContainer();
-        campScroller.id = 10;
-        campScroller._verticalScrollPolicy = GOWN.Scroller.INTERACTION_MOUSE;
-        campScroller.viewPort = campLayoutGroup;
-        campScroller.x = 0;
-        campScroller.y = 0;
-        campScroller.height = (windowHeight / 2); //270
-        campScroller.width =(windowWidth / 2) ; //900
-        campMaskingRectangle = new PIXI.Graphics();
-        campMaskingRectangle.beginFill(0xFFFFFF);
-        campMaskingRectangle.drawRect(0, 0, 2050, 715); // x,y,width and height << this clips everything outside of this rectangle and determines what is visible
-        campMaskingRectangle.hitArea = new PIXI.Rectangle( 0, 0, 2050, 715);
-        campMaskingRectangle.endFill();
-        campScrollContainer.addChild(campScroller, campLayoutGroup
-            , campMaskingRectangle
-        );
-        campScrollContainer.mask = campMaskingRectangle;
-        campScrollContainer.position = {x: 65, y: 85};
-        campsContainer.addChild(campScrollContainer);
         if (changeTheTab == true) {
+            console.log("changed the tab was true");
             for (let i = 0; i <= campsTabContents.length; ++i) {
                 campLayoutGroup.removeChild(campsTabContents[i]);
             }
@@ -1589,6 +1624,7 @@ function setup(dataFromBack) {
             lastSpriteY += 60;
             nameToDisplay.position.y = lastSpriteY;
             nameToDisplay.position.x = lastSpriteX + 85;
+            nameToDisplay.id = key;
             nameToDisplay.on("click", callUnFoldCamp);
             nameToDisplay.isText = true;
             iconToDisplay.position.y = lastSpriteY;
@@ -1634,9 +1670,6 @@ function setup(dataFromBack) {
 
         } else {
             negativePanelContainer.up = false;
-            // displayArray.unshift(displayArray.pop(displayArray.find(function (child){
-            //     return child === negativePanelContainer;
-            // })));
             let counter = 0; let increment = 1; let positionY = 43;
             app.ticker.add( function tickerMover () {
                 counter += increment;
@@ -1729,15 +1762,7 @@ function setup(dataFromBack) {
                 makeTheNegContainer(daemon, 1);
             }
         }
-        // if (daemon.artefact.length > 0) {   /// must be more than
-        //
-        // } else {
-        //     let negaSprite = new PIXI.Sprite(negativePanel);
-        //     negativePanelContainer.addChild(negaSprite);
-        //     stage.addChild(negativePanelContainer);
-        //     let up = true;
-        //     moveNegPanel(up);
+
     };
-    // const ratio = (playArea.children[0].texture.height / playArea.children[0].texture.width );
     resize();
 }
