@@ -7,9 +7,7 @@ const foAapp = angular.module('foaApp', ['ngRoute'])
             console.log("privacyShowHide function call with parameter:", param);
             console.log("privacyShowHide function call with element parameter:", element);
 
-            // $scope.showFooterPage = true;
-
-            if (param === "show") {
+            if (param === "show" ) {
                 $scope.showPrivacyVal = true;
                 $scope.hidePrivacyVal = true;
                 $scope.showTermsVal = false;
@@ -182,12 +180,143 @@ const foAapp = angular.module('foaApp', ['ngRoute'])
             // welcomeService.containerShowHide($scope, param); //call containerShowHide in welcomeService
         };
     }])
-    .controller('inputValidation', ['$scope', function ($scope) {
+    .controller('headerCtrl', ['$scope', function ($scope) {
+        $scope.statisticShowHide = function (param, element) {
+            console.log("statisticShowHide function in welcomeCtrl fired.");
+            console.log("statisticShowHide function call with parameter:", param);
+            console.log("statisticShowHide function call with element parameter:", element);
+
+            if (param === "show" ) {
+                $scope.showStatisticVal = true;
+                $scope.hideStatisticVal = true;
+                $scope.showProfileVal = false;
+                $scope.hideProfileVal = false;
+
+                $scope.showPrivacyVal = false;
+                $scope.hidePrivacyVal = false;
+                $scope.showTermsVal = false;
+                $scope.hideTermsVal = false;
+                $scope.showContactVal = false;
+                $scope.hideContactVal = false;
+                $scope.showAboutVal = false;
+                $scope.hideAboutVal = false;
+            }
+            else if (param === "hide") {
+                $scope.showStatisticVal = false;
+                $scope.hideStatisticVal = false;
+                $scope.showProfileVal = false;
+                $scope.hideProfileVal = false;
+
+                $scope.showPrivacyVal = false;
+                $scope.hidePrivacyVal = false;
+                $scope.showTermsVal = false;
+                $scope.hideTermsVal = false;
+                $scope.showContactVal = false;
+                $scope.hideContactVal = false;
+                $scope.showAboutVal = false;
+                $scope.hideAboutVal = false;
+            }
+            else {
+                $scope.showStatisticVal = true;
+                $scope.hideStatisticVal = false;
+                $scope.showProfileVal = false;
+                $scope.hideProfileVal = false;
+
+                $scope.showPrivacyVal = false;
+                $scope.hidePrivacyVal = false;
+                $scope.showTermsVal = false;
+                $scope.hideTermsVal = false;
+                $scope.showContactVal = false;
+                $scope.hideContactVal = false;
+                $scope.showAboutVal = false;
+                $scope.hideAboutVal = false;
+            }
+
+            $scope.showHeaderPage = 0
+                ||  $scope.showStatisticVal   ||  $scope.hideStatisticVal
+                ||  $scope.showProfileVal     ||  $scope.hideProfileVal;
+
+            $scope.showFooterPage = 0
+                ||  $scope.showPrivacyVal   ||  $scope.hidePrivacyVal
+                ||  $scope.showTermsVal     ||  $scope.hideTermsVal
+                ||  $scope.showContactVal   ||  $scope.hideContactVal
+                ||  $scope.showAboutVal     ||  $scope.hideAboutVal;
+
+            // welcomeService.containerShowHide($scope, param); //call containerShowHide in welcomeService
+        };
+        $scope.profileShowHide = function (param, element) {
+            console.log("profileShowHide function in welcomeCtrl fired");
+            console.log("profileShowHide function call with parameter:", param);
+            console.log("profileShowHide function call with element parameter:", element);
+
+            // $scope.showFooterPage = true;
+
+            if (param === "show") {
+                $scope.showStatisticVal = false;
+                $scope.hideStatisticVal = false;
+                $scope.showProfileVal = true;
+                $scope.hideProfileVal = true;
+
+                $scope.showPrivacyVal = false;
+                $scope.hidePrivacyVal = false;
+                $scope.showTermsVal = false;
+                $scope.hideTermsVal = false;
+                $scope.showContactVal = false;
+                $scope.hideContactVal = false;
+                $scope.showAboutVal = false;
+                $scope.hideAboutVal = false;
+            }
+            else if (param === "hide") {
+                $scope.showStatisticVal = false;
+                $scope.hideStatisticVal = false;
+                $scope.showProfileVal = false;
+                $scope.hideProfileVal = false;
+
+                $scope.showPrivacyVal = false;
+                $scope.hidePrivacyVal = false;
+                $scope.showTermsVal = false;
+                $scope.hideTermsVal = false;
+                $scope.showContactVal = false;
+                $scope.hideContactVal = false;
+                $scope.showAboutVal = false;
+                $scope.hideAboutVal = false;
+            }
+            else {
+                $scope.showStatisticVal = false;
+                $scope.hideStatisticVal = false;
+                $scope.showProfileVal = true;
+                $scope.hideProfileVal = false;
+
+                $scope.showPrivacyVal = false;
+                $scope.hidePrivacyVal = false;
+                $scope.showTermsVal = false;
+                $scope.hideTermsVal = false;
+                $scope.showContactVal = false;
+                $scope.hideContactVal = false;
+                $scope.showAboutVal = false;
+                $scope.hideAboutVal = false;
+            }
+
+            $scope.showHeaderPage = 0
+                ||  $scope.showStatisticVal   ||  $scope.hideStatisticVal
+                ||  $scope.showProfileVal     ||  $scope.hideProfileVal;
+
+            $scope.showFooterPage = 0
+                ||  $scope.showPrivacyVal   ||  $scope.hidePrivacyVal
+                ||  $scope.showTermsVal     ||  $scope.hideTermsVal
+                ||  $scope.showContactVal   ||  $scope.hideContactVal
+                ||  $scope.showAboutVal     ||  $scope.hideAboutVal;
+
+            // welcomeService.containerShowHide($scope, param); //call containerShowHide in welcomeService
+        };
+    }])
+    .controller('inputValidation', ['$scope', 'welcomeService', function ($scope, welcomeService) {
         $scope.loginerr = true;
         $scope.mailerr = true;
         $scope.hideLogin = true;
         $scope.hideMail = false;
         $scope.hideAccept = false;
+        $scope.accepterr = true;
 
         for (let key in $scope) {
             if (key.hasOwnProperty('login')) {
@@ -199,66 +328,65 @@ const foAapp = angular.module('foaApp', ['ngRoute'])
         }
         $scope.msgtxt = "";
         $scope.msgRegistrationStatus = 1;
-        console.log("inputValidation function in welcomeCtrl fired");
+        // console.log("inputValidation function in welcomeCtrl fired");
         $scope.loginVal = function (element) {
-            console.log("inputValidation $scope." +  element + ".login: " + $scope[element].login);
+            // console.log("inputValidation $scope." +  element + ".login: " + $scope[element].login);
             if($scope[element].login){
                 if ($scope[element].login.toString().indexOf('@') > -1){
                     $scope.msgtxt = "Login can't contains @ character";
-                    console.log("inputValidation Login contains @ character");
+                    // console.log("inputValidation Login contains @ character");
                 }
                 else {
                     if ($scope[element].login.toString().length < 5) {
                         $scope.msgtxt = "Login must have min. 5 characters";
                         $scope.loginerr = true;
-                        console.log("inputValidation Login < 5");
+                        // console.log("inputValidation Login < 5");
                     }
                     else if ($scope[element].login.toString().length > 30) {
                         $scope.msgtxt = "Login must have MAX. 30 characters";
                         $scope[element].login = $scope[element].login.toString().substr(0, $scope[element].login.toString().length - 1);
                         $scope.loginerr = true;
-                        console.log("inputValidation Login > 30");
+                        // console.log("inputValidation Login > 30");
                     }
                     else {
                         $scope.msgtxt = "";
                         $scope.loginerr = false;
-                        console.log("inputValidation Login OK");
+                        // console.log("inputValidation Login OK");
                     }
-                    console.log("OOOO");
+                    // console.log("OOOO - KONIEC VALIDACIE");
                 }
             }
             else {
                 $scope.msgtxt= "";
                 $scope.login = "";
-                console.log("UUUU");
+                // console.log("BLIND WAY");
             }
         };
         $scope.mailVal = function (element) {
-            // console.log("inputValidation $scope.myMail:", $scope.myMail);
             console.log("inputValidation $scope." + element + "mail: ", $scope[element].mail);
             if($scope[element].mail){
                 if ($scope[element].mail.toString().indexOf('@') < -1){
                     $scope.mailerr = true;
                     $scope.msgtxt = "Invalid mail";
-                    console.log("inputValidation Mail not contains @ character");
+                    // console.log("inputValidation Mail not contains @ character");
                 }
                 else {
                     if ($scope[element].mail.toString().length < 5) {
                         $scope.msgtxt = "Invalid mail ..";
                         $scope.mailerr = true;
-                        console.log("Mail must have min. 5 characters");
+                        // console.log("Mail must have min. 5 characters");
                     }
                     else if ($scope[element].mail.toString().length > 30) {
                         $scope.msgtxt = "Login must have MAX. 30 characters";
                         $scope.msgtxt = "Invalid mail, to long ...";
                         $scope.myMail = $scope[element].mail.toString().substr(0, $scope[element].mail.toString().length - 1);
                         $scope.mailerr = true;
-                        console.log("Mail can have max. 30 characters");
+                        // console.log("Mail can have max. 30 characters");
                     }
                     else {
                         $scope.msgtxt = "";
                         $scope.mailerr = false;
-                        console.log("inputValidation mail OK");
+                        // console.log("inputValidation mail OK");
                     }
                     console.log("OOOO");
                 }
@@ -268,53 +396,34 @@ const foAapp = angular.module('foaApp', ['ngRoute'])
                 $scope.mail = "";
                 $scope.mailerr = true;
                 $scope.msgtxt = "Invalid mail";
-                console.log("UUUU");
+                // console.log("Blind way");
             }
         };
-        $scope.acceptVal = function (accept) {
-            console.log("inputValidation accept: ", $scope.accept);
-            console.log("inputValidation accept: ", accept);
-            if (!accept) {
-                $scope.accepterr = true;
-                $scope.msgtxt = "You need accept Terms !!!";
-                console.log("inputValidation checkbox Accept needs to checked ..");
-            }
-            else {
-                $scope.msgtxt= "";
-                $scope.accpeterr = true;
-                // $scope.msgtxt = "Invalid mail";
-                console.log("UUUU");
+        $scope.acceptVal = function (accept, hideAccept) {
+            if (hideAccept) {
+                if (!accept) {
+                    $scope.accepterr = true;
+                    $scope.msgtxt = "You need accept Terms !!!";
+                    // console.log("inputValidation checkbox Accept needs to checked ...");
+                }
+                else {
+                    $scope.msgtxt= "";
+                    $scope.accepterr = false;
+                    // console.log("OK Checked");
+                }
             }
         };
         $scope.go2Mail = function (element) {
-            console.log("inputValidation go2Mail fired");
-            if (!$scope.loginerr) {
-                $scope[element].mail = "";
-                $scope.hideLogin = false;
-                $scope.hideMail = true;
-                $scope.hideAccept = false;
-                $scope.msgRegistrationStatus = 2;
-            }
+            // console.log("inputValidation go2Mail fired");
+            welcomeService.try2play(element, false, $scope);
         };
-        $scope.go2Login = function () {
-            console.log("inputValidation go2Login fired");
-            console.log("$scope.mailerr:", $scope.mailerr);
-            if (!$scope.mailerr) {
-                $scope.hideLogin = true;
-                $scope.hideMail = false;
-                $scope.hideAccept = false;
-                $scope.msgRegistrationStatus = 1;
-            }
+        $scope.go2Accept = function (element) {
+            // console.log("inputValidation go2Accept fired");
+            welcomeService.regmail(element, false, $scope);
         };
-        $scope.go2Accept = function () {
-            console.log("inputValidation go2Accept fired");
-            console.log("$scope.mailerr:", $scope.mailerr);
-            if (!$scope.mailerr) {
-                $scope.hideLogin = false;
-                $scope.hideMail = false;
-                $scope.hideAccept = true;
-                $scope.msgRegistrationStatus = 3;
-            }
+        $scope.reg2game = function (accept) {
+            // console.log("inputValidation reg2game fired");
+            if (accept) welcomeService.gameRegFire(accept); //call login service in welcome
         };
     }])
     .controller('forgotCtrl', function ($scope, welcomeService) {
@@ -326,11 +435,13 @@ const foAapp = angular.module('foaApp', ['ngRoute'])
     })
     .controller('signInCtrl', function ($scope, welcomeService) {
         $scope.msgtxt = '';
+        console.log("sendLogin function in forgot fired user:", user);
+
         $scope.sendLogin = function (user, accept) {
             console.log("sendLogin function in forgot fired user:", user);
             console.log("sendLogin function in forgot fired accept:", accept);
             welcomeService.logon(user, accept, $scope); //call login service in welcome
-        }
+        };
     });
 
 foAapp.config(['$routeProvider', function ($routeProvider) {
@@ -342,7 +453,6 @@ foAapp.config(['$routeProvider', function ($routeProvider) {
     $routeProvider.when('/profile', {templateUrl: 'partials/profile.html', controller: 'profileCtrl'});
     $routeProvider.when('/statistic', {templateUrl: 'partials/statistic.html', controller: 'statisticCtrl'});
     $routeProvider.when('/game', {templateUrl: 'partials/game.html', controller: 'gameCtrl'});
-
     $routeProvider.otherwise({redirectTo: '/'});
 }]);
 

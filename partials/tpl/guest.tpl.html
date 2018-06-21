@@ -5,10 +5,10 @@
             Become a harbinger of their will and, should your tribute be deemed worthy, ascend unto Godhood...</p>
     </div>
     <div class="content">
-        <p class="loginText" style="color: black; font-weight: bold"> Wrote Nickname and PLAY! </p>
+        <p class="loginText" style="color: black; font-weight: bold"> Enter Nickname and PLAY! </p>
         <form id="registrationGate" name="guestLoginForm" ng-controller="guestCtrl">
             <input type="text" id="login" name="login" ng-model="guest.login" ng-class="inputFieldClass" class="loginInputBox" required placeholder="nickname" >
-            <button id="greenRegisterButton" type="button" ng-disabled="guestLoginForm.$invalid" ng-click="try2play(guest)"> Try the GAME </button>
+            <button id="greenRegisterButton" type="submit" ng-disabled="guestLoginForm.$invalid" ng-click="try2play(guest, true)"> Try the GAME </button>
             <p style="color: red">{{msgtxt}}</p>
             <!--<span name="errorField" ng-show="errorField" ng-bind="errorField" >{{msgtxt}}</span>-->
             <br>

@@ -317,6 +317,64 @@ body {
     text-decoration: none;
 }
 
+#purpleMailButton1 {
+    /*background: #25ba1f;*/
+    background: palevioletred;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    font-family: "Cabin", sans-serif;
+    color: #ffffff;
+    font-size: 20px;
+    padding: 18px 84px 18px 83px;
+    text-decoration: none;
+    word-wrap: break-word;
+    border: solid #6eb418 0px;
+    opacity: 0.85;
+    width: 54%;
+    max-width: 385px;
+    height: 10%;
+}
+
+#purpleMailButton1:hover {
+    background: indianred;
+    background-image: -webkit-linear-gradient(top, lightpink, lightcoral);
+    background-image: -moz-linear-gradient(top, lightpink, lightcoral);
+    background-image: -ms-linear-gradient(top, lightpink, lightcoral);
+    background-image: -o-linear-gradient(top, lightpink, lightcoral);
+    background-image: linear-gradient(to bottom, lightpink, lightcoral);
+    text-decoration: none;
+}
+
+#purpleMailButton2 {
+    /*background: #25ba1f;*/
+    background: palevioletred;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    font-family: "Cabin", sans-serif;
+    color: #ffffff;
+    font-size: 20px;
+    padding: 18px 84px 18px 83px;
+    text-decoration: none;
+    word-wrap: break-word;
+    border: solid #6eb418 0px;
+    opacity: 0.85;
+    width: 54%;
+    max-width: 385px;
+    height: 10%;
+}
+
+#purpleMailButton2:hover {
+    background: indianred;
+    background-image: -webkit-linear-gradient(top, lightpink, lightcoral);
+    background-image: -moz-linear-gradient(top, lightpink, lightcoral);
+    background-image: -ms-linear-gradient(top, lightpink, lightcoral);
+    background-image: -o-linear-gradient(top, lightpink, lightcoral);
+    background-image: linear-gradient(to bottom, lightpink, lightcoral);
+    text-decoration: none;
+}
+
 #redRegisterButton {
     background: red;
     -webkit-border-radius: 8px;
@@ -397,6 +455,14 @@ a:hover {
     left: 7%;
     height: fit-content;
 }
+
+.statisticPageTotalGroup {
+    position: absolute;
+    top: 15%;
+    left: 7%;
+    height: fit-content;
+}
+
 
 .logregPageTotalGroup {
     position: absolute;
@@ -762,4 +828,22 @@ canvas {
     bottom: 30;
     left: 0;
     right: 0;
+}
+
+.privacypopup {
+    background: rgba(0,0,0,0.8);
+}
+
+table, th , td {
+    border: 5px solid grey;
+    border-collapse: collapse;
+    padding: 5px;
+}
+table tr:nth-child(odd) {
+    /*background-color: #5e5e5e;*/
+    background-color: black;
+}
+table tr:nth-child(even) {
+    /*background-color: #ffffff;*/
+    background-color: black;
 }

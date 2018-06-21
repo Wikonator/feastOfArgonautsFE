@@ -1,9 +1,7 @@
-<div class="wrap" header-directive>Call template header.tpl.html</div>
-<!--<div id="display" ></div>-->
-    <!--<div id="display" />-->
+<div class="wrap" ng-controller="headerCtrl" header-directive>Call template header.tpl.html</div>
 
 <div class="gameContent wrap" id="gameContent" >
-    <div id="display" data-ng-init="init()" ></div>
+    <div id="display" ng-init="init()" ></div>
 </div>
 
-<div class="wrap" footer-directive>Call template footer.tpl.html</div>
+<div class="wrap" ng-controller="footerCtrl" footer-directive>Call template footer.tpl.html</div>

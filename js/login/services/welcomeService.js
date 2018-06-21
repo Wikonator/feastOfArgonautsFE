@@ -11,28 +11,33 @@ let actualFeServer = feServer.test;
 foAapp.factory('welcomeService', function ($http, $location, sessionService) {
     return {
         fblogin:function(user, scope) {
-        let req = {};
-        req.data = user;
-        console.log('Function login in namespace welcomeService', req);
+            let req = {};
+            req.data = user;
+            console.log('Function login in namespace welcomeService', req);
 
-        let $promise=$http.post('http://' + actualFeServer + ':5000/API/fb', req);  //send request with data to backEnd
+            let $promise=$http.post('http://' + actualFeServer + ':5000/API/fb', req);  //send request with data to backEnd
 
-        $promise.then(function (msg) {
-            console.log('msg:', msg);
+            $promise.then(function (msg) {
+                console.log('msg:', msg);
 
-            let token = '';
+                let token = '';
 
-            if (msg.hasOwnProperty('data')) {
-                console.log('msg.data:', msg.data);
-                if(msg.data.hasOwnProperty('error')) {
-                    if((msg.data.error === false) && (msg.data.hasOwnProperty('token'))) {
-                        scope.msgtxt = msg.data.msg.result;
-                        token = msg.data.token;
-                        sessionService.set('token', token);
-                        $location.path('/profile');
+                if (msg.hasOwnProperty('data')) {
+                    console.log('msg.data:', msg.data);
+                    if(msg.data.hasOwnProperty('error')) {
+                        if((msg.data.error === false) && (msg.data.hasOwnProperty('token'))) {
+                            scope.msgtxt = msg.data.msg.result;
+                            token = msg.data.token;
+                            sessionService.set('token', token);
+                            $location.path('/profile');
+                        }
+                        else {
+                            scope.msgtxt = msg.data.msg.result;
+                            $location.path('/welcome');
+                        }
                     }
                     else {
-                        scope.msgtxt = msg.data.msg.result;
+                        scope.msgtxt = 'Login FAILED';
                         $location.path('/welcome');
                     }
                 }
@@ -40,20 +45,15 @@ foAapp.factory('welcomeService', function ($http, $location, sessionService) {
                     scope.msgtxt = 'Login FAILED';
                     $location.path('/welcome');
                 }
-            }
-            else {
-                scope.msgtxt = 'Login FAILED';
-                $location.path('/welcome');
-            }
-        })
-    },
+            })
+        },
         login:function(user, scope) {
             let req = {};
             req.data = user;
 
             console.log('Function login in namespace welcomeService', req);
 
-            let $promise=$http.post('http://' + actualFeServer + ':5000/API/logonTest', req);  //send request with data to backEnd
+            let $promise = $http.post('http://' + actualFeServer + ':5000/API/logonTest', req);  //send request with data to backEnd
 
             $promise.then(function (msg) {
                 console.log('msg:', msg);
@@ -89,11 +89,77 @@ foAapp.factory('welcomeService', function ($http, $location, sessionService) {
                 else { scope.msgtxt = 'Login FAILED';}
             })
         },
-        try2play:function(guest, scope) {
+        try2play:function(element, force, scope) {
             let req = {};
-            req.data = guest;
-            console.log('req', req);
-            let $promise=$http.post('http://' + actualFeServer + ':5000/api/guestTest', req);  //send request with data to backEnd
+            console.log('element:', element);
+            console.log('guest:', scope[element]);
+            console.log('force:', force);
+            if (force) req.data = element;
+            else req.data = scope[element];
+            console.log('req:', req);
+            let $promise = $http.post('http://' + actualFeServer + ':5000/api/guestTest', req);  //send request with data to backEnd
+
+            $promise.then(function (msg) {
+                console.log('msg:', msg);
+                let token = '';
+                if (msg.hasOwnProperty('data')) {
+                    console.log('msg.data:', msg.data);
+                    if (msg.data.hasOwnProperty('error')) {
+                        if ((msg.data.error === false) && (msg.data.hasOwnProperty('token'))) {
+                            scope.msgtxt = msg.data.msg.result; //Successfull LOGIN 4 try
+                            token = msg.data.token;
+                            sessionService.set('token', token);
+
+                            if (force)
+                                $location.path('/game');
+                            else {
+                                scope[element].mail = "";
+                                scope.hideLogin = false;
+                                scope.hideMail = true;
+                                scope.hideAccept = false;
+                                scope.msgRegistrationStatus = 2;
+                            }
+                        }
+                        else {
+                            scope.msgtxt = msg.data.msg.result;
+                            if (msg.data.msg.hasOwnProperty('field'))
+                                if (msg.data.msg.field.hasOwnProperty('login'))
+                                    scope.msgtxt = msg.data.msg.field.login;
+                        }
+                    }
+                    else { scope.msgtxt = 'Login FAILED'; }
+                }
+                else { scope.msgtxt = 'Login FAILED';}
+            })
+        },
+        regmail:function(element, force, scope) {
+
+            let req = {};
+
+            console.log('regmail fired:');
+            console.log('element:', element);
+            console.log('scope:', scope);
+            console.log('guest:', scope[element]);
+            console.log('force:', force);
+            if (scope.hasOwnProperty(element)){
+                console.log("element v scope existuje");
+                if (!scope[element].hasOwnProperty('login')) {
+                    console.log("Login v scope element chýba");
+                    console.log("scope.profile[scope.profile.method].login", scope.profile[scope.profile.method].login);
+                    scope[element].login = scope.profile[scope.profile.method].login;
+                    console.log("scope[element].login", scope[element].login);
+                    console.log("Login som doplnil ... ");
+                }
+            }
+
+            if (force) req.data = element;
+            else req.data = scope[element];
+            console.log('req:', req);
+
+            console.log('Function regmail for register mail in namespace welcomeService', req);
+
+            let $promise = $http.post('http://' + actualFeServer + ':5000/API/regmail', req,
+                $http.defaults.headers.common['Authorization'] = sessionService.get('token'), req);
 
             $promise.then(function (msg) {
                 console.log('msg:', msg);
@@ -102,26 +168,47 @@ foAapp.factory('welcomeService', function ($http, $location, sessionService) {
 
                 if (msg.hasOwnProperty('data')) {
                     console.log('msg.data:', msg.data);
-                    if (msg.data.hasOwnProperty('error')) {
-                        if ((msg.data.error === false) && (msg.data.hasOwnProperty('token'))) {
-                            scope.msgtxt = msg.data.msg.result;
+                    if(msg.data.hasOwnProperty('error')) {
+                        if((msg.data.error === false) && (msg.data.hasOwnProperty('token'))) {
+                            scope.msgOKtxt = msg.data.msg.result;
+                            //scope.msgtxt = msg.data.msg.result;
+                            // scope.msgOKtxt = msg.data.msg.field.mail;
                             token = msg.data.token;
                             sessionService.set('token', token);
-                            $location.path('/game');
+
+
+                            if (force)
+                                $location.path('/game');
+                            else {
+                                scope.hideLogin = false;
+                                scope.hideMail = false;
+                                scope.hideAccept = true;
+                                scope.msgRegistrationStatus = 3;
+                            }
                         }
-                        else {
-                            scope.msgtxt = msg.data.msg.result;
+                        else
+                            {
+                            // scope.msgtxt = msg.data.msg.result;
+                            scope.msgtxt = msg.data.msg.field.mail;
+                            scope.msgKOtxt = msg.data.msg.result;
+                            // scope.msgKOtxt = msg.data.msg.field.mail;
+                            console.log("I AM HERE");
+
+                            if (msg.data.msg.hasOwnProperty('field')) {
+                                if (msg.data.msg.field.hasOwnProperty('mail'))
+                                    //scope.msgtxtpass = msg.data.msg.field.mail;
+                                    scope.msgtxt = msg.data.msg.field.mail;
+                            }
                         }
                     }
-                    else {
-                        scope.msgtxt = 'Login FAILED';
-                    }
+                    else { scope.msgtxt = 'Login FAILED';}
                 }
-                else {
-                    scope.msgtxt = 'Login FAILED';
-                }
-                // console.log('scope.msgtxt', scope.msgtxt);
+                else { scope.msgtxt = 'Login FAILED';}
             })
+        },
+        gameRegFire:function(accept) {
+            // console.log('gamefire fired:');
+            if(accept) $location.path('/game');
         },
         logout: function () {
             sessionService.destroy('token');
@@ -341,13 +428,28 @@ foAapp.factory('welcomeService', function ($http, $location, sessionService) {
 
             });
         },
-        goprofile: function() {
-            $location.path('/profile');
-            return true
-        },
-        gostatistic: function() {
-        $location.path('/statistic');
-        return true
+        getULogs: function (scope) {
+            console.log("getULogs function in welcomeService fired");
+            if(sessionService.get('token')) {
+                let $promise = $http.get('http://' + actualFeServer + ':5000/API/getULogs',
+                    $http.defaults.headers.common['Authorization'] = sessionService.get('token'));
+
+                $promise.then(function (msg) {
+                    console.log('msg:', msg.data.myResponse);
+                    if (msg.data.myResponse.hasOwnProperty('error')) {
+                        if (!msg.data.myResponse.error) {
+                            if (msg.data.myResponse.hasOwnProperty('logs')) {
+                                console.log('msg:', msg.data.myResponse.logs);
+                                scope.logs = msg.data.myResponse.logs;
+                                console.log('scope.logs:', scope.logs);
+                            }
+                        }
+                    }
+                });
+            }
+            else {
+                return false
+            }
         },
         gofb: function () {
             $location.path('/fb');

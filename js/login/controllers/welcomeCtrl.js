@@ -41,10 +41,14 @@ foAapp.controller('welcomeCtrl', function ($scope, welcomeService) {
         console.log("logRegShowHide function call with element parameter:", element);
 
         if (param === "show") {
+            // for (let key in $scope) {
+            //     if (key.hasOwnProperty('showLogRegVal')) {key.showLogRegVal = true;}
+            //     if (key.hasOwnProperty('hideLogRegVal')) { key.hideLogRegVal = true;}
+            // }
             $scope.showLogRegVal = true;
             $scope.hideLogRegVal = true;
             $scope.showForgotVal = false;
-            $scope.hideForgotVal = false
+            $scope.hideForgotVal = false;
             $scope.showGuestVal = false;
             $scope.hideGuestVal = false;
         }
@@ -52,7 +56,7 @@ foAapp.controller('welcomeCtrl', function ($scope, welcomeService) {
             $scope.showLogRegVal = false;
             $scope.hideLogRegVal = false;
             $scope.showForgotVal = false;
-            $scope.hideForgotVal = false
+            $scope.hideForgotVal = false;
             $scope.showGuestVal = false;
             $scope.hideGuestVal = false;
         }
@@ -88,7 +92,7 @@ foAapp.controller('welcomeCtrl', function ($scope, welcomeService) {
             $scope.showLogRegVal = false;
             $scope.hideLogRegVal = false;
             $scope.showForgotVal = false;
-            $scope.hideForgotVal = false
+            $scope.hideForgotVal = false;
             $scope.showGuestVal = true;
             $scope.hideGuestVal = false;
         }

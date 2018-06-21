@@ -3,10 +3,14 @@
         <!--<a style="float: left; margin-left: 80px">FEAST OF THE ARGONAUTS</a>-->
         <img src="/images/foa_text.png" id="headerImage" class="responsiveImg" alt="" />
     </div>
-    <div class="topnav-right">
-        <!--<a ng-bind="profile">{{profile}}</a>-->
-        <a href="/#/statistic">Statistic</a>
-        <a href="/#/profile">{{profile[profile.method].login}}</a>
+    <div class="topnav-right" >
+        <a href="" ng-click="statisticShowHide('show', 'statistic')" >Statistic</a>
+        <a href="" ng-click="profileShowHide('show', 'profile')" >{{profile[profile.method].login}}</a>
         <a href="" ng-click="logout()"><img src="images/exit.png" id="headerImage" class="" alt="" /></a>
     </div>
+</div>
+<!--<div style="z-index: 8000; width: 200px; height: 500px">-->
+<div ng-if="showHeaderPage" >
+    <div class="modal-dialog modal-backdrop" ng-if="showStatisticVal" style="background: rgba(0,0,0,0.8)" statistic-directive>Call template statistic.tpl.html</div>
+    <div class="modal-dialog modal-backdrop" ng-if="showProfileVal" style="background: rgba(0,0,0,0.8)" profile-directive>Call template profile.tpl.html</div>
 </div>

@@ -1,25 +1,58 @@
-<div ng-if="showLoginPage" >
-    <div class="loginPageTotalGroup" ng-controller="mailCtrl" style="max-height: 50px " data-ng-init="islogged()">
+<div >
+    <div class="loginPageTotalGroup" ng-controller="profileCtrl" style="max-height: 50px " ng-init="accountMailVisible()">
         <div style="position: relative;">
-            <img src="images/foa_text.png" id="headerImage" class="responsiveImg" alt="" />
+            <img src="/images/foa_text.png" id="headerImage" class="responsiveImg" alt="" />
             <p class="logOnText" style="color: white"> Profile Info </p>
         </div>
         <p style="color: white"> Login: {{profile[profile.method].login}}</p>
-        <p style="color: white"> Payer type: {{profile.method}}</p>
-        <p style="color: white"> Mail: {{profile[profile.method].mail}}</p>
+        <p style="color: white"> Account type: {{profile.method}}</p>
+        <p style="color: white" ng-if="(mailVisible)" > Mail: {{profile[profile.method].mail}}</p>
         <br>
-        <form id="registrationGate" name="profileForm" style="margin-left: 100px;">
-            <!--<a >{{profile[profile.method].mailnev}}</a>-->
-            <!--<input type="mail" id="mailact" name="mailact" required ng-model="mail.act" ng-class="inputFieldClass" class="loginInputBox" placeholder="actual email" >-->
-            <!--<p style="color: red">*{{msgtxtmail}}</p>-->
-            <input type="mail" id="mailnev" name="mailnev" required ng-model="mail.nev" ng-class="inputFieldClass" class="loginInputBox" placeholder="Enter new email" style="width: 300px">
-            <!--<p style="color: red">*{{msgtxtmail}}</p>-->
-            <!--<span name="errorField" ng-show="errorField" ng-bind="errorField" >{{}}</span>-->
-            <button id="purpleMailButton" type="button" style="width: 300px" ng-disabled="mailForm.$invalid" ng-click="approveMailChange(mail)"> Change MAIL </button>
+        <!--<form ng-controller="profileCtrl" ng-if="(!mailVisible)" id="registrationGate" name="mailchangeForm1" style="margin-left: 100px;" >-->
+            <!--<input type="email"-->
+                   <!--id=mailnev"-->
+                   <!--name="mailnev"-->
+                   <!--required-->
+                   <!--ng-change="mailVal('nev')"-->
+                   <!--ng-model="nev.mail"-->
+                   <!--ng-class="inputFieldClass"-->
+                   <!--class="loginInputBox"-->
+                   <!--placeholder="Enter your email"-->
+                   <!--style="width: 300px"-->
+                   <!--ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/" >-->
+            <!--&lt;!&ndash;<input type="email" id="mail" class="loginInputBoxLeft" placeholder=" Enter valid email " ng-change="mailVal('register')" required ng-model="register.mail" ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/">&ndash;&gt;-->
+            <!--<button id="purpleMailButton1" type="submit" style="width: 300px" ng-disabled="mailForm.$invalid" ng-click="mailChange('nev')"> Set your EMAIL </button>-->
+            <!--&lt;!&ndash;<button id="purpleMailButton1" type="submit" style="width: 300px" ng-disabled="mailForm.$invalid" ng-click="go2Accept('nev')"> Set your EMAIL </button>&ndash;&gt;-->
             <!--<p style="color: red">{{msgtxt}}</p>-->
-            <div style="margin-left: 140px; margin-top: 10px; left: 15.2%; text-align-all: center">
-                <a href="/#/game" style="color: white"> close </a>
-            </div>
-        </form>
+        <!--</form>-->
+        <!--<form ng-controller="profileCtrl" ng-if="(mailVisible)" id="registrationGate" name="mailchangeForm2" style="margin-left: 100px;">-->
+            <!--<input-->
+                    <!--type="email"-->
+                    <!--id="mailnev"-->
+                    <!--class="loginInputBox"-->
+                    <!--placeholder="Enter new email"-->
+                    <!--name="mailnev"-->
+                    <!--required-->
+                    <!--ng-change="mailVal('nev')"-->
+                    <!--ng-model="nev.mail"-->
+                    <!--ng-class="inputFieldClass"-->
+                    <!--style="width: 300px"-->
+                    <!--ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/">-->
+            <!--&lt;!&ndash;<input&ndash;&gt;-->
+                    <!--&lt;!&ndash;type="email"&ndash;&gt;-->
+                    <!--&lt;!&ndash;id="mail"&ndash;&gt;-->
+                    <!--&lt;!&ndash;class="loginInputBoxLeft"&ndash;&gt;-->
+                    <!--&lt;!&ndash;placeholder=" Enter valid email "&ndash;&gt;-->
+                    <!--&lt;!&ndash;ng-change="mailVal('register')"&ndash;&gt;-->
+                    <!--&lt;!&ndash;required&ndash;&gt;-->
+                    <!--&lt;!&ndash;ng-model="register.mail"&ndash;&gt;-->
+                    <!--&lt;!&ndash;ng-pattern="/^[_a-z0-9]+(\.[_a-z0-9]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,4})$/">&ndash;&gt;-->
+            <!--<button id="purpleMailButton2" type="submit" style="width: 300px" ng-disabled="mailForm.$invalid" ng-click="mailChange('nev')"> Change EMAIL </button>-->
+            <!--<p style="color: red">{{msgtxt}}</p>-->
+        <!--</form>-->
+
+        <div style="margin-left: 42%; margin-top: 10px; left: 15.2%; text-align-all: center">
+            <a href="" style="color: white" ng-click="profileShowHide('hide', 'forgot');"> close </a>
+        </div>
     </div>
 </div>
