@@ -1,6 +1,5 @@
 function setup(dataFromBack) {
 
-    console.log("now entering setup");
     textOptions.fill = "black";
     textOptions.fontFamily = "conthrax";
     textOptions.fontSize = 18;
@@ -512,43 +511,22 @@ function setup(dataFromBack) {
 
 
 
-    function loadNextScene (sceneLoader, resources, sceneId) {
-        backGroundSprite.texture = resources.houseInterior.texture;
-        let table = new PIXI.Graphics;
-        table.beginFill();
-        table.drawRect(1200, 1350, 500, 450);
-        table.endFill();
-        table.interactive = true;
-        table.on("click", showStelaContainer);
-        backGroundSprite.addChild(table);
 
-        function showStelaContainer() {
-            console.log('Click');
-            let tableContainer = new PIXI.Sprite(
-                resources.stelaTable.texture
-            );
-            tableContainer.position.y = 55; //{x:,y:}
-            backGroundSprite.addChild(tableContainer);
-        }
-
-    }
-
-    function enterPlayerBuilding() {
-        console.log("click");
-        let sceneId = this.sceneId;
-        for (let i in buildingArray) {
-            backGroundSprite.removeChild(buildingArray[i]);
-        }
-            // fog transition
-            // add loading screen here
-        let sceneLoader = new PIXI.loaders.Loader();
-        sceneLoader.add("houseInterior", 'images/' + resolutionParameter + '/playerHouse/interior.png')
-            .add("stelaTable", "images/" + resolutionParameter + '/playerHouse/tableView.png')
-        .load((sceneLoader, resources, sceneId ) => {
-            loadNextScene(sceneLoader, resources, sceneId);
-        });
-        // loadNextScene(sceneId);
-    }
+    // function enterPlayerBuilding() {
+    //     let sceneId = this.sceneId;
+    //     for (let i in buildingArray) {
+    //         backGroundSprite.removeChild(buildingArray[i]);
+    //     }
+    //         // fog transition
+    //         // add loading screen here
+    //     let sceneLoader = new PIXI.loaders.Loader();
+    //     sceneLoader.add("houseInterior", 'images/' + resolutionParameter + '/playerHouse/interior.png')
+    //         .add("stelaTable", "images/" + resolutionParameter + '/playerHouse/tableView.png')
+    //     .load((sceneLoader, resources, sceneId ) => {
+    //         loadNextScene(sceneLoader, resources, sceneId);
+    //     });
+    //     // loadNextScene(sceneId);
+    // }
 
     // lights testing
     // playArea.addChild(new PIXI.display.Layer(PIXI.lights.normalGroup));
@@ -756,24 +734,21 @@ function setup(dataFromBack) {
         secCoBuilding, templeBuilding ];
 
 
-
-    // playerHouseBuilding.position = {x: 80, y: 250};
-    // backGroundSprite.scale.x = 1;
-
-    // playArea.width = townMapSprite.texture.width;
-    // playArea.height = townMapSprite.texture.height;
-
     playerHouseBuilding.sceneId = 1;
     playerHouseBuilding.on("click", enterPlayerBuilding);
     playerHouseBuilding.on("mouseover", buildingOverEnter);
     playerHouseBuilding.on("mouseout", buildingOverEnd);
     playerHouseBuilding.interactive = true;
 
+    function enterPlayerBuilding() {
+        console.log(stage);
+        playerHouseScene(buildingArray, playerHouseBuilding.sceneId, stage)
+    }
+
     backGroundSprite.addChild(airportBuilding, generalStoreBuilding, governorsHouseBuilding,
         marketBuilding, playerHouseBuilding, ragnarBuilding, templeBuilding, researchTrainingBuilding, secCoBuilding );
     playArea.addChild(backGroundSprite);
     for (let i in buildingArray) {
-        // console.log(buildingArray);
         buildingArray[i].interactive = true;
         buildingArray[i].cursor = "wait";
         buildingArray[i].hitArea = new PIXI.Rectangle( buildingArray[i].texture.trim.x, buildingArray[i].texture.trim.y, buildingArray[i].texture.trim.width, buildingArray[i].texture.trim.height);
@@ -961,7 +936,6 @@ function setup(dataFromBack) {
             this.texture = this.pressed;
             this.alpha = 1;
             let campsOrAreas = {vault: {camps: []}};
-            console.log(dataFromBack);
             if (this.btn.name == "camps") {
                 campsOrAreas.vault.camps = dataFromBack.vault.camps.filter( camp => camp.uLevel > 0);
                 createCampsTable(campsOrAreas.vault.camps);
@@ -1037,7 +1011,6 @@ function setup(dataFromBack) {
     let vaultBtnClick = function () {
         // let findContainer =
         scrollContainerSelector = vaultScrollContainer;
-        console.log(scrollContainerSelector);
         let button = this.btn;
         if (button.isDown == false) {           // ak nebol stlaceny predtym
             for (let butt in vaultTabButtonArray) {
@@ -1060,7 +1033,6 @@ function setup(dataFromBack) {
 
 
     };
-
     let vaultTabButtonArray = [
         vaultTabBtnDiamonds, vaultTabBtnStelae, vaultTabBtnScrews, vaultTabBtnArtefacts,
         vaultTabBtnNula
@@ -1220,7 +1192,6 @@ function setup(dataFromBack) {
     let messageScroller, messageLayoutGroup, messageMaskingRectangle;
 
     createMessageTable = function (data) {
-        console.log("creating message table");
 
         let messageTextOptions = {
             wordWrap: true,
@@ -1288,11 +1259,10 @@ function setup(dataFromBack) {
         let clickFlag = false;
         changeTheTab = true;
         if (button) {
-            console.log("button bol true");
+
             vaultScrollContainer.removeChild(vaultScroller, VaultLayoutGroup, vaultMaskingRectangle);
             vaultContainer.removeChild(vaultScrollContainer);
             if (button.isDown) {
-                console.log("button bol down");
                 data = {0: data[button.name]};
                 clickFlag = true;
             }
@@ -1369,12 +1339,9 @@ function setup(dataFromBack) {
         }
         //////////////////// if three starts here ///////////////
         if (clickFlag == true) {       // when filter applied
-            console.log("clickflag true - pouzivam filter");
-            console.log(data);
             createAScroller(data, button.name);
             clickFlag = false;                  // filter not applied
         } else {
-            console.log("clickflag false");
             createAScroller(data);
         }
     };
@@ -1410,18 +1377,18 @@ function setup(dataFromBack) {
     let clickedCampArray = [];
     let campScroller, campLayoutGroup, campMaskingRectangle;
     let unFoldCamp = function (position) {          // what happens after Camp site click
-        console.log("position: "); console.log(position);
+        // console.log("position: "); console.log(position);
         let cleanUpTheCampTab = function (buttonWasPressed) {           // cleanup function
 
             if (buttonWasPressed) {
-                console.log("button was pressed during cleanup");
+                // console.log("button was pressed during cleanup");
                 for (let i = 0; i < clickedCampArray.length; ++i) {
                     campLayoutGroup.removeChild(clickedCampArray[i]);
                 }
                 clickedCampArray = [];
             } else {
                 createCampsTable(dataFromBack.vault.camps);
-                    console.log("clicked camp flag is true");
+                    // console.log("clicked camp flag is true");
                     for (let i = 0; i < clickedCampArray.length; ++i) {
                         campLayoutGroup.removeChild(clickedCampArray[i]);
                     }
@@ -1456,7 +1423,7 @@ function setup(dataFromBack) {
         if (nameOfThisObject.isText != true && nameOfThisObject.isDown == true) {              // filter button press
 
             let ButtonWasPressed = true;
-            console.log(clickedCampArray); // previous clicked camp array
+            // console.log(clickedCampArray); // previous clicked camp array
             let lastArrayLength = clickedCampArray.length;
             cleanUpTheCampTab(ButtonWasPressed);
 
@@ -1585,8 +1552,6 @@ function setup(dataFromBack) {
     campsContainer.addChild(campScrollContainer);
 
     createCampsTable = function (data) {            // make the Camps Tab
-        console.log("create me a camps table");
-        console.log(data);
         textOptions.fontSize = 18;
         // this is where the make camp starts
 
@@ -1689,7 +1654,6 @@ function setup(dataFromBack) {
         let negativePanel = PIXI.loader.resources["negativePanel"].textures['negative_artefact_panel.png'];
         let negativeArtefactIcon = PIXI.loader.resources["negativePanel"].textures["artefact_example_with_mask.png"];
         if (no === 1) {
-            console.log("its 1");
             let negaTextOptions = textOptions;
             negaTextOptions.fill = "red";
             negaTextOptions.align = "left";

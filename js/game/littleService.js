@@ -105,6 +105,8 @@ let resolutionParameter;
 let display;
 let app;
 
+playArea.id = 100;
+
 function startLoad(){
     resolutionParameter = dataFromBack.quality;
     PIXI.loader
@@ -247,7 +249,7 @@ foAapp.factory('littleService', function ($http, $location, sessionService) {
 
             socket.on('ui:onRefresh', function (data) {
 
-                console.log("data from back: ");
+                // console.log("data from back: ");
                 console.log(data);
                 dataFromBack = data;
                 dataCameSwitch = true;
@@ -256,8 +258,16 @@ foAapp.factory('littleService', function ($http, $location, sessionService) {
                 socket.emit("town:onLoad");
             });
 
+            socket.emit("stela:onLoad");
+
+            socket.on("stela:onRefresh", function (data) {
+
+                console.log(data);
+                console.log("stela on load");
+            });
+
             socket.on("town:onRefresh", function (data) {
-                console.log("I shot the data");
+                // console.log("I shot the data");
                 // console.log(data);
             });
         }
