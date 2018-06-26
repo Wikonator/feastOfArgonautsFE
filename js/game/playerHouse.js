@@ -10,8 +10,8 @@ function playerHouseScene(buildingArray, sceneId, stage) {
         sceneLoader.add("houseInterior", 'images/' + resolutionParameter + '/playerHouse/spritesheet_home/home.json')
             .add("stelaAssets", "images/" + resolutionParameter + '/playerHouse/spritesheet_stela/stela.json')
             .add("stelaTable", "images/" + resolutionParameter + '/playerHouse/tableView.png')
-            .add("splashRed", "images/" + resolutionParameter + '/playerHouse/spritesheet_stela/splash_red')
-            .add("splashGreen", "images/" + resolutionParameter + '/playerHouse/spritesheet_stela/splash_green')
+            .add("splashRed", "images/" + resolutionParameter + '/playerHouse/spritesheet_stela/splash_red.json')
+            .add("splashGreen", "images/" + resolutionParameter + '/playerHouse/spritesheet_stela/splash_green.json')
         .load((sceneLoader, resources) => {
             loadNextScene(sceneLoader, resources);
         });
@@ -32,7 +32,10 @@ function playerHouseScene(buildingArray, sceneId, stage) {
 
             let tableContainer = new PIXI.Sprite(
                 resources.stelaTable.texture
-            );
+            ),
+                greenFlashTexture = [],
+                redFlashTexture = [];
+            for (let frame = 0; rame <)
             tableContainer.position.y = 55; //{x:,y:}
             backGroundSprite.addChild(tableContainer);
             
@@ -98,8 +101,6 @@ function playerHouseScene(buildingArray, sceneId, stage) {
 
             function stelaPathMaker() {
                 console.log(pathsFromBack);
-
-
                 // deWey.anchor = {x:0, y:0.5};
                 //{
                 //                         x:arrayOfPositions[pointsFromBack[point].idx][pointsFromBack[point].idy].x,
@@ -116,7 +117,7 @@ function playerHouseScene(buildingArray, sceneId, stage) {
                         y: arrayOfPositions[pathsFromBack[path].idxs][pathsFromBack[path].idys].y
                     };
                     deWey.scale.x = 0.2;
-                    if (pathsFromBack[path].idxs == idxe)
+                    // if (pathsFromBack[path].idxs == idxe)
                     stelaArea.addChild(deWey);
                 }
             }
