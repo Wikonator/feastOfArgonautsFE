@@ -35,7 +35,7 @@ function playerHouseScene(buildingArray, sceneId, stage) {
             ),
                 greenFlashTexture = [],
                 redFlashTexture = [];
-            for (let frame = 0; rame <)
+            // for (let frame = 0; rame <)
             tableContainer.position.y = 55; //{x:,y:}
             backGroundSprite.addChild(tableContainer);
             
