@@ -17,6 +17,7 @@ function playerHouseScene(buildingArray, sceneId, stage) {
         });
 
     function loadNextScene (sceneLoader, resources) {
+
         backGroundSprite.texture = resources["houseInterior"].textures['home_bg.png'];
         let table = new PIXI.Graphics;
         table.beginFill();
@@ -35,7 +36,28 @@ function playerHouseScene(buildingArray, sceneId, stage) {
             ),
                 greenFlashTexture = [],
                 redFlashTexture = [];
-            // for (let frame = 0; rame <)
+            let closingCrossHexa = new PIXI.Sprite (
+                PIXI.loader.resources["crossAndDiamonds"].textures['close_btn_bg.png']
+            ), closingCross = new PIXI.Sprite (
+                PIXI.loader.resources["crossAndDiamonds"].textures['close_btn_icon.png']
+            );
+            closingCross.normal = closingCross.texture;
+            closingCross.hover = PIXI.loader.resources["crossAndDiamonds"].textures['close_btn_icon_hover.png'];
+            closingCrossHexa.position = {x: 3100, y: 410};
+            tableContainer.addChild(closingCrossHexa);
+            closingCross.anchor = {x:0.5, y:0.5};
+            closingCross.position = {x:closingCrossHexa.width/2,y:closingCrossHexa.height/2};
+            closingCross.interactive = true;
+            closingCross.on("mouseover", crossOver);
+            closingCross.on("mouseout", crossOut);
+            closingCross.on("click", crossClose);
+            closingCrossHexa.addChild(closingCross);
+            for (let frame in resources.splashGreen.textures) {
+                greenFlashTexture.push(resources.splashGreen.textures[frame]);
+            }
+            for (let frame in resources.splashRed.textures) {
+                redFlashTexture.push(resources.splashRed.textures[frame]);
+            }
             tableContainer.position.y = 55; //{x:,y:}
             backGroundSprite.addChild(tableContainer);
             
@@ -47,18 +69,23 @@ function playerHouseScene(buildingArray, sceneId, stage) {
             diamondMask.endFill();
             diamondMask.position = {x:3025, y:797};
             diamondArea.mask = diamondMask;
-            stelaArea.position = {x:670, y:600};
+            stelaArea.position = {x:670, y:550};
             diamondArea.position = {x:3050, y:850};
             tableContainer.addChild(stelaArea, dragLayer, diamondArea, diamondMask);
 
-            let layoutX=0 , layoutY = 0;
+            let layoutX=0 , layoutY = 50;
             for (let i = 0; i < 2; ++i) {
-                let thisTile = new PIXI.Sprite(resources["stelaAssets"].textures['01_layout_01.png']);
-                thisTile.position = {x: layoutX, y: layoutY};
-                // thisTile.scale.y = 1.15;
-                stelaArea.addChild(thisTile);
-                layoutX +=910;
-                // layoutY += 150;
+                    for (let indx = 0; indx < 3; ++indx) {
+                        let thisTile = new PIXI.Sprite(resources["stelaAssets"].textures['01_layout_01.png']);
+                        thisTile.position = {x: layoutX, y: layoutY};
+                        thisTile.scale = {x:0.7, y:0.7};
+                        // thisTile.scale.y = 1.15;
+                        stelaArea.addChild(thisTile);
+                        layoutX +=650;
+                        // layoutY += 150;
+                    }
+                    layoutX = 0;
+                    layoutY += 450;
             }
 
             let pointsFromBack = dataFromBack.vault.items[4][0].layout.points,
@@ -68,15 +95,15 @@ function playerHouseScene(buildingArray, sceneId, stage) {
                 this.x = x; this.y = y;
             }
             function networkMaker() {
-                let coordX = -25, coordY = -185;
+                let coordX = 0, coordY = -155;
                 for (let x = 0; x < 27; ++x) {
                     let yLocation = [];
                     for (let y = 0; y < 13; ++y) {
                         yLocation.push(new Position(coordX, coordY));
-                        coordY += 95;
+                        coordY += 115;
                     }
                     arrayOfPositions.push(yLocation);
-                    coordX += 85;
+                    coordX += 115;
                     coordY = 0; // << this is right, dont change it to +=
                 }
             }
@@ -94,6 +121,7 @@ function playerHouseScene(buildingArray, sceneId, stage) {
                         y:arrayOfPositions[pointsFromBack[point].idx][pointsFromBack[point].idy].y
                     };
                     placeholder.anchor = {x:0.5, y:0.5};
+                    placeholder.scale = {x:0.5, y:0.5};
                     placeHolderArray.push(placeholder); // feelings , pictures and ideas
                     stelaArea.addChild(placeholder);
                 }
@@ -101,23 +129,16 @@ function playerHouseScene(buildingArray, sceneId, stage) {
 
             function stelaPathMaker() {
                 console.log(pathsFromBack);
-                // deWey.anchor = {x:0, y:0.5};
-                //{
-                //                         x:arrayOfPositions[pointsFromBack[point].idx][pointsFromBack[point].idy].x,
-                //                         y:arrayOfPositions[pointsFromBack[point].idx][pointsFromBack[point].idy].y
-                //                     }
-                //  = {x:pathsFromBack[0].idxs, y: pathsFromBack[0].idys};
-                console.log(arrayOfPositions);
                 for (let path in pathsFromBack) {
+                    console.log(pathsFromBack[path].type);
                     let deWey = new PIXI.Sprite(
-                        resources["stelaAssets"].textures["line_1.png"]
+                        resources["stelaAssets"].textures["line_"+pathsFromBack[path].type+".png"]
                     );
                     deWey.position = {
                         x: arrayOfPositions[pathsFromBack[path].idxs][pathsFromBack[path].idys].x,
                         y: arrayOfPositions[pathsFromBack[path].idxs][pathsFromBack[path].idys].y
                     };
-                    deWey.scale.x = 0.2;
-                    // if (pathsFromBack[path].idxs == idxe)
+                    // deWey.scale.x = 0.2;
                     stelaArea.addChild(deWey);
                 }
             }
@@ -135,7 +156,7 @@ function playerHouseScene(buildingArray, sceneId, stage) {
                     let colorAmount = new PIXI.Text(diamondsInTheBack[i][3].text, textOptions);
                     colorAmount.anchor = {x:0.5, y:0.5};
                     colorAmount.scale = {x:1.3, y:1.4};
-                    colorAmount.position = {x: diamondPosX,y: 1};
+                    colorAmount.position = {x: diamondPosX,y: -20};
                     diamondArea.addChild(colorAmount);
                     for (let yindex = 0; yindex <= 4; ++yindex) {
                         let diamond = new PIXI.Sprite(
@@ -145,6 +166,7 @@ function playerHouseScene(buildingArray, sceneId, stage) {
                         diamond.position = {x:diamondPosX, y:diamondPosY};
                         diamond.interactive = true;
                         diamond.type = (200 + diamondsInTheBack[i].type);
+                        diamond.pileOfGems = true;
                         diamond
                             .on('pointerdown', onDragStart)
                             .on('pointerup', onDragEnd)
@@ -161,19 +183,33 @@ function playerHouseScene(buildingArray, sceneId, stage) {
                 return resources["stelaAssets"].textures[(200 + gem) + '.png'];
             }
             function onDragStart(event) {
+
                 this.data = event.data;
-                // this.alpha = 0.5;
                 this.scale = {x:1.2, y:1.2};
 
                 if (!this.dragging) {
                     this.data = event.data;
                     this.oldGroup = this.displayGroup;
-                    console.log(this.oldGroup);
+                    // console.log(this.oldGroup);
                     this.displayGroup = dragLayer;
                     this.dragging = true;
                     this.dragPoint = event.data.getLocalPosition(this.parent);
                     diamondArea.removeChild(this);
-                    stelaArea.addChild(this);
+                    if (this.pileOfGems) {
+                        let newGem = new PIXI.Sprite(this.texture);
+                        newGem.position = this.position;
+                        newGem.anchor = {x: 0.5, y:0.5};
+                        newGem.interactive = true;
+                        newGem.type = this.type;
+                        newGem.pileOfGems = this.pileOfGems;
+                        newGem.on('pointerdown', onDragStart)
+                            .on('pointerup', onDragEnd)
+                            .on('pointerupoutside', onDragEnd)
+                            .on('pointermove', onDragMove);
+
+                        stelaArea.addChild(this);
+                        diamondArea.addChild(newGem);
+                    }
                     var newPosition = this.data.getLocalPosition(this.parent);
                     this.x = newPosition.x;
                     this.y = newPosition.y;
@@ -215,7 +251,8 @@ function playerHouseScene(buildingArray, sceneId, stage) {
                     this.dragging = false;
                     this.scale = {x:1, y:1};
                     this.displayGroup = this.oldGroup;
-                    console.log(this.displayGroup);
+                    // console.log(this.displayGroup);
+                    console.log(this.data);
                     this.data = null;
 
                 }
@@ -225,20 +262,18 @@ function playerHouseScene(buildingArray, sceneId, stage) {
                         //check if the type is right
                         if (this.type == placeHolderArray[spot].type) {
                             console.log("same shit");   //if so
-                            playGreenFlash(this.position);            // play blue blink anim8
+                            this.position = placeHolderArray[spot].position;
+                            playGreenFlash(placeHolderArray[spot]);            // play blue blink anim8
+                            return;
                         }
-
-
                                 //leave gemstone
                             // if no
                         else {
-                            console.log("different day");
-                            console.log(this.type);
-                            console.log(placeHolderArray[spot].type);
+                            playRedFlash(placeHolderArray[spot]);
+                            return;
                         }
                                 // play red blink anim8
                                 // return gemstone
-                        return;
                     }
                     else {
                         //return gemstone
@@ -358,11 +393,26 @@ function playerHouseScene(buildingArray, sceneId, stage) {
                 }
             }
             function playGreenFlash(position) {
-                console.log(position);
+                console.log(position.position);
                 let flash = new PIXI.extras.AnimatedSprite(
-                    resources["splashGreen"].textures
+                    greenFlashTexture
                 );
+                flash.position = {x:position.position.x, y:position.position.y};
+                flash.anchor = {x:0.5, y:0.5};
+                flash.loop = false;
                 flash.play();
+                console.log(flash.position);
+                stelaArea.addChild(flash);
+            }
+            function playRedFlash(position) {
+                let flash = new PIXI.extras.AnimatedSprite(
+                    redFlashTexture
+                );
+                flash.position = {x:position.position.x, y:position.position.y};
+                flash.anchor = {x:0.5, y:0.5};
+                flash.loop = false;
+                flash.play();
+                console.log(flash.position);
                 stelaArea.addChild(flash);
             }
 
@@ -370,25 +420,6 @@ function playerHouseScene(buildingArray, sceneId, stage) {
     }
 }
 
-
-    // PIXI.loader
-    //         .add("sheet/gemFlashBlue.json")
-    //         .add("images/01_diamond_placeholder_01.png")
-    //         .add("images/01_diamond_placeholder_02.png")
-    //         .add("images/01_diamond_placeholder_03.png")
-    //         .add("images/01_layout_01.png")
-    //         .add("images/01_line_01.png")
-    //         .add("images/01_line_02.png")
-    //         .add("images/01_line_03.png")
-    //         .add("images/01_line_04.png")
-    //         .add("images/diamond_01.png")
-    //         .add("images/diamond_02.png")
-    //         .add("images/diamond_03.png")
-    //         .add("images/diamond_01_pos.png")
-    //         .add("images/diamond_02_pos.png")
-    //         .add("images/diamond_03_pos.png")
-    //         .load(setup)
-    // }
 
     // function setup() {
     //     var placehol_11, placehol_12, placehol_21, placehol_22, placehol_23, placehol_31, placehol_32, placehol_33;
@@ -409,6 +440,17 @@ function playerHouseScene(buildingArray, sceneId, stage) {
         renderer.render(stage);
     }
 
+    function crossOver() {
+    this.texture = this.hover;
+    }
+    function crossOut() {
+        this.texture = this.normal;
+    }
+    
+    function crossClose() {
+        console.log(this.parent.parent.children);
+        this.parent.parent.parent.removeChild(this.parent.parent);
+    }
 
     function add_placeholder() {
 

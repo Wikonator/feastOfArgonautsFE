@@ -118,6 +118,7 @@ function startLoad(){
         .add("negativePanel", "images/" + resolutionParameter + "/GUI/negativePanel/negative_panel.json")
         .add("campsVaultPanel", "images/" + resolutionParameter + "/GUI/campsVaultPanel/campsvault_panel.json")
         .add("campsVaultTable", "images/" + resolutionParameter + "/GUI/campsVaultTable/campsvault_table.json")
+        .add("crossAndDiamonds", "images/" + resolutionParameter + "/GUI/campsVaultTable/closeTab.json")
         .add("messagePanel", "images/" + resolutionParameter + "/GUI/messagePanel/message_panel.json")
         .add("messageTable", "images/" + resolutionParameter + "/GUI/messageTable/message_panel.json")
         .add("townMap", "images/" + resolutionParameter + "/town/townMap.json")
