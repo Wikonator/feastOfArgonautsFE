@@ -71,10 +71,10 @@ function renderResize() {
 }
 renderResize();
 
-renderer = PIXI.autoDetectRenderer(canvasWidth, canvasHeight, {
-    transparent: true,
-    resolution: 1
-});
+// renderer = PIXI.autoDetectRenderer(canvasWidth, canvasHeight, {
+//     transparent: true,
+//     resolution: 1
+// });
 
 let scrollContainerSelector;
 
@@ -94,7 +94,7 @@ function scrollSelectedTab(delta) {
     // console.log(scroller._startScrollPosition);
 }
 
-let stage = new PIXI.Container(), playArea = new PIXI.Container(), GUIArea = new PIXI.Container();
+let stage, playArea = new PIXI.Container(), GUIArea = new PIXI.Container();
 let negativePanelContainer = new PIXI.Container(), vaultContainer = new PIXI.Container(),
     vaultScrollContainer = new PIXI.Container(), messageScrollContainer = new PIXI.Container(),
     campScrollContainer = new PIXI.Container(), messageContainer = new PIXI.Container(),
@@ -204,7 +204,7 @@ function resize () {
     GUIArea.scale.x = GUIArea.scale.y = UIratio;
     playArea.children[0].width = canvasWidth;
     playArea.children[0].height = canvasHeight;
-    renderer.resize(canvasWidth, canvasHeight);
+    app.renderer.resize(canvasWidth, canvasHeight);
 }
 
 
@@ -212,7 +212,7 @@ function resize () {
 function animationLoop() {
 
     requestAnimationFrame(animationLoop);
-    renderer.render(stage);
+    // app.render(stage);
     checkRefresh();
     // resize();
 }
@@ -234,9 +234,10 @@ foAapp.factory('littleService', function ($http, $location, sessionService) {
             }};
 
             app = new PIXI.Application(windowWidth, windowHeight, {transparent: true});
+            app.stage = new PIXI.display.Stage(app.view);
 
             display = document.getElementById('display');
-            display.appendChild(renderer.view);
+            display.appendChild(app.view);
 
             fontLoader = new type.Loader();
 

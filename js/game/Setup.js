@@ -741,7 +741,6 @@ function setup(dataFromBack) {
     playerHouseBuilding.interactive = true;
 
     function enterPlayerBuilding() {
-        console.log(stage);
         playerHouseScene(buildingArray, playerHouseBuilding.sceneId, stage)
     }
 
@@ -769,7 +768,7 @@ function setup(dataFromBack) {
     messagePanel.addChild(messagePanelButton, messageButtonText, messagesUnreadTxt);
     GUIArea.addChild(vaultPanel, campsPanel, campsPanelIcon, campsPanelButton, messagePanel, textLayer);
 
-    stage.addChild(playArea, GUIArea);
+    app.stage.addChild(playArea, GUIArea);
 
     vaultContainer.position = {x: 250, y: 92};            // Container Positions
     vaultContainer.scale = {x: 0.5, y: 0.42};
@@ -1729,4 +1728,5 @@ function setup(dataFromBack) {
 
     };
     resize();
+    // enterPlayerBuilding();      // <<< Enter player house automatically
 }
