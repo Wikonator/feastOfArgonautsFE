@@ -1,7 +1,6 @@
 function playerHouseScene(buildingArray, sceneId, stage) {
     // console.log(app.stage);
     let backGroundSprite = app.stage.children[0].children[0];
-
     for (let i in buildingArray) {
             backGroundSprite.removeChild(buildingArray[i]);
         }
@@ -36,6 +35,19 @@ function playerHouseScene(buildingArray, sceneId, stage) {
         } );
         backGroundSprite.addChild(table);
 
+
+
+        let backButton = new PIXI.Graphics();
+        backButton.lineStyle(0);
+        backButton.beginFill(0x000000, 0.5);
+        backButton.drawCircle(470, 90,60);
+        backButton.endFill();
+        backButton.position = {x:2500, y:1660};
+        backButton.interactive = true;
+        backButton.on("click", () => {
+            enterTownMap();
+        } );
+        backGroundSprite.addChild(backButton);
     }
 
     // function setup() {

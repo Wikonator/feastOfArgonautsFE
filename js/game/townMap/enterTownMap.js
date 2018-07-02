@@ -1,5 +1,13 @@
 function enterTownMap(){
 
+    if(app.stage.children[0].children[0])
+    {
+    while (app.stage.children[0].children[0].firstChild) {
+        app.stage.children[0].children[0].removeChild(app.stage.children[0].children[0].firstChild);        
+    }
+    resize();
+    }
+
     let backGroundSprite = new PIXI.Sprite(
         PIXI.loader.resources["noSheet"].texture
     ),
@@ -38,7 +46,7 @@ function enterTownMap(){
     function buildingOverEnd() {
     }
 
-    
+
 
     let buildingArray = [ airportBuilding, generalStoreBuilding, governorsHouseBuilding,
         marketBuilding, playerHouseBuilding, ragnarBuilding, researchTrainingBuilding,
@@ -65,6 +73,8 @@ function enterTownMap(){
         buildingArray[i].on("mouseover", buildingOverEnter);
         // buildingArray[i].on("mouseout", buildingOverEnd);
     };
+
+
 
 
 }
