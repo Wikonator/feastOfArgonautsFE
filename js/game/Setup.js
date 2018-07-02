@@ -185,38 +185,7 @@ function setup(dataFromBack) {
         ),
         messageTabSlider = new PIXI.Sprite(
             PIXI.loader.resources["messageTable"].textures['message_table_scroll.png']
-        ),
-        backGroundSprite = new PIXI.Sprite(
-            PIXI.loader.resources["noSheet"].texture
-        ),
-        airportBuilding = new PIXI.Sprite(
-            PIXI.loader.resources["townMap"].textures["airport.png"]
-        ),
-        generalStoreBuilding = new PIXI.Sprite(
-            PIXI.loader.resources["townMap"].textures["OQ.png"]
-        ),
-        governorsHouseBuilding = new PIXI.Sprite(
-            PIXI.loader.resources["townMap"].textures["house.png"]
-        ),
-        marketBuilding = new PIXI.Sprite(
-            PIXI.loader.resources["townMap"].textures["market.png"]
-        ),
-        playerHouseBuilding = new PIXI.Sprite(
-            PIXI.loader.resources["townMap"].textures["player_house.png"]
-        ),
-        ragnarBuilding = new PIXI.Sprite(
-            PIXI.loader.resources["townMap"].textures["ragnar.png"]
-        ),
-        researchTrainingBuilding = new PIXI.Sprite(
-            PIXI.loader.resources["townMap"].textures["research_training.png"]
-        ),
-        secCoBuilding = new PIXI.Sprite(
-            PIXI.loader.resources["townMap"].textures["research.png"]
-        ),
-        templeBuilding = new PIXI.Sprite(
-            PIXI.loader.resources["townMap"].textures["temple.png"]
-        )
-        ;
+        );
 
     //// level bar fill //// //// ////////
     drawLevelBar = function () {
@@ -502,12 +471,7 @@ function setup(dataFromBack) {
 
     };
     //////////////////////////////////////////// Town Map Building Functions / /////////////// / / / / / /
-    function buildingOverEnter() {
 
-    }
-
-    function buildingOverEnd() {
-    }
 
 
 
@@ -729,31 +693,7 @@ function setup(dataFromBack) {
     messagesUnreadTxt.position = {x: 445, y: 50};
     messagesUnreadTxt.scale = {x: 1.5, y: 1.5};
 
-    let buildingArray = [ airportBuilding, generalStoreBuilding, governorsHouseBuilding,
-        marketBuilding, playerHouseBuilding, ragnarBuilding, researchTrainingBuilding,
-        secCoBuilding, templeBuilding ];
-
-
-    playerHouseBuilding.sceneId = 1;
-    playerHouseBuilding.on("click", enterPlayerBuilding);
-    playerHouseBuilding.on("mouseover", buildingOverEnter);
-    playerHouseBuilding.on("mouseout", buildingOverEnd);
-    playerHouseBuilding.interactive = true;
-
-    function enterPlayerBuilding() {
-        playerHouseScene(buildingArray, playerHouseBuilding.sceneId, app.stage)
-    }
-
-    backGroundSprite.addChild(airportBuilding, generalStoreBuilding, governorsHouseBuilding,
-        marketBuilding, playerHouseBuilding, ragnarBuilding, templeBuilding, researchTrainingBuilding, secCoBuilding );
-    playArea.addChild(backGroundSprite);
-    for (let i in buildingArray) {
-        buildingArray[i].interactive = true;
-        buildingArray[i].cursor = "wait";
-        buildingArray[i].hitArea = new PIXI.Rectangle( buildingArray[i].texture.trim.x, buildingArray[i].texture.trim.y, buildingArray[i].texture.trim.width, buildingArray[i].texture.trim.height);
-        buildingArray[i].on("mouseover", buildingOverEnter);
-        // buildingArray[i].on("mouseout", buildingOverEnd);
-    };
+    
 
     GUIArea.addChild(scarab, buyPanel, buyButton, buyButtonText,
         negPanelBottom1, negPanelBottom2, negPanelBottom3, negPanelBottom4, tradePanel,
@@ -1727,6 +1667,7 @@ function setup(dataFromBack) {
         }
 
     };
+    enterTownMap();
     resize();
-    // enterPlayerBuilding();      // <<< Enter player house automatically
+    // enterBuilding();      // <<< Enter player house automatically
 }
