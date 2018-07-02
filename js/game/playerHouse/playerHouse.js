@@ -38,7 +38,7 @@ function playerHouseScene(buildingArray, sceneId, stage) {
 
 
 
-        let backButton = new PIXI.Graphics();
+/*        let backButton = new PIXI.Graphics();
         backButton.lineStyle(0);
         backButton.beginFill(0x000000, 0.5);
         backButton.drawCircle(470, 90,60);
@@ -49,7 +49,8 @@ function playerHouseScene(buildingArray, sceneId, stage) {
             enterTownMap();
         } );
         backGroundSprite.addChild(backButton);
-    }
+    */
+   }
 
     // function setup() {
     //     var placehol_11, placehol_12, placehol_21, placehol_22, placehol_23, placehol_31, placehol_32, placehol_33;
