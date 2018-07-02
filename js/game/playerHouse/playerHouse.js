@@ -1,6 +1,7 @@
 function playerHouseScene(buildingArray, sceneId, stage) {
-    // console.log(app.stage);
-    let backGroundSprite = app.stage.children[0].children[0];
+
+    let backGroundSprite = stage.children[0].children[0];
+
     for (let i in buildingArray) {
             backGroundSprite.removeChild(buildingArray[i]);
         }
