@@ -19,7 +19,7 @@ function showStelaContainer(resources, backSprite) {
     let dragGroup = new PIXI.display.Group(5, false);
 // Shadows are the lowest
     let shadowGroup = new PIXI.display.Group(0, false);
-    app.stage.group.enableSort = true;
+
 
     let tableBackground = new PIXI.Sprite(
         resources.stelaTable.texture
@@ -124,6 +124,14 @@ function showStelaContainer(resources, backSprite) {
     tableContainer.addChild(new PIXI.display.Layer(blueGroup));
     tableContainer.addChild(new PIXI.display.Layer(dragGroup));
     tableContainer.addChild(new PIXI.display.Layer(shadowGroup));
+
+    // stage.group.enableSort = true;
+    // pathGroup.group.enableSort = true;
+    // energyGroup.group.enableSort = true;
+    // greenGroup.group.enableSort = true;
+    // blueGroup.group.enableSort = true;
+    // dragGroup.group.enableSort = true;
+    // shadowGroup.group.enableSort = true;
 
     tableContainer.addChild(stelaArea, diamondArea, diamondMask, tokenArea, artefactsText,
         screwsText, diamondsText, tokensText);

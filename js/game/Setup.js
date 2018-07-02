@@ -741,7 +741,7 @@ function setup(dataFromBack) {
     playerHouseBuilding.interactive = true;
 
     function enterPlayerBuilding() {
-        playerHouseScene(buildingArray, playerHouseBuilding.sceneId, stage)
+        playerHouseScene(buildingArray, playerHouseBuilding.sceneId, app.stage)
     }
 
     backGroundSprite.addChild(airportBuilding, generalStoreBuilding, governorsHouseBuilding,
