@@ -22,42 +22,7 @@ function createPlayerUI() {
 
         scarab = new PIXI.Sprite(
             PIXI.loader.resources["scarab"].textures['Scarab_logo.png']
-        ),
-
-        miningPanel = new PIXI.Sprite(
-            PIXI.loader.resources["miningPanel"].textures['area_panel.png']
-        ),
-        miningPanelButtonBigFirst = new PIXI.Sprite(
-            PIXI.loader.resources["miningPanel"].textures['area_buttn_usual.png']
         );
-    textOptions.fill = "white";
-    textOptions.fontSize = 13;
-    let miningTextFirst = new PIXI.Text("SIGMA", textOptions),
-
-        miningPanelButtonBigSecond = new PIXI.Sprite(
-            PIXI.loader.resources["miningPanel"].textures['area_buttn_usual.png']
-        ),
-        miningTextSecond = new PIXI.Text("GAMMA", textOptions),
-
-        miningPanelButtonBigThird = new PIXI.Sprite(
-            PIXI.loader.resources["miningPanel"].textures['area_buttn_usual.png']
-        ),
-        miningTextThird = new PIXI.Text("DELTA", textOptions),
-
-        miningPanelButtonBigFourth = new PIXI.Sprite(
-            PIXI.loader.resources["miningPanel"].textures['area_buttn_disabled.png']
-        ),
-        miningTextFourth = new PIXI.Text("ZETTA", textOptions),
-
-
-        userPanel = new PIXI.Sprite(
-            PIXI.loader.resources["userPanel"].textures["user_info_panel.png"]
-        ),
-        levelBar = new PIXI.Sprite(
-            PIXI.loader.resources["userPanel"].textures["level_bar_empty.png"]
-        );
-    levelBarFill = new PIXI.Graphics();
-
 
     let negPanelBottom1 = new PIXI.Sprite(
         PIXI.loader.resources["negativePanel"].textures["dark_bottom_panel.png"]
@@ -187,38 +152,7 @@ function createPlayerUI() {
             PIXI.loader.resources["messageTable"].textures['message_table_scroll.png']
         );
 
-    //// level bar fill //// //// ////////
-    drawLevelBar = function () {
-        levelBarFill.clear();
-        let fg_color = 0xF2BC29;
-        let length = 150;
-        let height = 21;
-        let skew = 11;
-        let x = 0;
-        let y = 0;
 
-
-        let pt_total = parseInt(dataFromBack.profile.progress.nextlevel, 10);
-        let pt_mine = parseInt(dataFromBack.profile.progress.exp, 10);
-        let percent = pt_mine / pt_total;
-
-        levelBarFill.beginFill(fg_color); // Yellow
-
-        levelBarFill.drawPolygon([x + skew, y,
-            length * percent + skew, y,
-            length * percent, y + height,
-            x, y + height
-
-        ]);
-        levelBarFill.endFill();
-    };
-
-
-    let textLayer = new PIXI.Container();
-    drawLevelBar();
-
-    textLayer.addChild(levelBarFill);
-    textLayer.addChild(userNameTxt, userCitizenTxt, userCasteTxt, progressLvlTxt, progressExpTxt, nextLvlExpTxt, softCurTxt, hardCurTxt);
 
     buyButton.hover = PIXI.loader.resources["buyPanel"].textures['buy_buttn_hovered.png'];              // Button States
     buyButton.pressed = PIXI.loader.resources["buyPanel"].textures['buy_buttn_pressed.png'];
@@ -263,103 +197,6 @@ function createPlayerUI() {
         }
     }
 
-    /////////////////////////////////////// /  Mining area button functions //////////////////
-    function miningClick() {
-        if (this.isDisabled === 1) {
-            return
-        }
-        if (this.isdown) {              // uz stlaceny bol
-            this.texture = this.hover;
-            this.isdown = false;
-            for (let subArea in this.children) {
-                if (this.children[subArea].isdown) {
-                    this.children[subArea].isdown = false;
-                    this.children[subArea].texture = this.children[subArea].normal;
-                }
-                this.children[subArea].visible = false;
-            }
-        } else {
-            for (let i in miningAreaButtons) {
-                if (miningAreaButtons[i].isDisabled == 1) {
-                    break;
-                } else {
-                    miningAreaButtons[i].texture = miningAreaButtons[i].normal;
-                    miningAreaButtons[i].isdown = false;
-                    for (let subArea in miningAreaButtons[i].children) {
-                        miningAreaButtons[i].children[subArea].visible = false;
-                    }
-                }
-            }
-            this.texture = this.pressed;
-            this.isdown = true;
-            for (let subArea in this.children) {
-                this.children[subArea].visible = true;
-            }
-        }
-    }
-
-    function onMiningOver() {
-        if (this.isDisabled === 1) {
-            return
-        }
-        if (this.isdown) {
-            return;
-        }
-        this.texture = this.hover;
-    }
-
-    function onMiningOut() {
-        if (this.isDisabled === 1) {
-            return
-        }
-        if (this.isdown) {
-            return;
-        }
-        this.texture = this.normal;
-    }
-
-    function onSubAreaOver() {
-        if (this.state === 1) {
-            return
-        }
-        if (this.isdown) {
-            return;
-        }
-        this.texture = this.hover;
-    }
-
-    function onSubAreaOut() {
-        if (this.state === 1) {
-            return
-        }
-        if (this.isdown) {
-            return;
-        }
-        this.texture = this.normal;
-    }
-
-    function subAreaClick() {
-        if (this.state === 1) {
-            return
-        }
-        if (this.isdown) {
-            this.texture = this.hover;
-            this.isdown = false;
-        } else {
-            let subArray = this.parent.children;
-            for (let i in subArray) {
-                if (subArray[i].state === 1) {
-                    break;
-                } else {
-                    subArray[i].texture = subArray[i].normal;
-                    subArray[i].isdown = false;
-                }
-            }
-            this.texture = this.pressed;
-            this.isdown = true;
-        }
-
-    }
 
 
     //////////////////////////////////////////// Left panel button functions / /////////////// / / / / / /
@@ -452,36 +289,19 @@ function createPlayerUI() {
 
     }
 
-    let negaSwap = function() {
-        if (this.up === true || this.children === 1) {
-            return
-        }
-        let ary = this.children;
-        if (ary.length >= 3) {
-            ary[0].visible = false;
-            ary.push(ary.shift());
-            ary[0].position.x = 100; ary[1].position.x = 50; ary[2].position.x = 0;
-            ary[0].visible = true; ary[1].visible = true; ary[2].visible = true;
-        } else
-        if (ary.length === 2)
-        {
-            ary.push(ary.shift());
-            ary[0].position.x = 50; ary[1].position.x = 0;
-        }
-
-    };
-
     ///////////////////////////// Arrays of Elements ////////////////////////////////////
 
     let scaleArray = [
-        buyPanel, buyButton, tradePanel, tradeButton, scarab, miningPanelButtonBigFirst,
-        miningPanelButtonBigSecond, miningPanelButtonBigThird, miningPanelButtonBigFourth,
-        userPanel, levelBar, negPanelBottom1, negPanelBottom2, negPanelBottom3,
+        buyPanel, buyButton, tradePanel, tradeButton, scarab,
+        // miningPanelButtonBigFirst, miningPanelButtonBigSecond, miningPanelButtonBigThird, miningPanelButtonBigFourth,
+        // userPanel, levelBar,
+        negPanelBottom1, negPanelBottom2, negPanelBottom3,
         negPanelBottom4, vaultPanel, campsPanel, campsPanelButton, campsPanelIcon, messagePanel
     ];
 
     let UITextArray = [
-        buyButtonText, tradeButtonText, miningTextFirst, miningTextSecond, miningTextThird, miningTextFourth,
+        buyButtonText, tradeButtonText,
+        // miningTextFirst, miningTextSecond, miningTextThird, miningTextFourth,
         vaultButtonText, campsButtonText, messageButtonText
     ];
 
@@ -491,58 +311,6 @@ function createPlayerUI() {
     }
 
     let buttonArray = [buyButton, tradeButton, vaultPanelButton, campsPanelButton, messagePanelButton];
-
-    let miningAreaButtons = [miningPanelButtonBigFirst, miningPanelButtonBigSecond, miningPanelButtonBigThird, miningPanelButtonBigFourth]
-
-    let subareaTexture = PIXI.loader.resources["miningPanel"].textures['sub_area_buttn_usual.png'];
-    textOptions.fill = "#141513";
-    textOptions.fontSize = 22;
-
-    for (let i in miningAreaButtons) {
-
-        let subButtonX = -65,
-            subButtonY = 70;
-        miningAreaButtons[i].on("click", miningClick);
-        miningAreaButtons[i].on('mouseover', onMiningOver);
-        miningAreaButtons[i].on('mouseout', onMiningOut);
-        miningAreaButtons[i].anchor = {x: 0.5, y: 0.5};
-        miningAreaButtons[i].interactive = true;
-        miningAreaButtons[i].hover = PIXI.loader.resources["miningPanel"].textures['area_buttn_hovered.png'];
-        miningAreaButtons[i].normal = miningAreaButtons[i].texture;
-        miningAreaButtons[i].pressed = PIXI.loader.resources["miningPanel"].textures['area_buttn_pressed.png'];
-        miningAreaButtons[i].disabled = PIXI.loader.resources["miningPanel"].textures['area_buttn_disabled.png'];
-        miningAreaButtons[i].isDisabled = dataFromBack.areas.btn[i].state;
-        for (let subArea in dataFromBack.areas.btn[i].btn) {
-            let subAreaButton = new PIXI.Sprite(subareaTexture);
-            let subAreaText = new PIXI.Text(dataFromBack.areas.btn[i].btn[subArea].text, textOptions);
-            subAreaText.anchor = {x: 0.5, y: 0.5};
-            subAreaText.scale = {x: 1.5, y: 1.5};
-            subAreaButton.addChild(subAreaText);
-            subAreaButton.scale = {x: 0.7, y: 0.7};
-            subAreaButton.anchor = {x: 0.5, y: 0.5};
-            subAreaButton.state = dataFromBack.areas.btn[i].btn[subArea].state;
-            subAreaButton.position = {x: subButtonX, y: subButtonY};
-            subAreaButton.normal = subAreaButton.texture;
-            subAreaButton.hover = PIXI.loader.resources["miningPanel"].textures['sub_area_buttn_hovered.png'];
-            subAreaButton.pressed = PIXI.loader.resources["miningPanel"].textures['sub_area_buttn_pressed.png'];
-            subAreaButton.disabled = PIXI.loader.resources["miningPanel"].textures['sub_area_buttn_disabled.png'];
-            subAreaButton.isDisabled = false;
-            subAreaButton.interactive = true;
-            subAreaButton.on("click", subAreaClick);
-            subAreaButton.on("mouseover", onSubAreaOver);
-            subAreaButton.on("mouseout", onSubAreaOut);
-            subAreaButton.click = function (e) {
-                e.stopPropagation()
-            };
-            subAreaButton.visible = false;
-            if (subAreaButton.state === 1) {
-                subAreaButton.texture = subAreaButton.disabled;
-                subAreaButton.isDisabled = true;
-            }
-            subButtonX += 55;
-            miningAreaButtons[i].addChild(subAreaButton);
-        }
-    }
 
 
     let negaMoveArray = [negPanelBottom2, negPanelBottom3, negPanelBottom4, vaultPanel,
@@ -562,72 +330,19 @@ function createPlayerUI() {
     }
 
     buyPanel.position.x = 830;
-    buyButton.position.x = 886;
-    buyButton.position.y = 43;
-    buyButtonText.position.x = 920;
-    buyButtonText.position.y = 46;
-    buyButtonText.scale.x = 0.6;
-    buyButtonText.scale.y = 0.6;
-    tradePanel.position.x = 463;
-    tradePanel.position.y = 0;
-    tradeButton.position.x = 563;
-    tradeButton.position.y = 44;
-    tradeButtonText.position.x = 579;
-    tradeButtonText.position.y = 46;
-    tradeButtonText.scale.x = 0.6;
-    tradeButtonText.scale.y = 0.6;
+    buyButton.position ={x:886,y:43};
+    buyButtonText.position={x:920,y:46};
+    buyButtonText.scale ={x:0.6,y:0.6};
+    tradePanel.position={x:463,y:0};
+    tradeButton.position ={x:563,y:44};
+    tradeButtonText.position={x:579,y:46};
+    tradeButtonText.scale ={x:0.6,y:0.6}
     scarab.position.x = 686;
-    miningPanel.scale.x = 0.37;
-    miningPanel.scale.y = 0.37;
-    miningPanel.position.x = 1092;
-    miningPanelButtonBigFirst.position.x = 1167;    //1120
-    miningPanelButtonBigFirst.position.y = 65;      //48
-    // miningPanelButtonBigFirst.buttonMode = true;
 
-    miningTextFirst.position.x = 1142;
-    miningTextFirst.position.y = 58;
-    miningTextFirst.scale.x = 0.9;
-    miningTextFirst.scale.y = 0.9;
 
-    miningPanelButtonBigSecond.position.x = 1257;
-    miningPanelButtonBigSecond.position.y = 65;
-    miningTextSecond.position.x = 1227;
-    miningTextSecond.position.y = 58;
-    miningTextSecond.scale.x = 0.9;
-    miningTextSecond.scale.y = 0.9;
-
-    miningPanelButtonBigThird.position.x = 1347;
-    miningPanelButtonBigThird.position.y = 65;
-    miningTextThird.position.x = 1325;
-    miningTextThird.position.y = 58;
-    miningTextThird.scale.x = 0.9;
-    miningTextThird.scale.y = 0.9;
-
-    miningPanelButtonBigFourth.position.x = 1437;
-    miningPanelButtonBigFourth.position.y = 65;
-    miningTextFourth.position.x = 1414;
-    miningTextFourth.position.y = 58;
-    miningTextFourth.scale.x = 0.9;
-    miningTextFourth.scale.y = 0.9;
-
-    userPanel.position.x = -1;              // username panel
-    levelBar.position.x = 272;
-    levelBar.position.y = 40;
-
-    levelBarFill.position.x = 272;                  // level bar needs to be interactive
-    levelBarFill.position.y = 40;
-
-    negativePanelContainer.position = {x: 10, y: 47};
-    negativePanelContainer.scale = {x: 0.38, y:0.35};
-    negativePanelContainer.interactive = true;
-    negativePanelContainer.on("click", negaSwap);
-
-    negPanelBottom1.position.x = 30;
-    negPanelBottom1.position.y = 80;
-    negPanelBottom2.position.y = 80;
-    negPanelBottom2.position.x = 35;
-    vaultPanel.position.x = 22;
-    vaultPanel.position.y = 88;
+    negPanelBottom1.position = {x : 30, y: 80};
+    negPanelBottom2.position = {x: 35, y: 80};
+    vaultPanel.position = {x: 22, y: 88};
     vaultPanelButton.position = {x: 210, y: 17};
     vaultPanelButton.on("click", openVaultTab);
     vaultPanelButton.isClicked = false;
@@ -669,18 +384,19 @@ function createPlayerUI() {
     messagesUnreadTxt.scale = {x: 1.5, y: 1.5};
 
 
-    GUIArea.addChild(scarab, buyPanel, buyButton, buyButtonText,
-        negPanelBottom1, negPanelBottom2, negPanelBottom3, negPanelBottom4, tradePanel,
-        tradeButton, tradeButtonText, miningPanel, miningPanelButtonBigFirst, miningTextFirst,
-        miningPanelButtonBigSecond, miningTextSecond, miningPanelButtonBigThird, miningTextThird,
-        miningPanelButtonBigFourth, miningTextFourth, negativePanelContainer, userPanel,
-        levelBar);
+    GUIArea.addChild(scarab, buyPanel, buyButton, buyButtonText, negPanelBottom1, negPanelBottom2,
+        negPanelBottom3, negPanelBottom4, tradePanel, tradeButton, tradeButtonText,
+        negativePanelContainer
+        // ,userPanel, levelBar
+    );
 
 
     vaultPanel.addChild(vaultPanelButton, vaultButtonText, vaultPanelIcon);
     campsPanelButton.addChild(campsButtonText);
     messagePanel.addChild(messagePanelButton, messageButtonText, messagesUnreadTxt);
-    GUIArea.addChild(vaultPanel, campsPanel, campsPanelIcon, campsPanelButton, messagePanel, textLayer);
+    GUIArea.addChild(vaultPanel, campsPanel, campsPanelIcon, campsPanelButton, messagePanel
+        // , textLayer
+    );
 
     app.stage.addChild(GUIArea);
 
@@ -1046,17 +762,7 @@ function createPlayerUI() {
     messageContainer.addChild(messageTabTable, messageTabLines, messageTabSlider, headerMessageFrom, headerText);
 
 
-    let hours, minutes, seconds;
 
-    app.ticker.add(function (deltaTime) {
-        for (let i in runningArtifacts) {
-            runningArtifacts[i].negaTime.duration -= (16.67 * deltaTime);
-            hours = Math.floor((runningArtifacts[i].negaTime.duration % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            minutes = Math.floor((runningArtifacts[i].negaTime.duration % (1000 * 60 * 60)) / (1000 * 60));
-            seconds = Math.floor((runningArtifacts[i].negaTime.duration % (1000 * 60)) / 1000);
-            runningArtifacts[i].negaTime.text = hours + " : " + minutes + " : " + seconds;
-        }
-    });
 
     setupIsDone = true;
 
@@ -1168,98 +874,7 @@ function createPlayerUI() {
     };
     // ////// ////// ////// layout group and scroll container ////// ////// ////// //////
 
-    let vaultScroller, VaultLayoutGroup, vaultMaskingRectangle;
 
-    createVaultTable = function (data, button) {
-        let clickFlag = false;
-        changeTheTab = true;
-        if (button) {
-
-            vaultScrollContainer.removeChild(vaultScroller, VaultLayoutGroup, vaultMaskingRectangle);
-            vaultContainer.removeChild(vaultScrollContainer);
-            if (button.isDown) {
-                data = {0: data[button.name]};
-                clickFlag = true;
-            }
-        }
-        VaultLayoutGroup = new PIXI.Container;
-        vaultScroller = new GOWN.ScrollContainer();
-        vaultScroller.id = 10;
-        vaultScroller._verticalScrollPolicy = GOWN.Scroller.INTERACTION_MOUSE;
-        vaultScroller.interactive = false;
-        vaultScroller.viewPort = VaultLayoutGroup;
-        vaultScroller.x = 205;
-        vaultScroller.y = 70;
-        vaultScroller.height = (windowHeight / 2); //270
-        vaultScroller.width =(windowWidth / 2) ; //900
-        vaultMaskingRectangle = new PIXI.Graphics();
-        vaultMaskingRectangle.drawRect(0, 0, 850, 400); // x,y,width and height << this clips everything outside of this rectangle and determines what is visible
-        vaultScrollContainer.scale = {x:2, y:2};
-        vaultScrollContainer.addChild(vaultScroller, VaultLayoutGroup, vaultMaskingRectangle);
-        vaultScrollContainer.mask = vaultMaskingRectangle;
-        vaultScrollContainer.position = {x: 100, y: 105};
-        vaultContainer.addChild(vaultScrollContainer);
-
-        for (let i = 0; i <= vaultTabContents.length; ++i) {
-            VaultLayoutGroup.removeChild(vaultTabContents[i]);
-        }
-        vaultTabContents = [];
-        for (let i in iconArray) {
-            VaultLayoutGroup.removeChild(iconArray[i])
-        }
-        iconArray = [];
-        let lastSpriteY = 8,
-            lastSpriteX = 0;
-
-        textOptions.fontSize = 18;
-        textOptions.fill = "#E2E9E9";
-
-        function createAScroller(data, buttonName) {        // creates the scroll container
-            for (let key in data) {     // break
-                for (let i in data[key]) {
-                    let iconToDisplay = new PIXI.Sprite(nameOfKey(key, buttonName));
-                    let textOfIcon = new PIXI.Text(returnNameOfvaultKey(key, buttonName), textOptions);
-                    textOptions.fill = ("#" + data[key][i][1].colour);
-                    let textOfType = new PIXI.Text(data[key][i][1].text, textOptions);
-
-                    textOptions.fill = "#E2E9E9";
-                    let textOfAmount = new PIXI.Text(data[key][i][3].text, textOptions);
-
-                    lastSpriteY += 30;
-                    // iconToDisplay.anchor = {x:0.5, y:0.5};
-                    iconToDisplay.position.y = lastSpriteY;
-                    iconToDisplay.position.x = lastSpriteX + 35;
-                    iconToDisplay.height = 50;
-                    iconToDisplay.width = 50;
-                    textOfIcon.position.y = lastSpriteY;
-                    textOfIcon.position.x = lastSpriteX + 95;
-                    textOfType.position.x = lastSpriteX + 350;
-                    textOfType.position.y = lastSpriteY;
-                    textOfAmount.position.x = lastSpriteX + 650;
-                    textOfAmount.position.y = lastSpriteY;
-
-                    vaultTabContents.push(textOfType, textOfAmount, textOfIcon);
-                    for (let i in vaultTabContents) {
-                        VaultLayoutGroup.addChild(vaultTabContents[i]);
-                    }
-                    iconToDisplay.width = 25;
-                    iconToDisplay.height = 25;
-                    VaultLayoutGroup.addChild(iconToDisplay);
-                    iconArray.push(iconToDisplay);
-                    textOptions.fill = "white";
-                }
-            }
-
-            //vaultTabContents.push(layoutGroup, scroller, vaultScrollContainer, maskingRectangle);
-        }
-        //////////////////// if three starts here ///////////////
-        if (clickFlag == true) {       // when filter applied
-            createAScroller(data, button.name);
-            clickFlag = false;                  // filter not applied
-        } else {
-            createAScroller(data);
-        }
-    };
 ///////////////////////////////////////// create camp table for the Camps tab ////////////////////////////////
     let getCampItemIcon = function (itemGroup) {
         switch (itemGroup) {
@@ -1527,120 +1142,7 @@ function createPlayerUI() {
         changeTheTab = true;
     };
 
-    let runningArtifacts = [];
-    let moveNegPanel = function (up) {
-        let displayArray = negativePanelContainer.parent.children;
-        if (up === true) {
-            negativePanelContainer.up = true;
-            displayArray.unshift(displayArray.pop(displayArray.find(function (child){
-                return child === negativePanelContainer;
-            })));
-            let counter = 0; let increment = 1; let positionY = 47;
-            app.ticker.add( function tickerMover() {
-                counter += increment;
-                if (counter >= positionY) {
-                    app.ticker.remove(tickerMover);
-                    return;
-                }
-                negativePanelContainer.position.y -= increment;
-                for (let i in negaMoveArray) {
-                    negaMoveArray[i].position.y -= increment;
-                }
-            });
-
-        } else {
-            negativePanelContainer.up = false;
-            let counter = 0; let increment = 1; let positionY = 43;
-            app.ticker.add( function tickerMover () {
-                counter += increment;
-                if (counter >= positionY) {
-                    app.ticker.remove ( tickerMover );
-                    return;
-                }
-                negativePanelContainer.position.y += increment;
-                for (let i in negaMoveArray) {
-                    negaMoveArray[i].position.y += increment;
-                }
-            });
-        }
-    };
-
-    let makeTheNegContainer = function (daemon, no) {
-        let negativePanel = PIXI.loader.resources["negativePanel"].textures['negative_artefact_panel.png'];
-        let negativeArtefactIcon = PIXI.loader.resources["negativePanel"].textures["artefact_example_with_mask.png"];
-        if (no === 1) {
-            let negaTextOptions = textOptions;
-            negaTextOptions.fill = "red";
-            negaTextOptions.align = "left";
-            negaTextOptions.fontSize = 30;
-            negaTextOptions.fontFamily = "conthrax";
-            let xPosition = 0,
-                currentSprite = 1,
-                timePosition = {x: 460, y: 40},
-                timeScale = {x: 1.5, y: 1.5}                   // XD lol
-            ;
-            if (daemon.artefact.length >= 3) {
-                xPosition = 150;
-            } else if (daemon.artefact.length == 2) {
-                xPosition = 100;
-            } else {
-                xPosition = 50;
-            }
-            for (let artefact in daemon.artefact) {
-                let negaSprite = new PIXI.Sprite(negativePanel);
-                negaSprite.name = daemon.artefact[artefact].info.text;
-                let negaTime = new PIXI.Text(daemon.artefact[artefact].countdown, negaTextOptions);
-                negaTime.duration = daemon.artefact[artefact].countdown;
-                let negaTempNo = new PIXI.Text(currentSprite, negaTextOptions);  // << Temporális
-                currentSprite += 1;
-                let negaIcon = new PIXI.Sprite(negativeArtefactIcon);
-                let negaObject = {negaSprite, negaTime, negaIcon};
-                runningArtifacts.push(negaObject);
-                xPosition -= 50;
-                negaSprite.position = {x: xPosition, y: 0};
-                if (negativePanelContainer.children.length >= 3) {
-                    negaSprite.visible = false;
-                }
-                negativePanelContainer.addChild(negaSprite);
-
-                negaTime.position = timePosition;
-                negaTime.scale = timeScale;
-                negaTempNo.position = {x: timePosition.x - 150, y: timePosition.y};
-                negaTempNo.scale = timeScale;
-                negaIcon.position = {x: 120,y: 25};
-                negaSprite.addChild(negaTime, negaTempNo, negaIcon);
-            }
-        } else{
-            let negaSprite = new PIXI.Sprite(negativePanel);
-            negativePanelContainer.addChild(negaSprite);
-        }
-    };
-
-    createArtifacts = function (daemon) {
-        for (let i in runningArtifacts) {
-            negativePanelContainer.removeChild(runningArtifacts[i].negaSprite);
-            negativePanelContainer.removeChild(runningArtifacts[i].negaTime);
-        }
-        if (daemon.state != 2) {
-            if (negativePanelContainer.up) {
-                return
-            } else {
-                negativePanelContainer.up = tru;
-                makeTheNegContainer(daemon, 0);
-                let up = true;
-                moveNegPanel(up)
-            }
-        } else {
-            if (negativePanelContainer.up) {
-                negativePanelContainer.up = false;
-                let down = false;
-                moveNegPanel(down);
-                makeTheNegContainer(daemon, 1);
-            } else {
-                negativePanelContainer.up = false;
-                makeTheNegContainer(daemon, 1);
-            }
-        }
-
-    };
+    negativePanelUI(negaMoveArray);
+    miningAreaUI();
+    playerPanel();
 }
