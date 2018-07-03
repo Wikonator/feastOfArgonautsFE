@@ -1,5 +1,5 @@
 function vaultPanelUI() {
-    
+
 
     let vaultScroller, VaultLayoutGroup, vaultMaskingRectangle;
 

@@ -158,6 +158,8 @@ let nameOfKey = function (key, buttonName) {            // function returns the 
             return PIXI.loader.resources["campsVaultTable"].textures['inventory_icon.png'];
         case '2':
             return PIXI.loader.resources["campsVaultTable"].textures['artefact_icon.png'];
+        case '6':
+            return PIXI.loader.resources["campsVaultTable"].textures['artefact_icon.png'];
         default:
             console.log(key);
             console.log("can't see sh!t captain");
@@ -202,6 +204,7 @@ function resize () {
     renderResize();
     let UIratio = (canvasWidth / uiWidth);
     GUIArea.scale.x = GUIArea.scale.y = UIratio;
+    console.log(playArea);
     playArea.children[0].width = canvasWidth;
     playArea.children[0].height = canvasHeight;
     app.renderer.resize(canvasWidth, canvasHeight);
