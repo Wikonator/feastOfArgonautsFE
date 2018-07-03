@@ -1,11 +1,19 @@
 function createPlayerUI() {
 
+
+
     textOptions.fill = "black";
     textOptions.fontFamily = "conthrax";
     textOptions.fontSize = 18;
 
     let buyPanel = new PIXI.Sprite( // [objectCOMiDosiel[description] + "_hover.png"]
         PIXI.loader.resources['buyPanel'].textures["buy_panel.png"]
+        ),
+        messagePanel = new PIXI.Sprite(
+            PIXI.loader.resources["messagePanel"].textures['messages_panel.png']
+        ),
+        messagePanelButton = new PIXI.Sprite(
+            PIXI.loader.resources["messagePanel"].textures['messages_buttn_usual.png']
         ),
         buyButton = new PIXI.Sprite(
             PIXI.loader.resources["buyPanel"].textures['buy_buttn_usual.png']
@@ -19,7 +27,7 @@ function createPlayerUI() {
             PIXI.loader.resources["tradePanel"].textures["trade_buttn_usual.png"]
         ),
         tradeButtonText = new PIXI.Text("CHANGE", textOptions),
-
+        messageButtonText = new PIXI.Text("MESSAGES", textOptions),
         scarab = new PIXI.Sprite(
             PIXI.loader.resources["scarab"].textures['Scarab_logo.png']
         );
@@ -59,17 +67,11 @@ function createPlayerUI() {
         campsPanelIcon = new PIXI.Sprite(
             PIXI.loader.resources["campsVaultPanel"].textures['camp_icon.png']
         );
-    let campsButtonText = new PIXI.Text("CAMPS", textOptions),
+    let campsButtonText = new PIXI.Text("CAMPS", textOptions);
 
-        messagePanel = new PIXI.Sprite(
-            PIXI.loader.resources["messagePanel"].textures['messages_panel.png']
-        ),
-        messagePanelButton = new PIXI.Sprite(
-            PIXI.loader.resources["messagePanel"].textures['messages_buttn_usual.png']
-        ),
-        messageButtonText = new PIXI.Text("MESSAGES", textOptions)
 
-    ; // PIXI.loader.resources["buyPanel"].textures['.png'];
+
+    // PIXI.loader.resources["buyPanel"].textures['.png'];
     let vaultTabDiamonds = new PIXI.Sprite(
         PIXI.loader.resources["campsVaultTable"].textures['buttn_panel.png']            // refactor into a loop... <<<<<<
         ),
@@ -141,7 +143,7 @@ function createPlayerUI() {
         ),
         campsTabTable = new PIXI.Sprite(
             PIXI.loader.resources["campsVaultTable"].textures['items_panel.png']
-        ),
+        )
         messageTabTable = new PIXI.Sprite(
             PIXI.loader.resources["messageTable"].textures['message_table.png']
         ),
@@ -153,7 +155,6 @@ function createPlayerUI() {
         );
 
 
-
     buyButton.hover = PIXI.loader.resources["buyPanel"].textures['buy_buttn_hovered.png'];              // Button States
     buyButton.pressed = PIXI.loader.resources["buyPanel"].textures['buy_buttn_pressed.png'];
     buyButton.normal = PIXI.loader.resources["buyPanel"].textures['buy_buttn_usual.png'];
@@ -163,12 +164,7 @@ function createPlayerUI() {
     vaultPanelButton.hover = PIXI.loader.resources["campsVaultPanel"].textures['buttn_hovered.png'];
     vaultPanelButton.pressed = PIXI.loader.resources["campsVaultPanel"].textures['buttn_pressed.png'];
     vaultPanelButton.normal = PIXI.loader.resources["campsVaultPanel"].textures['buttn_usual.png'];
-    campsPanelButton.hover = vaultPanelButton.hover;
-    campsPanelButton.pressed = vaultPanelButton.pressed;
-    campsPanelButton.normal = vaultPanelButton.normal;
-    messagePanelButton.hover = PIXI.loader.resources["messagePanel"].textures['messages_buttn_hovered.png'];
-    messagePanelButton.pressed = PIXI.loader.resources["messagePanel"].textures['messages_buttn_pressed.png'];
-    messagePanelButton.normal = PIXI.loader.resources["messagePanel"].textures['messages_buttn_usual.png'];
+
 
 
     function onButtonOver() {
@@ -201,49 +197,13 @@ function createPlayerUI() {
 
     //////////////////////////////////////////// Left panel button functions / /////////////// / / / / / /
 
-    function openMessageTab() {
-        scrollContainerSelector = messageScrollContainer;
-        display.removeEventListener("wheel", scrollSelectedTab, false);
 
-        if (messagePanelButton.isClicked == true) {
-            GUIArea.removeChild(messageContainer);
-            messagePanelButton.isClicked = false;
-            messagePanelButton.isdown = false;
-            messagePanelButton.texture = messagePanelButton.normal;
-
-        } else {
-            messagePanelButton.isClicked = true;
-            GUIArea.removeChild(messagePanel);
-            GUIArea.addChild(messageContainer);
-            GUIArea.addChild(messagePanel);
-            display.addEventListener("wheel", scrollSelectedTab, false);
-            if (campsPanelButton.isClicked || vaultPanelButton.isClicked) {
-                vaultPanelButton.isClicked = false;
-                vaultPanelButton.isdown = false;
-                vaultPanelButton.texture = vaultPanelButton.normal;
-                campsPanelButton.isClicked = false;
-                campsPanelButton.isdown = false;
-                campsPanelButton.texture = campsPanelButton.normal;
-                GUIArea.removeChild(campsContainer);
-                GUIArea.removeChild(vaultContainer);
-            }
-            messagePanelButton.isClicked = true;
-            campsPanelButton.isdown = false;
-        }
-
-    }
 
     function openVaultTab() {
         display.removeEventListener("wheel", scrollSelectedTab, false);
         scrollContainerSelector = vaultScrollContainer;
 
         if (!vaultPanelButton.isClicked) {
-            vaultPanelButton.isClicked = true;
-            display.addEventListener("wheel", scrollSelectedTab, false);
-            GUIArea.removeChild(vaultPanel);
-            GUIArea.addChild(vaultContainer);
-            GUIArea.addChild(vaultPanel);
-
             if (campsPanelButton.isClicked || messagePanelButton.isClicked) {
                 messagePanelButton.isClicked = false;
                 campsPanelButton.isClicked = false;
@@ -300,9 +260,13 @@ function createPlayerUI() {
     ];
 
     let UITextArray = [
-        buyButtonText, tradeButtonText,
-        // miningTextFirst, miningTextSecond, miningTextThird, miningTextFourth,
-        vaultButtonText, campsButtonText, messageButtonText
+        buyButtonText, tradeButtonText, vaultButtonText, campsButtonText, messageButtonText
+        buyPanel, buyButton, tradePanel, tradeButton, scarab, negPanelBottom1, negPanelBottom2,
+        negPanelBottom3, negPanelBottom4, vaultPanel, campsPanel, campsPanelButton, campsPanelIcon
+    ];
+
+    let UITextArray = [
+        buyButtonText, tradeButtonText, vaultButtonText, campsButtonText
     ];
 
     for (let i = 1; i <= UITextArray.lenght; ++i) {
@@ -310,7 +274,7 @@ function createPlayerUI() {
         UITextArray[i].anchor.y = 0.5;
     }
 
-    let buttonArray = [buyButton, tradeButton, vaultPanelButton, campsPanelButton, messagePanelButton];
+    let buttonArray = [buyButton, tradeButton, vaultPanelButton, campsPanelButton];
 
 
     let negaMoveArray = [negPanelBottom2, negPanelBottom3, negPanelBottom4, vaultPanel,
@@ -369,19 +333,8 @@ function createPlayerUI() {
 
     negPanelBottom4.position.y = 163;
     negPanelBottom4.position.x = 35;
-    messagePanel.position.x = 22;
-    messagePanel.position.y = 168;
-    messagePanelButton.position = {x: messagePanel.width - 20, y: messagePanel.height + 10};
-    messagePanelButton.anchor = {x: 0.5, y: 0.5};
-    messagePanelButton.scale = {x: 1, y: 1};
-    messagePanelButton.on("click", openMessageTab);
-    messagePanelButton.isClicked = false;
-    messageButtonText.anchor = {x: 0.5, y: 0.5};
-    messageButtonText.position = {x: messagePanelButton.width - 160, y: messagePanelButton.height - 20};
-    messageButtonText.scale = {x: 1.5, y: 1.5};
-    messagesUnreadTxt.anchor = {x: 0.5, y: 0.5};
-    messagesUnreadTxt.position = {x: 445, y: 50};
-    messagesUnreadTxt.scale = {x: 1.5, y: 1.5};
+
+    
 
 
     GUIArea.addChild(scarab, buyPanel, buyButton, buyButtonText, negPanelBottom1, negPanelBottom2,
@@ -398,6 +351,7 @@ function createPlayerUI() {
         // , textLayer
     );
 
+
     app.stage.addChild(GUIArea);
 
     vaultContainer.position = {x: 250, y: 92};            // Container Positions
@@ -408,8 +362,7 @@ function createPlayerUI() {
     campsContainer.position = {x: 250, y: 132};
     campsContainer.scale = {x: 0.5, y: 0.42};
 
-    messageContainer.position = {x: 220, y: 168};
-    messageContainer.scale = {x : 0.4, y: 0.4};
+
 
     //////////// //////////// //////////// //////////// //////////// //////////// ////////////  ////////////
     vaultTabSteles.position.x = 370;                              // Container children
@@ -733,33 +686,6 @@ function createPlayerUI() {
 
     ////////// ////////// ///// ////////// ////////// ///// ////////// ////////// ///// ////////// //////////
 
-    messageTabLines.position.x = 222;
-    messageTabLines.position.y = 50;
-    messageTabSlider.position.x = 2457;
-    messageTabSlider.position.y = 390;
-    let headerMessageFrom = new PIXI.Text("Message from", {
-            fontFamily: 'bariol',
-            fontSize: 20,
-            fill: "#0BF780",
-            textBaseline: "alphabet"
-        }),
-        headerText = new PIXI.Text("Text", {
-            fontFamily: 'bariol',
-            fontSize: 20,
-            fill: "#0BF780",
-            textBaseline: "alphabet"
-        });
-    headerMessageFrom.position.x = 305;
-    headerMessageFrom.position.y = 78;
-    headerMessageFrom.scale.x = 1.5;
-    headerMessageFrom.scale.y = 1.5;
-    headerText.position.x = 565;
-    headerText.position.y = 78;
-    headerText.scale.x = 1.5;
-    headerText.scale.y = 1.5;
-
-
-    messageContainer.addChild(messageTabTable, messageTabLines, messageTabSlider, headerMessageFrom, headerText);
 
 
 
@@ -809,69 +735,7 @@ function createPlayerUI() {
         }
     }
 
-    let vaultTabContents = [], iconArray = [], campsTabContents = [], messageTabContents = [];
-    let messageScroller, messageLayoutGroup, messageMaskingRectangle;
-
-    createMessageTable = function (data) {
-
-        let messageTextOptions = {
-            wordWrap: true,
-            wordWrapWidth: 1250,
-            fontFamily: 'bariol',
-            fontSize: 21,
-            fill: "#18A763",
-            align: 'center',
-            textBaseline: "alphabet"
-        };
-
-        if (changeTheTab === true) {                          // deleting previous
-            for (let i = 0; i <= messageTabContents.length; ++i) {
-                messageContainer.removeChild(messageTabContents[i]);
-            }
-            messageTabContents = [];
-            messageScrollContainer.removeChild(messageScroller, messageLayoutGroup, messageMaskingRectangle);
-
-        }
-        messageLayoutGroup = new PIXI.Container;
-        messageScroller = new GOWN.ScrollContainer();
-        messageScroller.id = 10;
-        messageScroller._verticalScrollPolicy = GOWN.Scroller.INTERACTION_MOUSE;
-        messageScroller.interactive = false;
-        messageScroller.viewPort = messageLayoutGroup;
-        messageScroller.x = 250;
-        messageScroller.y = 350;
-        messageScroller.height = (windowHeight / 2); //270
-        messageScroller.width =(windowWidth / 2) ; //900
-        messageMaskingRectangle = new PIXI.Graphics();
-        messageMaskingRectangle.drawRect(0, 0, 2050, 715); // x,y,width and height << this clips everything outside of this rectangle and determines what is visible
-
-        messageScrollContainer.addChild(messageScroller, messageLayoutGroup, messageMaskingRectangle);
-        messageScrollContainer.mask = messageMaskingRectangle;
-        messageScrollContainer.position = {x: 285, y: 145};
-        messageContainer.addChild(messageScrollContainer);
-        let lastLineY = 0; //145
-        for (let message in data) {
-            // if (counter > 11) break;
-            messageTextOptions.fill = ("#" + data[message][1].colour);
-            let messageFrom = new PIXI.Text(data[message][1].text, messageTextOptions);
-            messageTextOptions.fill = ("#" + data[message][2].colour);
-            let messageTxt = new PIXI.Text(data[message][2].text, messageTextOptions);
-
-            messageFrom.position.y = lastLineY;
-            messageFrom.position.x = 0; //305
-            messageFrom.scale = {x: 1.5, y: 1.5};
-            messageTxt.position.y = lastLineY;
-            messageTxt.position.x = 150;    //540
-            messageTxt.scale = {x:1.5, y:1.5};
-
-            lastLineY += (messageFrom.height + messageTxt.height);
-
-            messageLayoutGroup.addChild(messageFrom, messageTxt);
-            messageTabContents.push(messageFrom, messageTxt);
-        }
-        changeTheTab = true;
-        dataCameSwitch = false;
-    };
+    let vaultTabContents = [], iconArray = [], campsTabContents = [];
     // ////// ////// ////// layout group and scroll container ////// ////// ////// //////
 
 
@@ -1145,4 +1009,5 @@ function createPlayerUI() {
     negativePanelUI(negaMoveArray);
     miningAreaUI();
     playerPanel();
+
 }
