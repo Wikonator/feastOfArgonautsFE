@@ -368,10 +368,12 @@ function createPlayerUI() {
 
 
     function openVaultTab() {
+        console.log(vaultPanelButton.isClicked);
         display.removeEventListener("wheel", scrollSelectedTab, false);
         scrollContainerSelector = vaultScrollContainer;
 
         if (!vaultPanelButton.isClicked) {
+            console.log("wasnt clicked before, open it");
             if (campsPanelButton.isClicked || messagePanelButton.isClicked) {
                 messagePanelButton.isClicked = false;
                 campsPanelButton.isClicked = false;
@@ -382,8 +384,12 @@ function createPlayerUI() {
                 GUIArea.removeChild(campsContainer);
                 GUIArea.removeChild(messageContainer);
             }
-        } else {
+            GUIArea.addChild(vaultContainer);
+            vaultPanelButton.isClicked = true;
+            display.addEventListener("wheel", scrollSelectedTab, false);
 
+        } else {
+            console.log("close it");
             vaultPanelButton.texture = vaultPanelButton.hover;
             vaultPanelButton.isClicked = false;
             GUIArea.removeChild(vaultContainer);

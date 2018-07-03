@@ -211,6 +211,23 @@ function showStelaContainer(resources, backSprite) {
             placeholder.parentGroup = greenGroup;
             placeHolderArray.push(placeholder); // feelings , pictures and ideas
             stelaArea.addChild(placeholder);
+
+            if (placeholder.hold >= 0) {            // fill all filled out placeholders
+                console.log("nigger than 0");
+                if (placeholder[point].mType === 2) {     // placeholder.type > 200 && placeholder.type < 300 <<< old
+                    console.log("its a diamond yo");
+                    let diamond = new PIXI.Sprite(diamondColorPicker(placeholder[point].sType[placeholder.hold]));
+                    diamond.position = placeholder.position;
+                    stelaArea.addChild(placeholder);
+                }           // else if (placeholder.type > 300) {} // its an artefact
+                else {
+                    console.log("its a token");
+                    let token = new PIXI.Sprite(resources["tokenAndActive"].textures["token_0" + placeholder[point].sType[placeholder.hold] + ".png"]);
+                    token.position = placeholder.position;
+                    stelaArea.addChild(token);
+                }
+
+            }
         }
     }
 
@@ -371,6 +388,7 @@ function showStelaContainer(resources, backSprite) {
                     tokenArea.addChild(newGem);
                 } else {
 
+                    ""
                     newGem.mask = diamondMask;
                     stelaArea.addChild(this);
                     diamondArea.addChild(newGem);
