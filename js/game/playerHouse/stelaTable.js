@@ -194,11 +194,13 @@ function showStelaContainer(resources, backSprite) {
     networkMaker();
     let placeHolderArray = [];                  // << used for HitTests
     function stelaPlaceholderMaker() {
+        console.log(pointsFromBack);
         for (let point in pointsFromBack) {
+            let placeId = pointsFromBack[point].mType + "0" + pointsFromBack[point].sType[0].type;
             let placeholder = new PIXI.Sprite(
-                resources["stelaAssets"].textures["placeholder_"+ pointsFromBack[point].type +'.png']              // array[][].x
+                resources["stelaAssets"].textures["placeholder_"+ placeId +'.png']              // array[][].x
             );
-            placeholder.type = pointsFromBack[point].type;  // 101...102
+            placeholder.type = placeId;       // 101...102
             placeholder.hold = pointsFromBack[point].hold;
             placeholder.position = {
                 x:arrayOfPositions[pointsFromBack[point].idx][pointsFromBack[point].idy].x,
@@ -213,7 +215,7 @@ function showStelaContainer(resources, backSprite) {
     }
 
     function stelaPathMaker() {
-        console.log(pathsFromBack);
+        // console.log(pathsFromBack);
         for (let path in pathsFromBack) {
             let deWey = new PIXI.Sprite(
                 resources["stelaAssets"].textures["line_"+pathsFromBack[path].type+".png"]
@@ -237,11 +239,13 @@ function showStelaContainer(resources, backSprite) {
 
     stelaPathMaker();
     stelaPlaceholderMaker();
+    let diamondVaults = {};
     aGirlsBestFriend();
     tokenMaker();
     addAnimatedPath();
 
     backGroundSprite.addChild(tableContainer);
+
 
     function aGirlsBestFriend() {
         let diamondArray = [];
@@ -254,6 +258,8 @@ function showStelaContainer(resources, backSprite) {
             colorAmount.anchor = {x:0.5, y:0.5};
             colorAmount.scale = {x:1.3, y:1.4};
             colorAmount.position = {x: diamondPosX,y: -20};
+            diamondVaults[200 + diamondsInTheBack[i].type] = colorAmount;
+            console.log(diamondVaults);
             diamondArea.addChild(colorAmount);
             for (let yindex = 0; yindex <= 4; ++yindex) {
                 let diamond = new PIXI.Sprite(
@@ -338,7 +344,11 @@ function showStelaContainer(resources, backSprite) {
             this.dragPoint = event.data.getLocalPosition(this.parent);
             // diamondArea.removeChild(this);
             if (this.pileOfGems) {
-                console.log("dragging: this is from the pile");
+                // add functionality that checks how much is left in the pile and animate it accordingly
+                console.log("take one off");
+                console.log(this.type);
+                diamondVaults[this.type].text -= 1;
+                console.log(diamondVaults);
                 let newGem = new PIXI.Sprite(this.texture);
                 newGem.position = this.position;
                 newGem.oldPosition = newGem.position;
@@ -354,13 +364,13 @@ function showStelaContainer(resources, backSprite) {
                     .on('pointermove', onDragMove);
 
                 if(this.type <= 200) {
-                    console.log("token");
+
                     stelaArea.addChild(this);
                     newGem.anchor = {x:0.5,y:0.5};
                     newGem.scale  = {x:0.8, y:0.8};
                     tokenArea.addChild(newGem);
                 } else {
-                    console.log('gem');
+
                     newGem.mask = diamondMask;
                     stelaArea.addChild(this);
                     diamondArea.addChild(newGem);
@@ -442,6 +452,7 @@ function showStelaContainer(resources, backSprite) {
                     if (!this.pileOfGems) {
                         // this is NOT from the pile of gems
                         //return it to orig
+                        console.log(this.type);
                         this.position = this.oldPosition;
                         playRedFlash(placeHolderArray[spot]);
 
@@ -449,6 +460,7 @@ function showStelaContainer(resources, backSprite) {
                     } else {
                         // this IS from the pile of gems
                         playRedFlash(placeHolderArray[spot]);
+                        diamondVaults[this.type].text += 1;
                         this.parent.removeChild(this);
                         return;
                     }
@@ -467,6 +479,7 @@ function showStelaContainer(resources, backSprite) {
                 console.log("im on empty and from the pile");
                 // just destroy it
                 playRedFlash(this);
+                diamondVaults[this.type].text += 1;
                 this.parent.removeChild(this);
             }
         }
@@ -592,7 +605,7 @@ function showStelaContainer(resources, backSprite) {
         stelaArea.addChild(flash);
     }
     function playRedFlash(position) {
-        console.log(position.position);
+
         let flash = new PIXI.extras.AnimatedSprite(
             redFlashTexture
         );
