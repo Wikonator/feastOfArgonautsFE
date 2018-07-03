@@ -1,5 +1,14 @@
 function messages(vaultPanelButton, GUIArea, vaultContainer,messagePanel, messagePanelButton, messageButtonText, campsPanelButton){
     
+    messageTabLines = new PIXI.Sprite(
+        PIXI.loader.resources["messageTable"].textures['message_table_top_panel.png']
+    ),
+    messageTabSlider = new PIXI.Sprite(
+        PIXI.loader.resources["messageTable"].textures['message_table_scroll.png']
+    )        
+    messageTabTable = new PIXI.Sprite(
+        PIXI.loader.resources["messageTable"].textures['message_table.png']
+    );
 
     messagePanelButton.hover = PIXI.loader.resources["messagePanel"].textures['messages_buttn_hovered.png'];
     messagePanelButton.pressed = PIXI.loader.resources["messagePanel"].textures['messages_buttn_pressed.png'];
@@ -38,8 +47,9 @@ function messages(vaultPanelButton, GUIArea, vaultContainer,messagePanel, messag
             messagePanelButton.isClicked = true;
             campsPanelButton.isdown = false;
         }
-
     }
+
+
     messagePanel.position.x = 22;
     messagePanel.position.y = 168;
 
