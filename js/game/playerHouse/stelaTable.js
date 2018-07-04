@@ -230,7 +230,7 @@ function showStelaContainer(resources, backSprite) {
                     diamond.position = placeholder.position;
                     diamond.anchor = {x: 0.5, y:0.5};
                     diamond.interactive = true;
-                    diamond.type = pointsFromBack[point].sType[placeholder.hold].type; // <<< does this work???
+                    diamond.type = {mType: pointsFromBack[point].mType, sType:pointsFromBack[point].sType[placeholder.hold].type}; // <<< does this work???
                     console.log(diamond.type);
                     diamond.pileOfGems = false;
                     diamond.oldPosition = diamond.position;
@@ -491,11 +491,15 @@ function showStelaContainer(resources, backSprite) {
                 console.log("its a hit");
                 noHits = false;
                 //check if the type is right
-                console.log(placeHolderArray[spot].type);
-                for (let types in placeHolderArray[spot].type) {
-
-                    if (this.type == placeHolderArray[spot].type[types].type) {
-                        console.log(placeHolderArray[spot].type);   //if so
+                console.log(this.type.mType);  // sType:[]
+                console.log(placeHolderArray[spot].type.mType);
+                if (!this.type.mType == placeHolderArray[spot].type.mType) {
+                    console.log("not the same");
+                    return };
+                for (let types in placeHolderArray[spot].type.sType) {
+                    console.log(placeHolderArray[spot].type.sType[types].type);
+                    if (this.type.sType == placeHolderArray[spot].type.sType[types].type) {
+                           //if so
                         this.position = placeHolderArray[spot].position;
                         this.pileOfGems = false;
                         this.oldPosition = placeHolderArray[spot].position;
@@ -503,8 +507,8 @@ function showStelaContainer(resources, backSprite) {
                             aType:0,
                             idxe:placeHolderArray[spot].idxy.idx,
                             idye:placeHolderArray[spot].idxy.idy,
-                            mType:Math.floor(placeHolderArray[spot].type / 100),
-                            sType:placeHolderArray[spot].type % 100
+                            mType:Math.floor(placeHolderArray[spot].type.mType),
+                            sType:placeHolderArray[spot].type.sType[types]
                         };
                         console.log(dataToSend);
                         playGreenFlash(placeHolderArray[spot]);            // play blue blink anim8
