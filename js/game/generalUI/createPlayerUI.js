@@ -178,7 +178,7 @@ function createPlayerUI() {
         ),
         campsTabTable = new PIXI.Sprite(
             PIXI.loader.resources["campsVaultTable"].textures['items_panel.png']
-        )
+        ),
     messageTabTable = new PIXI.Sprite(
         PIXI.loader.resources["messageTable"].textures['message_table.png']
     ),

@@ -17,6 +17,8 @@ function playerHouseScene(buildingArray, sceneId, stage) {
             .add("splashGreen", "images/" + resolutionParameter + '/playerHouse/spritesheet_stela/splash_green.json')
             .add("smallLine", "images/" + resolutionParameter + '/playerHouse/spritesheet_stela/animatedLinesSmall.json')
             .add("tokenAndActive", "images/" + resolutionParameter + '/playerHouse/spritesheet_stela/temporaryTokenActiv.json')
+            .add("23_combi", "images/" + resolutionParameter + '/playerHouse/spritesheet_stela/placeholder02_03.png')
+            .add("45_combi", "images/" + resolutionParameter + '/playerHouse/spritesheet_stela/placeholder04_05.png')
           .load((sceneLoader, resources) => {
             loadNextScene(sceneLoader, resources);
         });
