@@ -11,6 +11,19 @@ function playerPanel(){
     let textLayer = new PIXI.Container();
     drawLevelBar();
 
+    userNameTxt.position.x = 35;                // User Interfae Text
+    userNameTxt.position.y = 24;
+    userCitizenTxt.position.y = 42;
+    userCitizenTxt.position.x = 40;
+    userCasteTxt.position.y = 57;
+    userCasteTxt.position.x = 45;
+    progressLvlTxt.position.x = 335;
+    progressLvlTxt.position.y = 21;
+    progressExpTxt.position.x = 320;
+    progressExpTxt.position.y = 42;
+    nextLvlExpTxt.position.x = 345;             //// REfactor this into a single Text Sprite
+    nextLvlExpTxt.position.y = 42;
+
     textLayer.addChild(levelBarFill);
     textLayer.addChild(userNameTxt, userCitizenTxt, userCasteTxt, progressLvlTxt, progressExpTxt, nextLvlExpTxt, softCurTxt, hardCurTxt);
 

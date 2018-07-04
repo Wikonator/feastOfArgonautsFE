@@ -60,8 +60,18 @@ function enterTownMap(){
     playerHouseBuilding.on("mouseout", buildingOverEnd);
     playerHouseBuilding.interactive = true;
 
+    airportBuilding.sceneId = 2;
+    airportBuilding.on("click", enterAirportBuilding);
+    airportBuilding.on("mouseover", buildingOverEnter);
+    airportBuilding.on("mouseout", buildingOverEnd);
+    airportBuilding.interactive = true;
+
     function enterPlayerBuilding() {
         playerHouseScene(buildingArray, playerHouseBuilding.sceneId, app.stage)
+    }
+
+    function enterAirportBuilding(){
+        airportScene(buildingArray, playerHouseBuilding.sceneId, app.stage)
     }
 
     backGroundSprite.addChild(airportBuilding, generalStoreBuilding, governorsHouseBuilding,

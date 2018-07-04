@@ -1,4 +1,60 @@
-function negativePanelUI(negaMoveArray) {
+function negativePanelUI(vaultPanel, campsPanel, campsPanelButton, campsPanelIcon, messagePanel, campsContainer, vaultContainer, messageContainer) {
+
+    let negPanelBottom1 = new PIXI.Sprite(
+        PIXI.loader.resources["negativePanel"].textures["dark_bottom_panel.png"]
+    ),
+    negPanelBottom2 = new PIXI.Sprite(
+        PIXI.loader.resources["negativePanel"].textures["dark_bottom_panel.png"]
+    ),
+    negPanelBottom3 = new PIXI.Sprite(
+        PIXI.loader.resources["negativePanel"].textures["dark_bottom_panel.png"]
+    ),
+    negPanelBottom4 = new PIXI.Sprite(
+        PIXI.loader.resources["negativePanel"].textures["dark_bottom_panel.png"]
+    );
+
+    let scaleArray = [
+        negPanelBottom1, negPanelBottom2, negPanelBottom3,
+       negPanelBottom4
+   ];
+   
+   let UITextArray = [
+       negPanelBottom1, negPanelBottom2,
+       negPanelBottom3, negPanelBottom4
+   ];
+   for (let i in scaleArray) {
+   
+       scaleArray[i].scale.x = 0.4;
+       scaleArray[i].scale.y = 0.4;
+   }
+   
+   for (let i = 1; i <= UITextArray.lenght; ++i) {
+       UITextArray[i].anchor.x = 0.5;
+       UITextArray[i].anchor.y = 0.5;
+   }
+
+   let negaMoveArray = [negPanelBottom2, negPanelBottom3, negPanelBottom4, vaultPanel,
+    campsPanel, campsPanelButton, campsPanelIcon, messagePanel, campsContainer, vaultContainer, messageContainer];
+
+    negPanelBottom1.position.x = 30;
+    negPanelBottom1.position.y = 80;
+    
+    negPanelBottom2.position.y = 80;
+    negPanelBottom2.position.x = 35;
+
+    negPanelBottom3.position.x = 35;
+    negPanelBottom3.position.y = 123;
+    
+    negPanelBottom4.position.y = 163;
+    negPanelBottom4.position.x = 35;
+
+
+
+    GUIArea.addChild(negPanelBottom1, negPanelBottom2, negPanelBottom3, negPanelBottom4, negativePanelContainer);
+
+
+
+
 
     let negaSwap = function() {
         if (this.up === true || this.children === 1) {
