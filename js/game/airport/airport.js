@@ -1,16 +1,18 @@
-function airportScene(buildingArray, sceneID, stage) {
-
-    let backGroundSprite = stage.children[0].children[0];
-
-    for (let i in buildingArray) {
-        backGroundSprite.removeChild(buildingArray[i]);
+function airportScene(buildingArray, sceneID) {
+    let backGroundSprite = app.stage.children[0].children[0];
+    if(backGroundSprite.children[0])
+    {  
+        while (backGroundSprite.children[0]) {
+            backGroundSprite.removeChild(backGroundSprite.children[0]);        
+        }
     }
+
             // fog transition
             // add loading screen here
         let sceneLoader = new PIXI.loaders.Loader();
 
         sceneLoader
-            .add("airport", 'images/' + resolutionParameter + '/airport/cargo-airport.png')
+            .add("airport", 'images/' + resolutionParameter + '/airport/Cargo-background.png')
           .load((sceneLoader, resources) => {
             loadNextScene(sceneLoader, resources);
         });
@@ -29,11 +31,9 @@ function airportScene(buildingArray, sceneID, stage) {
         backGroundSprite.addChild(backButton);
 
 
-
     }
 }
 
 function goBack(){
-    console.log("idem naspat")
     enterTownMap();
 }

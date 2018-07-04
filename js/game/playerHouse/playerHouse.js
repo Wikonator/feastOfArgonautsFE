@@ -1,10 +1,13 @@
 function playerHouseScene(buildingArray, sceneId, stage) {
 
-    let backGroundSprite = stage.children[0].children[0];
-
-    for (let i in buildingArray) {
-            backGroundSprite.removeChild(buildingArray[i]);
+    let backGroundSprite = app.stage.children[0].children[0];
+    if(backGroundSprite.children[0])
+    {  
+        while (backGroundSprite.children[0]) {
+            backGroundSprite.removeChild(backGroundSprite.children[0]);        
         }
+    }
+
             // fog transition
             // add loading screen here
         let sceneLoader = new PIXI.loaders.Loader();
@@ -38,7 +41,7 @@ function playerHouseScene(buildingArray, sceneId, stage) {
 
 
 
-/*        let backButton = new PIXI.Graphics();
+        let backButton = new PIXI.Graphics();
         backButton.lineStyle(0);
         backButton.beginFill(0x000000, 0.5);
         backButton.drawCircle(470, 90,60);
@@ -49,7 +52,7 @@ function playerHouseScene(buildingArray, sceneId, stage) {
             enterTownMap();
         } );
         backGroundSprite.addChild(backButton);
-    */
+    
    }
 
     // function setup() {

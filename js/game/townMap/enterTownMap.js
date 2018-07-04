@@ -1,14 +1,8 @@
 function enterTownMap(){
+    
 
-    if(app.stage.children[0].children[0])
-    {  
-
-        while (app.stage.children[0].children[0].firstChild) {
-            app.stage.children[0].children[0].removeChild(app.stage.children[0].children[0].firstChild);        
-        }
-
-    }
-
+    playArea.removeChild(playArea.children[0]);
+    
     let backGroundSprite = new PIXI.Sprite(
         PIXI.loader.resources["noSheet"].texture
     ),
@@ -71,7 +65,7 @@ function enterTownMap(){
     }
 
     function enterAirportBuilding(){
-        airportScene(buildingArray, playerHouseBuilding.sceneId, app.stage)
+        airportScene(buildingArray, playerHouseBuilding.sceneId)
     }
 
     backGroundSprite.addChild(airportBuilding, generalStoreBuilding, governorsHouseBuilding,
@@ -85,7 +79,8 @@ function enterTownMap(){
         buildingArray[i].on("mouseover", buildingOverEnter);
         // buildingArray[i].on("mouseout", buildingOverEnd);
     };
-    //resize();
+
+    resize();
 
 
 
