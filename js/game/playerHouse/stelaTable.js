@@ -334,14 +334,13 @@ function showStelaContainer(resources, backSprite) {
     stelaPathMaker();
     stelaPlaceholderMaker();
     let diamondVaults = {};
+    let diamondArrays = {};
     aGirlsBestFriend();
     tokenMaker();
 
     backGroundSprite.addChild(tableContainer);
 
-
     function aGirlsBestFriend() {
-        let diamondArrays = {};
         let diamondsInTheBack = dataFromBack.vault.items[1];
         console.log(diamondsInTheBack);
         let diamondPosX = 50, diamondPosY = 50;
@@ -355,27 +354,33 @@ function showStelaContainer(resources, backSprite) {
             colorAmount.position = {x: diamondPosX,y: -20};
             diamondVaults[200 + diamondsInTheBack[i].type] = colorAmount;
             diamondArea.addChild(colorAmount);
-            for (let yindex = 0; yindex < diamondsInTheBack[i][3].text; ++yindex) {
-                let diamond = new PIXI.Sprite(
-                    spriteTexture
-                );
-                diamond.anchor = {x: 0.5, y:0.5};
-                diamond.position = {x:diamondPosX, y:diamondPosY};
-                diamondArrays[diamondsInTheBack[i].type][yindex] = diamond.position;
-                diamond.interactive = true;
-                diamond.type =  {mType:2, sType: diamondsInTheBack[i].type};
-                diamond.pileOfGems = true;
-                diamond.oldPosition = diamond.position;
-                diamond.parentGroup = blueGroup;
-                diamond.zIndex = 0;
-                diamond.mask = diamondMask;
-                diamond
-                    .on('pointerdown', onDragStart)
-                    .on('pointerup', onDragEnd)
-                    .on('pointerupoutside', onDragEnd)
-                    .on('pointermove', onDragMove);
-                diamondArea.addChild(diamond);
-                diamondPosY += 70;
+            for (let yindex = 0; yindex < 5; ++yindex) {
+
+                let position = {x:diamondPosX, y:diamondPosY};
+                diamondArrays[diamondsInTheBack[i].type][yindex] = position;
+                diamondArrays[diamondsInTheBack[i].type][yindex].full = false;
+                if(diamondsInTheBack[i][3].text > yindex )  {
+                    let diamond = new PIXI.Sprite(
+                        spriteTexture
+                    );
+                    diamondArrays[diamondsInTheBack[i].type][yindex].full = true;
+                    diamond.anchor = {x: 0.5, y:0.5};
+                    diamond.position = position;
+                    diamond.interactive = true;
+                    diamond.type =  {mType:2, sType: diamondsInTheBack[i].type};
+                    diamond.pileOfGems = true;
+                    diamond.oldPosition = position;
+                    diamond.parentGroup = blueGroup;
+                    diamond.zIndex = 0;
+                    diamond.mask = diamondMask;
+                    diamond
+                        .on('pointerdown', onDragStart)
+                        .on('pointerup', onDragEnd)
+                        .on('pointerupoutside', onDragEnd)
+                        .on('pointermove', onDragMove);
+                    diamondArea.addChild(diamond);
+                    diamondPosY += 70;
+                }
             }
             diamondPosX += 75;
             diamondPosY = 50;
@@ -388,24 +393,22 @@ function showStelaContainer(resources, backSprite) {
 
 
     function tokenMaker() {
-        let tokensInTheBack = 4;
+        let tokensInTheBack = dataFromBack.vault.items[6];
         let tokenPosX = 0, tokenPosY = 0;
         tokenArea.position = {x:3100, y:1350};
         textOptions.fontSize = 22;
-        for (let i = 1; i <= tokensInTheBack; ++i) {
+        for (let i in tokensInTheBack) {
             // let tokenTexture = ();
-            let amount = 2 * i + 3;         //// <<<<<< temporary to make random token text
+            let amount = tokensInTheBack[i][3].text;
             let colorAmount = new PIXI.Text(amount, textOptions);
             colorAmount.anchor = {x: 0.5, y: 0.5};
             colorAmount.scale = {x: 1.3, y: 1.4};
             colorAmount.amount = amount;
             diamondVaults[100 + i] = colorAmount;
             colorAmount.position = {x: tokenPosX, y: tokenPosY};
-
-            let tokenTex = resources["tokenAndActive"].textures["token_0" + i+ ".png"];
-            let token = new PIXI.Sprite(tokenTex);
+            let tokenTexi = (Number(i) + 1);
+            let token = new PIXI.Sprite(resources["tokenAndActive"].textures["token_0" + tokenTexi+ ".png"]);
             token.position = {x: tokenPosX, y: tokenPosY+70};
-
             token.interactive = true;
             token.type = {mType:1, sType: i};
             token.pileOfGems = true;
@@ -429,7 +432,6 @@ function showStelaContainer(resources, backSprite) {
     function onDragStart(event) {
         this.data = event.data;
         this.scale = {x:1.2, y:1.2};
-        console.log(this.data.global);
 
         if (!this.dragging) {
             this.data = event.data;
@@ -441,7 +443,7 @@ function showStelaContainer(resources, backSprite) {
             // diamondArea.removeChild(this);
             if (this.pileOfGems) {
                 // add functionality that checks how much is left in the pile and animate it accordingly
-
+                    // add diamondArray position filling
                 let newGem = new PIXI.Sprite(this.texture);
                 newGem.position = this.position;
                 newGem.oldPosition = newGem.position;
@@ -471,6 +473,16 @@ function showStelaContainer(resources, backSprite) {
                     diamondVaults[this.type.mType + "0" + this.type.sType].text = Number(diamondVaults[this.type.mType +"0"+ this.type.sType].text) - 1;
                     if (diamondVaults[this.type.mType + "0" + this.type.sType].text < 5) {
                         console.log("diamantov je menej jak 5");
+                        console.log(this.position.y);
+                        for (let idx in diamondArrays[this.type.sType]) {
+                            if (diamondArrays[this.type.sType][idx].y == this.position.y) {
+                                console.log("found it : ", diamondArrays[this.type.sType][idx].y);
+                                diamondArrays[this.type.sType][idx].full = false;
+                                stelaArea.addChild(this);
+                                return;
+                            }
+                        }
+
                         stelaArea.addChild(this);
                     } else {
                         console.log("gems je viac jak 5");
@@ -540,17 +552,17 @@ function showStelaContainer(resources, backSprite) {
                 // prirataj diamant ku svojmu type
                 console.log(diamondVaults);
                 console.log(this.type);
-                console.log(this.type.sType);
+                console.log(this.type.sType); // {stype}
                 diamondVaults[this.type.mType +"0"+ this.type.sType].text = Number(diamondVaults[this.type.mType +"0"+ this.type.sType].text) + 1;
                 // removni sprajta
                 stelaArea.removeChild(this);
                 // povedz o tom seckym znamym
                 let data = {
-                    type: 1,
+                    aType: 1,
                     idxs:this.oldPlaceholerIdxy.idx,
                     idys:this.oldPlaceholerIdxy.idy,
                     mType: this.type.mType,
-                    sType: [this.type.sType]
+                    sType: [{type: this.type.sType}]
 
                 };
                 // console.log(data);
@@ -607,7 +619,7 @@ function showStelaContainer(resources, backSprite) {
                                             idxe: placeHolderArray[spot].idxy.idx,
                                             idye: placeHolderArray[spot].idxy.idy,
                                             mType: placeHolderArray[spot].type.mType,
-                                            sType: placeHolderArray[spot].type.sType[types]
+                                            sType: [{type:placeHolderArray[spot].type.sType[types].type}]
                                         };
                                     } else {
                                        dataToSend = {
@@ -617,7 +629,7 @@ function showStelaContainer(resources, backSprite) {
                                             idxe: placeHolderArray[spot].idxy.idx,
                                             idye: placeHolderArray[spot].idxy.idy,
                                             mType: placeHolderArray[spot].type.mType,
-                                            sType: placeHolderArray[spot].type.sType[types]
+                                            sType: [{type:placeHolderArray[spot].type.sType[types].type}]
                                         };
                                     }
                                     console.log(dataToSend);
@@ -659,21 +671,42 @@ function showStelaContainer(resources, backSprite) {
                 } else {
                     console.log("im on empty and from the pile");
                     // remake a gem on the pile if its less than 5
-                    console.log(this.oldPosition);
                     if (diamondVaults[this.type.mType + "0" + this.type.sType].text < 5) {
                         console.log("less than 5 diamonds");
-                        let dia = new PIXI.Sprite(
-                            diamondColorPicker(this.type.sType)
-                        );
-                        dia.position.x = this.oldPosition.x;
-                        dia.position.y = this.oldPosition.y;
-                        console.log(dia.position);
-                        diamondArea.addChild(dia);
-                    }
+                        for (let spot in diamondArrays[this.type.sType]) {
+                            console.log(diamondArrays[this.type.sType][spot]);
+                            if (!diamondArrays[this.type.sType][spot].full) {
+                                diamondArrays[this.type.sType][spot].full = true;
+                                let dia = new PIXI.Sprite(
+                                    diamondColorPicker(this.type.sType)
+                                );
+                                dia.anchor = {x: 0.5, y:0.5};
+                                dia.interactive = true;
+                                dia.type =  {mType:2, sType: this.type.sType};
+                                dia.pileOfGems = true;
+                                // dia.oldPosition = position;
+                                dia.parentGroup = blueGroup;
+                                dia.zIndex = 0;
+                                dia.mask = diamondMask;
+                                dia
+                                    .on('pointerdown', onDragStart)
+                                    .on('pointerup', onDragEnd)
+                                    .on('pointerupoutside', onDragEnd)
+                                    .on('pointermove', onDragMove);
+
+                                dia.position = {x:diamondArrays[this.type.sType][spot].x, y:diamondArrays[this.type.sType][spot].y };
+                                console.log(dia.position);
+                                diamondArea.addChild(dia);
+                                playRedFlash(this);
+                                diamondVaults[this.type.mType + "0" + this.type.sType].text = Number(diamondVaults[this.type.mType +"0"+ this.type.sType].text) + 1;
+                                this.parent.removeChild(this);
+                                return;
+                            }
+                        }
+                    }       // less than 5 diamonds, just remove and add it to gem count in vault
                     playRedFlash(this);
                     diamondVaults[this.type.mType + "0" + this.type.sType].text = Number(diamondVaults[this.type.mType +"0"+ this.type.sType].text) + 1;
                     this.parent.removeChild(this);
-
                 }
             }
 
