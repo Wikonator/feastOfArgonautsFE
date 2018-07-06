@@ -25,7 +25,7 @@ function showStelaContainer(resources, backSprite) {
         resources.stelaTable.texture
     );
     let tableContainer = new PIXI.Container(),
-        greenFlashTexture = [], redFlashTexture = [], smallLineTexture = [];
+        greenFlashTexture = [], redFlashTexture = [], blueLineTexture = [], greenLineTexture =[];
     tableContainer.interactive = false;
     tableContainer.mouseover = function(e) {
         e.preventDefault();
@@ -86,10 +86,15 @@ function showStelaContainer(resources, backSprite) {
     for (let frame in resources.splashRed.textures) {
         redFlashTexture.push(resources.splashRed.textures[frame]);
     }
-    for (let frame in resources.smallLine.textures) {
+    for (let frame in resources.blueLine.textures) {
 
-        smallLineTexture.push(resources.smallLine.textures[frame]);
+        blueLineTexture.push(resources.blueLine.textures[frame]);
     }
+    for (let frame in resources.greenLine.textures) {
+
+        greenLineTexture.push(resources.greenLine.textures[frame]);
+    }
+
     tableContainer.position.y = 55; //{x:,y:}
 
 
@@ -125,15 +130,6 @@ function showStelaContainer(resources, backSprite) {
     tableContainer.addChild(new PIXI.display.Layer(blueGroup));
     tableContainer.addChild(new PIXI.display.Layer(dragGroup));
     tableContainer.addChild(new PIXI.display.Layer(shadowGroup));
-
-    // stage.group.enableSort = true;
-    // pathGroup.group.enableSort = true;
-    // energyGroup.group.enableSort = true;
-    // greenGroup.group.enableSort = true;
-    // blueGroup.group.enableSort = true;
-    // dragGroup.group.enableSort = true;
-    // shadowGroup.group.enableSort = true;
-
     tableContainer.addChild(stelaArea, diamondArea, diamondMask, tokenArea, artefactsText,
         screwsText, diamondsText, tokensText);
 
@@ -156,7 +152,8 @@ function showStelaContainer(resources, backSprite) {
     }
 
     let pointsFromBack = dataFromBack.vault.items[4][0].layout.points,
-        pathsFromBack = dataFromBack.vault.items[4][0].layout.paths;
+        pathsFromBack = dataFromBack.vault.items[4][0].layout.paths,
+        stelaId = 0;//dataFromBack.vault.items[4];
     let arrayOfPositions = [];
 
     let bottomStelaText = new PIXI.Text("Magdalena Scroll: ...In Darkness I shall be Light, in times of Doubt I shall keep Faith...", textOptions);
@@ -229,6 +226,7 @@ function showStelaContainer(resources, backSprite) {
             stelaArea.addChild(placeholder);
 
             if (typeof pointsFromBack[point].hold !== "undefined") {            // fill all filled out placeholders
+
                 if (pointsFromBack[point].mType === 2) {
                     // console.log(pointsFromBack[point].sType[placeholder.hold].type);
                     let diamond = new PIXI.Sprite(diamondColorPicker(pointsFromBack[point].sType[placeholder.hold].type));
@@ -306,10 +304,18 @@ function showStelaContainer(resources, backSprite) {
             deWey.parentGroup = pathGroup;
             deWey.zIndex = 1;
             // deWey.scale.x = 0.2;
-            if (pathsFromBack[path].state === 1) {
-                let elektrikBoogaloo = new PIXI.extras.AnimatedSprite(
-                    smallLineTexture
-                );
+            if (pathsFromBack[path].state !== 0) {
+                let elektrikBoogaloo;
+                if (pathsFromBack[path].state === 1) {
+                    elektrikBoogaloo = new PIXI.extras.AnimatedSprite(
+                        blueLineTexture
+                    );
+                }
+                if (pathsFromBack[path].state === 2) {
+                    elektrikBoogaloo =   new PIXI.extras.AnimatedSprite(
+                        greenLineTexture
+                    );
+                }
                 elektrikBoogaloo.play();
                 elektrikBoogaloo.position = deWey.position;
                 elektrikBoogaloo.anchor = {x:0,y:0.5};
@@ -335,11 +341,13 @@ function showStelaContainer(resources, backSprite) {
 
 
     function aGirlsBestFriend() {
-        let diamondArray = [];
+        let diamondArrays = {};
         let diamondsInTheBack = dataFromBack.vault.items[1];
+        console.log(diamondsInTheBack);
         let diamondPosX = 50, diamondPosY = 50;
         textOptions.fontSize = 22;
         for (let i = 0; i < diamondsInTheBack.length; ++i) {
+            diamondArrays[diamondsInTheBack[i].type] = [];
             let spriteTexture = diamondColorPicker(diamondsInTheBack[i].type);
             let colorAmount = new PIXI.Text(diamondsInTheBack[i][3].text, textOptions);
             colorAmount.anchor = {x:0.5, y:0.5};
@@ -347,12 +355,13 @@ function showStelaContainer(resources, backSprite) {
             colorAmount.position = {x: diamondPosX,y: -20};
             diamondVaults[200 + diamondsInTheBack[i].type] = colorAmount;
             diamondArea.addChild(colorAmount);
-            for (let yindex = 0; yindex <= 4; ++yindex) {
+            for (let yindex = 0; yindex < diamondsInTheBack[i][3].text; ++yindex) {
                 let diamond = new PIXI.Sprite(
                     spriteTexture
                 );
                 diamond.anchor = {x: 0.5, y:0.5};
                 diamond.position = {x:diamondPosX, y:diamondPosY};
+                diamondArrays[diamondsInTheBack[i].type][yindex] = diamond.position;
                 diamond.interactive = true;
                 diamond.type =  {mType:2, sType: diamondsInTheBack[i].type};
                 diamond.pileOfGems = true;
@@ -371,6 +380,7 @@ function showStelaContainer(resources, backSprite) {
             diamondPosX += 75;
             diamondPosY = 50;
         }
+        console.log(diamondArrays);
     }
     function diamondColorPicker(gem) {
         return resources["stelaAssets"].textures[(200 + gem) + '.png'];
@@ -419,6 +429,7 @@ function showStelaContainer(resources, backSprite) {
     function onDragStart(event) {
         this.data = event.data;
         this.scale = {x:1.2, y:1.2};
+        console.log(this.data.global);
 
         if (!this.dragging) {
             this.data = event.data;
@@ -430,6 +441,7 @@ function showStelaContainer(resources, backSprite) {
             // diamondArea.removeChild(this);
             if (this.pileOfGems) {
                 // add functionality that checks how much is left in the pile and animate it accordingly
+
                 let newGem = new PIXI.Sprite(this.texture);
                 newGem.position = this.position;
                 newGem.oldPosition = newGem.position;
@@ -446,15 +458,26 @@ function showStelaContainer(resources, backSprite) {
 
                 if(this.type.mType == 1) {
                     stelaArea.addChild(this);
+
                     newGem.anchor = {x:0.5,y:0.5};
                     newGem.scale  = {x:0.8, y:0.8};
+
                     diamondVaults[this.type.mType + "0" + this.type.sType].text = Number(diamondVaults[this.type.mType +"0"+ this.type.sType].text) - 1;
-                    tokenArea.addChild(newGem);
+                    if (diamondVaults[this.type.mType + "0" + this.type.sType].text < 1) {
+                        console.log("tokenov je menej jak 1");
+
+                    } else { tokenArea.addChild(newGem); }
                 } else {
                     diamondVaults[this.type.mType + "0" + this.type.sType].text = Number(diamondVaults[this.type.mType +"0"+ this.type.sType].text) - 1;
-                    newGem.mask = diamondMask;
-                    stelaArea.addChild(this);
-                    diamondArea.addChild(newGem);
+                    if (diamondVaults[this.type.mType + "0" + this.type.sType].text < 5) {
+                        console.log("diamantov je menej jak 5");
+                        stelaArea.addChild(this);
+                    } else {
+                        console.log("gems je viac jak 5");
+                        newGem.mask = diamondMask;
+                        stelaArea.addChild(this);
+                        diamondArea.addChild(newGem);
+                    }
                 }
             } else {
                 console.log("dragging: this is not from the pile");
@@ -496,15 +519,10 @@ function showStelaContainer(resources, backSprite) {
         return collision;
     }
 
-
-    // socket.emit("stela:onAction", json{type,index,type = {mType,sType});
-
-    // {type: 0 1 2 3 4 ...x   - 0 poloz - 1 dvihnuty - 2 presunuty
-    //     index : {idxs:, idxe: , idys, idye}  // oba ak 2ka, ked 1 - tak poslem iba S, ak 0 tak poslem iba E
-    // }
-
     function emitStuff(json) {
         console.log("emit stuff hapened");
+        json.idStela = stelaId;
+        console.log(json);
         socket.emit("stela:onAction", json);
     }
 
@@ -515,116 +533,152 @@ function showStelaContainer(resources, backSprite) {
             this.displayGroup = this.oldGroup;
             this.data = null;
 
-        }
-        if (hitTestRectangle(this, diamondHoard)) {  // diamant sa vratil na kopu
-            console.log("this is above the diamond square");
-            //zahraj zeleny flash
-            playGreenFlash(this);
-            // prirataj diamant ku svojmu type
-            console.log(diamondVaults);
-            console.log(this.type);
-            console.log(this.type.sType);
-            diamondVaults[this.type.mType +"0"+ this.type.sType].text = Number(diamondVaults[this.type.mType +"0"+ this.type.sType].text) + 1;
-            // removni sprajta
-            stelaArea.removeChild(this);
-            // povedz o tom seckym znamym
-            let data = {
-                type: 1,
-                idxs:this.oldPlaceholerIdxy.idx,
-                idys:this.oldPlaceholerIdxy.idy,
-                mType: this.type.mType,
-                sType: this.type.sType
+            if (hitTestRectangle(this, diamondHoard)) {  // diamant sa vratil na kopu
+                console.log("this is above the diamond square");
+                //zahraj zeleny flash
+                playGreenFlash(this);
+                // prirataj diamant ku svojmu type
+                console.log(diamondVaults);
+                console.log(this.type);
+                console.log(this.type.sType);
+                diamondVaults[this.type.mType +"0"+ this.type.sType].text = Number(diamondVaults[this.type.mType +"0"+ this.type.sType].text) + 1;
+                // removni sprajta
+                stelaArea.removeChild(this);
+                // povedz o tom seckym znamym
+                let data = {
+                    type: 1,
+                    idxs:this.oldPlaceholerIdxy.idx,
+                    idys:this.oldPlaceholerIdxy.idy,
+                    mType: this.type.mType,
+                    sType: [this.type.sType]
 
-            };
-            console.log(data);
-            emitStuff(data);
-        }
-        let noHits = true;
-        for (let spot in placeHolderArray) {
-            if (hitTestRectangle(this, placeHolderArray[spot])) {
-                if (placeHolderArray[spot].hold == 0) {
-                    if (!this.pileOfGems) {
-                        // this is NOT from the pile of gems
-                        //return it to orig
-                        this.position = this.oldPosition;
-                        playRedFlash(placeHolderArray[spot]);
-
-
-                    } else {
-                        // this IS from the pile of gems
-                        playRedFlash(placeHolderArray[spot]);
-                        console.log(this.type);
-                        diamondVaults[this.type.mType].text += 1;
-                        this.parent.removeChild(this);
-                        return;
-                    }
-                } else {
-                    console.log("its a hit");
-                    //check if the type is right
-                    if (this.type.mType == placeHolderArray[spot].type.mType) {
-                    }
-                    ;
-                    noHits = false;
-                    for (let types in placeHolderArray[spot].type.sType) {
-                        console.log(placeHolderArray[spot].type.sType[types].type);
-                        if (this.type.sType == placeHolderArray[spot].type.sType[types].type) {
-                            //if so
-                            this.position = placeHolderArray[spot].position;
-                            this.pileOfGems = false;
-                            this.oldPosition = placeHolderArray[spot].position;
-                            let dataToSend = {
-                                aType: 0,
-                                idxe: placeHolderArray[spot].idxy.idx,
-                                idye: placeHolderArray[spot].idxy.idy,
-                                mType: placeHolderArray[spot].type.mType,
-                                sType: placeHolderArray[spot].type.sType[types]
-                            };
-                            console.log(dataToSend);
-                            playGreenFlash(placeHolderArray[spot]);            // play blue blink anim8
-                            emitStuff(dataToSend);
-
+                };
+                // console.log(data);
+                emitStuff(data);
+            }
+            let noHits = true;
+            for (let spot in placeHolderArray) {
+                if (hitTestRectangle(this, placeHolderArray[spot])) {
+                    console.log("this placeholder hold: ",placeHolderArray[spot].hold);
+                    if (typeof placeHolderArray[spot].hold !== "undefined") {
+                        console.log("something is here");
+                        if (!this.pileOfGems) {
+                            // this is NOT from the pile of gems
+                            //return it to orig position
+                            console.log("old palceholder id: ",this.oldPlaceholerIdxy);
+                            for (let index in placeHolderArray) {
+                                if (placeHolderArray[index].idxy == this.oldPlaceholerIdxy) {
+                                    console.log("the one I found id: ", placeHolderArray[index].idxy);
+                                    placeHolderArray[index].hold = this.type.sType;
+                                    this.position = this.oldPosition;
+                                }
+                            }
+                            playRedFlash(placeHolderArray[spot]);
                             return;
-                            //leave gemstone - send to backend
+
+                        } else {
+                            // this IS from the pile of gems, bring it back there
+                            playRedFlash(placeHolderArray[spot]);
+                            console.log(this.type);
+                            diamondVaults[this.type.mType + "0" + this.type.sType].text = Number(diamondVaults[this.type.mType +"0"+ this.type.sType].text) + 1;
+                            this.parent.removeChild(this);
+                            return;
                         }
                     }
-                    // if no
-                    // play red blink anim8
-                    noHits = false;
-                    if (!this.pileOfGems) {
-                        // this is NOT from the pile of gems
-                        //return it to orig
-                        this.position = this.oldPosition;
-                        playRedFlash(placeHolderArray[spot]);
-
-
-                    } else {
-                        // this IS from the pile of gems
-                        playRedFlash(placeHolderArray[spot]);
-                        console.log(this.type);
-                        diamondVaults[this.type.mType].text += 1;
-                        this.parent.removeChild(this);
-                        return;
+                    else {
+                        console.log("it's a hit, nothing is here");
+                        //check if the type is right
+                        if (this.type.mType == placeHolderArray[spot].type.mType) {
+                            console.log("this is the same type");
+                            noHits = false;
+                            for (let types in placeHolderArray[spot].type.sType) {
+                                console.log(placeHolderArray[spot].type.sType[types].type);
+                                if (this.type.sType == placeHolderArray[spot].type.sType[types].type) {
+                                    console.log("this is the same color");
+                                    //if so
+                                    placeHolderArray[spot].hold = this.type.sType;
+                                    this.position = placeHolderArray[spot].position;
+                                    this.oldPosition = placeHolderArray[spot].position;
+                                    let dataToSend;
+                                    if (this.pileOfGems) {
+                                        console.log("pile of gems");
+                                        dataToSend = {
+                                            aType: 0,
+                                            idxe: placeHolderArray[spot].idxy.idx,
+                                            idye: placeHolderArray[spot].idxy.idy,
+                                            mType: placeHolderArray[spot].type.mType,
+                                            sType: placeHolderArray[spot].type.sType[types]
+                                        };
+                                    } else {
+                                       dataToSend = {
+                                            aType: 2,
+                                            idxs: this.oldPlaceholerIdxy.idx,
+                                            idys: this.oldPlaceholerIdxy.idy,
+                                            idxe: placeHolderArray[spot].idxy.idx,
+                                            idye: placeHolderArray[spot].idxy.idy,
+                                            mType: placeHolderArray[spot].type.mType,
+                                            sType: placeHolderArray[spot].type.sType[types]
+                                        };
+                                    }
+                                    console.log(dataToSend);
+                                    playGreenFlash(placeHolderArray[spot]);            // play blue blink anim8
+                                    emitStuff(dataToSend);
+                                    this.pileOfGems = false;
+                                    return;
+                                    //leave gemstone - send to backend
+                                }
+                            }
+                        }
+                        // if no
+                        // play red blink animanimation
+                        noHits = false;
+                        if (!this.pileOfGems) {
+                            // this is NOT from the pile of gems - return it to orig
+                            this.position = this.oldPosition;
+                            playRedFlash(placeHolderArray[spot]);
+                        } else {
+                            // this IS from the pile of gems
+                            playRedFlash(placeHolderArray[spot]);
+                            console.log(this.type);
+                            diamondVaults[this.type.mType + "0" + this.type.sType].text = Number(diamondVaults[this.type.mType +"0"+ this.type.sType].text) + 1;
+                            this.parent.removeChild(this);
+                            return;
+                        }
                     }
                 }
             }
-        }
-        if (noHits) {
-            console.log("no hit");
-            //return gemstone
-            if (!this.pileOfGems) {
-                // return to .oldPosition
-                console.log("im on empty and not from the pile");
-                this.position.x = this.oldPosition.x;
-                this.position.y = this.oldPosition.y;
-                playRedFlash(this);
-            } else {
-                console.log("im on empty and from the pile");
-                // just destroy it
-                playRedFlash(this);
-                diamondVaults[this.type.mType].text += 1;
-                this.parent.removeChild(this);
+            if (noHits) {
+                console.log("no hit");
+                //return gemstone
+                if (!this.pileOfGems) {
+                    // return to .oldPosition
+                    console.log("im on empty and not from the pile");
+                    this.position.x = this.oldPosition.x;
+                    this.position.y = this.oldPosition.y;
+                    playRedFlash(this);
+                } else {
+                    console.log("im on empty and from the pile");
+                    // remake a gem on the pile if its less than 5
+                    console.log(this.oldPosition);
+                    if (diamondVaults[this.type.mType + "0" + this.type.sType].text < 5) {
+                        console.log("less than 5 diamonds");
+                        let dia = new PIXI.Sprite(
+                            diamondColorPicker(this.type.sType)
+                        );
+                        dia.position.x = this.oldPosition.x;
+                        dia.position.y = this.oldPosition.y;
+                        console.log(dia.position);
+                        diamondArea.addChild(dia);
+                    }
+                    playRedFlash(this);
+                    diamondVaults[this.type.mType + "0" + this.type.sType].text = Number(diamondVaults[this.type.mType +"0"+ this.type.sType].text) + 1;
+                    this.parent.removeChild(this);
+
+                }
             }
+
         }
+
     }
 
     function onDragMove() {
@@ -660,7 +714,7 @@ function showStelaContainer(resources, backSprite) {
 
         // addAnimatedPath();
         let flashyPath = new PIXI.extras.AnimatedSprite(
-            smallLineTexture
+            blueLineTexture
         );
         flashyPath.play();
         flashyPath.position = arrayOfPositions[6][6];
