@@ -86,7 +86,7 @@ scarab.position.x = 686;
 GUIArea.addChild(scarab);
 
 
-vaultPanel.addChild(vaultPanelButton, vaultButtonText, vaultPanelIcon);
+
 campsPanelButton.addChild(campsButtonText);
 
 
@@ -104,9 +104,9 @@ buyPanelUI();
 tradePanelUI();
 miningAreaUI();
 playerPanel();
-vaultPanelUI(vaultPanel, vaultButtonText, vaultPanelButton, vaultPanelIcon, campsPanelButton, messagePanelButton);
 negativePanelUI(vaultPanel, campsPanel, campsPanelButton, campsPanelIcon, messagePanel, campsContainer, vaultContainer, messageContainer);
 camp(campsPanel, campsPanelButton, campsButtonText, campsPanelIcon, messagePanelButton, vaultPanelButton);
+vaultPanelUI(vaultPanel, vaultButtonText, vaultPanelButton, vaultPanelIcon, campsPanelButton, messagePanelButton);
 messages(vaultPanelButton, GUIArea, vaultContainer, messagePanel, messagePanelButton, messageButtonText, campsPanelButton);
 
 GUIArea.addChild(vaultPanel, campsPanel, campsPanelIcon, campsPanelButton, messagePanel);
