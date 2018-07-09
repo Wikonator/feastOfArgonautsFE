@@ -269,9 +269,14 @@ function showStelaContainer(resources, backSprite) {
                     token.type = {
                         mType: pointsFromBack[point].mType,
                         sType: pointsFromBack[point].sType[placeholder.hold].type
-                    }
+                    };
                     token.pileOfGems = false;
-                    token.oldPosition = placeholder.position;
+                    token.oldPosition = {
+                        x: arrayOfPositions[pointsFromBack[point].idx][pointsFromBack[point].idy].x,
+                        y: arrayOfPositions[pointsFromBack[point].idx][pointsFromBack[point].idy].y
+                    };
+
+                    token.originalTokenSpot = {x: (token.type.sType - 1) *130, y:70};
                     token.zIndex = 0;
                     token.parentGroup = blueGroup;
                     // token.mask = diamondMask;
@@ -552,7 +557,7 @@ function showStelaContainer(resources, backSprite) {
 
     function onDragStart(event) {
         this.data = event.data;
-        this.scale = {x: 1.2, y: 1.2};
+        this.scale = {x: 1, y: 1};
 
         if (!this.dragging) {
             this.data = event.data;
@@ -648,7 +653,7 @@ function showStelaContainer(resources, backSprite) {
     }
 
     function emitStuff(json) {
-        console.log("emmiting");
+        console.log("emmiting", json);
         json.idStela = stelaId;
         socket.emit("stela:onAction", json);
     }
@@ -670,6 +675,7 @@ function showStelaContainer(resources, backSprite) {
                 } else {
                     makeReturningDiamond(this);
                 }
+                console.log("old placeholder pred emitom:", this.oldPlaceholerIdxy);
                 stelaArea.removeChild(this);        // removni sprajta
                 // povedz o tom seckym znamym           // aType: 1 - dvihni (stela-> kopa}
                 let data = {
@@ -684,8 +690,11 @@ function showStelaContainer(resources, backSprite) {
             }
             let noHits = true;
             for (let spot in placeHolderArray) {
-                if (hitTestRectangle(this, placeHolderArray[spot])) {
-                    if (typeof placeHolderArray[spot].hold !== "undefined") {
+                console.log(placeHolderArray[spot]);
+                if (hitTestRectangle(this, placeHolderArray[spot])) {           // dropped on a placeholder
+                    // console.log("a hit!, this placeholder idxy:",placeHolderArray[spot].idxy);
+                    console.log("boom headshot");
+                    if (typeof placeHolderArray[spot].hold !== "undefined") {          // something is there
                         if (!this.pileOfGems) {         // this is NOT from the pile of gems
                             //return it to its orig. position
                             for (let index in placeHolderArray) {
@@ -710,10 +719,9 @@ function showStelaContainer(resources, backSprite) {
                             this.parent.removeChild(this);
                             return;
                         }
-                    }
-                    else {
+                    } else {        // nothing is there
                         //check if the type is right
-                        if (this.type.mType == placeHolderArray[spot].type.mType) {
+                        if (this.type.mType == placeHolderArray[spot].type.mType) { // main type is right
                             noHits = false;
                             for (let types in placeHolderArray[spot].type.sType) {
                                 if (this.type.sType == placeHolderArray[spot].type.sType[types].type) {
@@ -722,6 +730,8 @@ function showStelaContainer(resources, backSprite) {
                                     placeHolderArray[spot].hold = this.type.sType;
                                     this.position = placeHolderArray[spot].position;
                                     this.oldPosition = placeHolderArray[spot].position;
+                                    this.oldPlaceholerIdxy = placeHolderArray[spot].idxy;
+                                    console.log("oldPlacehodlerIDxy",this.oldPlaceholerIdxy);
                                     let dataToSend;
                                     if (this.pileOfGems) {           //0 - poloz (kopa-> stela)
                                         dataToSend = {
@@ -805,6 +815,7 @@ function showStelaContainer(resources, backSprite) {
 
 function makeReturningToken(thiss) {
         let returningToken = new PIXI.Sprite(resources["tokenAndActive"].textures["token_0" + (Number(thiss.type.sType)) + ".png"]);
+        console.log(thiss.originalTokenSpot);
         returningToken.position = thiss.originalTokenSpot;
         returningToken.pileOfGems = true;
         returningToken.interactive = true;
@@ -875,7 +886,10 @@ function makeReturningToken(thiss) {
         let flash = new PIXI.extras.AnimatedSprite(
             redFlashTexture
         );
+        console.log("pos x",position.position.x);
+        console.log("pos y",position.position.y);
         flash.position = {x:position.position.x, y:position.position.y};
+        console.log(flash.position);
         flash.anchor = {x:0.5, y:0.5};
         flash.loop = false;
         flash.play();

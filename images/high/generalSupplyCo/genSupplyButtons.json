@@ -1,0 +1,116 @@
+{"frames": {
+
+"ActionGuide.png":
+{
+	"frame": {"x":750,"y":577,"w":267,"h":330},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":267,"h":330},
+	"sourceSize": {"w":267,"h":330}
+},
+"camp safety.png":
+{
+	"frame": {"x":467,"y":1,"w":404,"h":142},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":404,"h":142},
+	"sourceSize": {"w":404,"h":142}
+},
+"capsule types text inisde.png":
+{
+	"frame": {"x":1,"y":1,"w":464,"h":117},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":464,"h":117},
+	"sourceSize": {"w":464,"h":117}
+},
+"emergency catapult delivery system copy.png":
+{
+	"frame": {"x":1,"y":774,"w":644,"h":180},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":644,"h":180},
+	"sourceSize": {"w":644,"h":180}
+},
+"exos.png":
+{
+	"frame": {"x":1,"y":120,"w":404,"h":142},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":404,"h":142},
+	"sourceSize": {"w":404,"h":142}
+},
+"food.png":
+{
+	"frame": {"x":407,"y":145,"w":404,"h":142},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":404,"h":142},
+	"sourceSize": {"w":404,"h":142}
+},
+"fuel.png":
+{
+	"frame": {"x":1,"y":264,"w":404,"h":142},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":404,"h":142},
+	"sourceSize": {"w":404,"h":142}
+},
+"h20.png":
+{
+	"frame": {"x":407,"y":289,"w":404,"h":142},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":404,"h":142},
+	"sourceSize": {"w":404,"h":142}
+},
+"list of urgent needs_text inisde.png":
+{
+	"frame": {"x":1,"y":956,"w":974,"h":250},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":974,"h":250},
+	"sourceSize": {"w":974,"h":250}
+},
+"medicine_hover.png":
+{
+	"frame": {"x":1,"y":408,"w":404,"h":142},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":404,"h":142},
+	"sourceSize": {"w":404,"h":142}
+},
+"operators_clicked.png":
+{
+	"frame": {"x":1,"y":577,"w":416,"h":154},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":416,"h":154},
+	"sourceSize": {"w":416,"h":154}
+},
+"special_offer text inisde.png":
+{
+	"frame": {"x":419,"y":577,"w":329,"h":195},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":329,"h":195},
+	"sourceSize": {"w":329,"h":195}
+},
+"tentsNcamps.png":
+{
+	"frame": {"x":407,"y":433,"w":404,"h":142},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":404,"h":142},
+	"sourceSize": {"w":404,"h":142}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "genSupplyButtons.png",
+	"format": "RGBA8888",
+	"size": {"w":1018,"h":1207},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:2206c17c4087ab4f42d9428becca66b7:890189c664f7b917c56e2254b18003e8:66d5da22a27bca59ae1c9e5944b01440$"
+}
+}

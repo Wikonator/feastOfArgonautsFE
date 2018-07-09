@@ -12,7 +12,7 @@ function airportScene(buildingArray, sceneID) {
         let sceneLoader = new PIXI.loaders.Loader();
 
         sceneLoader
-            .add("airport", 'images/' + resolutionParameter + '/airport/Cargo-background.png')
+            .add("airport", 'images/' + resolutionParameter + '/airport/airportUI.png')
           .load((sceneLoader, resources) => {
             loadNextScene(sceneLoader, resources);
         });

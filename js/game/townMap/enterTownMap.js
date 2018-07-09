@@ -60,12 +60,24 @@ function enterTownMap(){
     airportBuilding.on("mouseout", buildingOverEnd);
     airportBuilding.interactive = true;
 
+
+    generalStoreBuilding.sceneId = 3;
+    generalStoreBuilding.on("click", enterGeneralStoreBuilding);
+    generalStoreBuilding.on("mouseover", buildingOverEnter);
+    generalStoreBuilding.on("mouseout", buildingOverEnd);
+    generalStoreBuilding.interactive = true;
+
     function enterPlayerBuilding() {
-        playerHouseScene(buildingArray, playerHouseBuilding.sceneId, app.stage)
+        playerHouseScene(buildingArray, playerHouseBuilding.sceneId);
     }
 
     function enterAirportBuilding(){
-        airportScene(buildingArray, playerHouseBuilding.sceneId)
+        airportScene(buildingArray, playerHouseBuilding.sceneId);
+    }
+
+    function enterGeneralStoreBuilding() {
+        console.log("enter the general store");
+        generalStoreScene();
     }
 
     backGroundSprite.addChild(airportBuilding, generalStoreBuilding, governorsHouseBuilding,
