@@ -34,13 +34,19 @@ function vaultPanelUI(vaultPanel, vaultButtonText, vaultPanelButton, vaultPanelI
             PIXI.loader.resources["campsVaultTable"].textures['items_panel.png']
         );
 
-        vaultPanel.addChild(vaultPanelButton, vaultButtonText, vaultPanelIcon);
-
+        
         function openVaultTab() {
             display.removeEventListener("wheel", scrollSelectedTab, false);
             scrollContainerSelector = vaultScrollContainer;
-        
+            
             if (!vaultPanelButton.isClicked) {
+                vaultPanelButton.isClicked = true;
+                //GUIArea.removeChild(vaultPanel, vaultButtonText);
+                GUIArea.addChild(vaultContainer);
+                
+                GUIArea.addChild(vaultPanel );
+                display.addEventListener("wheel", scrollSelectedTab, false);
+                
                 if (campsPanelButton.isClicked || messagePanelButton.isClicked) {
                     messagePanelButton.isClicked = false;
                     campsPanelButton.isClicked = false;
@@ -51,18 +57,18 @@ function vaultPanelUI(vaultPanel, vaultButtonText, vaultPanelButton, vaultPanelI
                     GUIArea.removeChild(campsContainer);
                     GUIArea.removeChild(messageContainer);
                 }
-                GUIArea.addChild(vaultContainer);
-                vaultPanelButton.isClicked = true;
-                display.addEventListener("wheel", scrollSelectedTab, false);
-        
-            } else {
+
+            }    
+             else {
                 vaultPanelButton.texture = vaultPanelButton.hover;
                 vaultPanelButton.isClicked = false;
                 GUIArea.removeChild(vaultContainer);
             }
         }
+        
 
 
+        vaultPanel.addChild(vaultPanelButton, vaultButtonText, vaultPanelIcon);
         vaultTabSteles.position.x = 370;                              // Container children
 vaultTabScrews.position.x = 760;
 vaultTabArtefacts.position.x = 1150;

@@ -46,6 +46,7 @@ function camp(campsPanel, campsPanelButton, campsButtonText, campsPanelIcon, mes
     function openCampsTab() {
         display.removeEventListener("wheel", scrollSelectedTab, false);
         scrollContainerSelector = campScrollContainer;
+        
         if (!campsPanelButton.isClicked) {
             campsPanelButton.isClicked = true;
             GUIArea.addChild(campsContainer);
