@@ -106,6 +106,7 @@ let display;
 let app;
 
 playArea.id = 100;
+let playerLoad = false;
 
 function startLoad(){
     resolutionParameter = dataFromBack.quality;
@@ -124,6 +125,8 @@ function startLoad(){
         .add("townMap", "images/" + resolutionParameter + "/town/townMap.json")
         .add("noSheet", "images/" +resolutionParameter+ "/town/noSheetMap.jpg" )
         .load(themeLoader(resolutionParameter));
+
+    playerLoad = true;
 }
 
 let fontLoader;
@@ -257,18 +260,19 @@ foAapp.factory('littleService', function ($http, $location, sessionService) {
                 console.log(data);
                 dataFromBack = data;
                 dataCameSwitch = true;
-                startLoad();
-                animationLoop();
-                socket.emit("town:onLoad");
+                if (!playerLoad) {
+                    startLoad();
+                    animationLoop();
+                    socket.emit("town:onLoad");
+                }
             });
 
             socket.emit("stela:onLoad");
 
-            socket.on("stela:onRefresh", function (data) {
-
-                console.log(data);
-                console.log("stela on load");
-            });
+            // socket.on("stela:onRefresh", function (data) {
+            //     console.log("stela on load");
+            //     console.log(data);
+            // });
 
             socket.on("town:onRefresh", function (data) {
                 // console.log("I shot the data");
