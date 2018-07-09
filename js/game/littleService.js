@@ -106,6 +106,7 @@ let display;
 let app;
 
 playArea.id = 100;
+let playerLoad = false;
 
 function startLoad(){
     resolutionParameter = dataFromBack.quality;
@@ -124,6 +125,8 @@ function startLoad(){
         .add("townMap", "images/" + resolutionParameter + "/town/townMap.json")
         .add("noSheet", "images/" +resolutionParameter+ "/town/noSheetMap.jpg" )
         .load(themeLoader(resolutionParameter));
+
+    playerLoad = true;
 }
 
 let fontLoader;
@@ -204,7 +207,6 @@ function resize () {
     renderResize();
     let UIratio = (canvasWidth / uiWidth);
     GUIArea.scale.x = GUIArea.scale.y = UIratio;
-    console.log(playArea);
     playArea.children[0].width = canvasWidth;
     playArea.children[0].height = canvasHeight;
     app.renderer.resize(canvasWidth, canvasHeight);
@@ -258,18 +260,19 @@ foAapp.factory('littleService', function ($http, $location, sessionService) {
                 console.log(data);
                 dataFromBack = data;
                 dataCameSwitch = true;
-                startLoad();
-                animationLoop();
-                socket.emit("town:onLoad");
+                if (!playerLoad) {
+                    startLoad();
+                    animationLoop();
+                    socket.emit("town:onLoad");
+                }
             });
 
             socket.emit("stela:onLoad");
 
-            socket.on("stela:onRefresh", function (data) {
-
-                console.log(data);
-                console.log("stela on load");
-            });
+            // socket.on("stela:onRefresh", function (data) {
+            //     console.log("stela on load");
+            //     console.log(data);
+            // });
 
             socket.on("town:onRefresh", function (data) {
                 // console.log("I shot the data");
@@ -278,3 +281,29 @@ foAapp.factory('littleService', function ($http, $location, sessionService) {
         }
     }
 });
+
+//////////////////// global helper functions ////////////////////
+
+'use strict';
+// Speed up calls to hasOwnProperty
+const hasOwnProperty = Object.prototype.hasOwnProperty;
+    function isEmpty(obj) {
+        // null and undefined are "empty"
+        if (obj == null) return true;
+        // Assume if it has a length property with a non-zero value
+        // that that property is correct.
+        if (obj.length > 0)  return false;
+        if (obj.length === 0)  return true;
+        // If it isn't an object at this point
+        // it is empty, but it can't be anything *but* empty
+        // Is it empty?  Depends on your application.
+        if (typeof obj !== "object") return true;
+        // Otherwise, does it have any properties of its own?
+        // Note that this doesn't handle
+        // toString and valueOf enumeration bugs in IE < 9
+        for (let key in obj)
+            if (hasOwnProperty.call(obj, key)) return false;
+        return true;
+    }
+
+
