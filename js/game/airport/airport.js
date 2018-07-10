@@ -1,5 +1,10 @@
 function airportScene(buildingArray, sceneID) {
     let backGroundSprite = app.stage.children[0].children[0];
+    // infogroup je skupina kde robim vrstvy, pridam si tam scrollmask a flyinfo a urcim im z-order
+    let infoGroup = new PIXI.display.Group(1, function (sprite) { 
+        sprite.zOrder = -sprite.y;
+    });
+
     if(backGroundSprite.children[0])
     {  
         while (backGroundSprite.children[0]) {
@@ -47,21 +52,26 @@ function airportScene(buildingArray, sceneID) {
         reservebutton.pressed = sceneLoader.resources["cargo"].textures['reserve_hovered.png'];
         reservebutton.normal = sceneLoader.resources["cargo"].textures['reserve _usual.png'];
 
-        cancelbutton.visible = true;
+        cancelbutton.visible = false;
         cancelbutton.anchor.x = 0.5;
         cancelbutton.anchor.y = 0.5;
         cancelbutton.x = 2500;
         cancelbutton.y = 950;
+        cancelbutton.parentGroup = infoGroup;
+        cancelbutton.zIndex = 4;
 
-        reservebutton.visible = true;
+        reservebutton.visible = false;
         reservebutton.anchor.x = 0.5;
         reservebutton.anchor.y = 0.5;
         reservebutton.x = 2500;
         reservebutton.y = 850;
-
+        reservebutton.parentGroup = infoGroup;
+        reservebutton.zIndex = 4;
+        
         cancelbutton.interactive = true;
         cancelbutton.on('mouseover', ButtonOver)
         cancelbutton.on('mouseout', ButtonOut)
+        cancelbutton.on('click', onClickCancel)
 
         reservebutton.interactive = true;
         reservebutton.on('mouseover', ButtonOver)
@@ -77,7 +87,7 @@ function airportScene(buildingArray, sceneID) {
             }
             this.texture = this.normal;
         }
-        function onClick() {
+        function onClickCancel() {
             if (this.isdown) {
                 this.isdown = false;
                 this.texture = this.hover;
@@ -87,11 +97,16 @@ function airportScene(buildingArray, sceneID) {
                 this.texture = this.pressed;
                 this.alpha = 1;
             }
+            cancelbutton.visible = false;
+            reservebutton.visible = false;
+            app.ticker.add(movetext)    
+            for(let i in flyInfo.children)
+            {
+                if(flyInfo.children[i].style.fill === '#d2123c')
+                    flyInfo.children[i].style.fill = '#25d36c';
+            }       
         }
-//////////////               //////////              ////////////////                         ///////////           ///////////////////
-
-
-
+//////////////               //////////              ////////////////                         ///////////           ///////////////////        
         backGroundSprite.addChild(cancelbutton, reservebutton, line_divider_A, line_divider_B, line_divider_C);
 
         textOptions.fill = '#7fd3a1'; textOptions.fontSize = 35;
@@ -116,7 +131,7 @@ function airportScene(buildingArray, sceneID) {
 
 
         let flyInfo = new PIXI.Container();
-
+        
         textOptions.fill = '#25d36c';
         let arrival1 = new PIXI.Text("20:08", textOptions),
         arrival2 = new PIXI.Text("15:00", textOptions),
@@ -131,7 +146,6 @@ function airportScene(buildingArray, sceneID) {
         arrival3.num = 3;
         arrival4.position = {x: 1200, y:1090}
         arrival4.num = 4;
-
         let typeofHower1 = new PIXI.Text("Griffin", textOptions),
         typeofHower2 = new PIXI.Text("Griffin", textOptions),
         typeofHower3 = new PIXI.Text("Griffin", textOptions),
@@ -140,75 +154,96 @@ function airportScene(buildingArray, sceneID) {
         typeofHower1.position = {x: 1600, y:790}
         typeofHower1.num = 1;
         typeofHower2.position = {x: 1600, y:890}
-        typeofHower1.num = 2;
+        typeofHower2.num = 2;
         typeofHower3.position = {x: 1600, y:990}
-        typeofHower1.num = 3;
+        typeofHower3.num = 3;
         typeofHower4.position = {x: 1600, y:1090}
-        typeofHower1.num = 4;
+        typeofHower4.num = 4;
 
         // /////////////// /////////////////////////////////////////
 
-        let maskGroup = new PIXI.display.Group(1,
-            function (sprite) {sprite.zOrder = -sprite.y;}
-        );
-        let infoGroup = new PIXI.display.Group(2, function (sprite) {
-            sprite.zOrder = -sprite.y;
-        });
+        // polygon pre cely ovladaci panel v ktorom budem riesit hover out pre opatovne rozhybanie casov prichodov
+        var cargoAirfield = new PIXI.Graphics();
+        cargoAirfield.hitArea = new PIXI.Rectangle(1100, 600, 1700, 650);
+        cargoAirfield.endFill();
+        cargoAirfield.parentGroup = infoGroup;
+        cargoAirfield.zIndex = 1;
+        cargoAirfield.interactive = true;
+        cargoAirfield.on('pointerout', function(event) {mouseOutOfAirfield(event)})
 
-        //toto je maska ktora je pripravena na skrolovanie ...
+        function mouseOutOfAirfield(event){
+            let mouse = event.data.getLocalPosition(flyInfo)
+          
+            if(mouse.x > (cargoAirfield.hitArea.width + cargoAirfield.hitArea.x) || mouse.y > (cargoAirfield.hitArea.height + cargoAirfield.hitArea.y)
+            || mouse.x < cargoAirfield.hitArea.x || mouse.y < cargoAirfield.hitArea.y) // if kontorluje ci sme uplne vonku area
+            {
+                cancelbutton.visible = false;
+                reservebutton.visible = false;
+                app.ticker.remove(movetext);
+                app.ticker.add(movetext)
+                for(let i in flyInfo.children)
+                {
+                    if(flyInfo.children[i].style.fill === '#d2123c')
+                        flyInfo.children[i].style.fill = '#25d36c';
+                }
+            }
+        }
+        
+        //toto je maska ktora je pripravena na skrolovanie ...        
         var scrollmask = new PIXI.Graphics();
-        // scrollmask.alpha = 0.5;
-        // scrollmask.drawRect(1200, 750, 780, 465);
-
         scrollmask.beginFill(0xFFFFFF);
-        scrollmask.drawRect(1200, 750, 780, 465); scrollmask.hitArea = new PIXI.Rectangle(1200, 750, 780, 465);
+        scrollmask.drawRect(1200, 750, 780, 465); 
+        scrollmask.hitArea = new PIXI.Rectangle(1200, 750, 780, 465);
         scrollmask.endFill();
-        //backGroundSprite.addChild(scrollmask);
-
-        // maskGroup.addChild(scrollmask);
-        // infoGroup.addChild(flyInfo);
-        flyInfo.parentGroup = infoGroup;
-        scrollmask.parentGroup = maskGroup;
+        
         flyInfo.mask = scrollmask;
-        //flyInfo.addChild(scrollmask);
-
-        //backGroundSprite.addChild(flyInfo);
+        scrollmask.parentGroup = infoGroup;
+        flyInfo.parentGroup = infoGroup;
+        scrollmask.zIndex = 3;
+        flyInfo.zIndex = 2;
+        
         flyInfo.addChild(arrival1, arrival3, arrival2, arrival4, typeofHower1, typeofHower2, typeofHower3, typeofHower4)
-
-        let flyinfoarray = [];
-        flyinfoarray.push(arrival1, arrival3, arrival2, arrival4, typeofHower1, typeofHower2, typeofHower3, typeofHower4)
-
+        
+        
         // riesim hover nad textom /// //// //// /// /         /////////////             ///////////
         for(let k in flyInfo.children){
             flyInfo.children[k].interactive = true;
-            //Iarray[k].hitArea = new PIXI.Rectangle(Iarray[k].x, Iarray[k].y, 1000, 1000);
-            //flyInfo.children[k][k]array[k].buttonMode = true;
-            //flyInfo.children[k][k]array[k].cursor = 'wait';
+            flyInfo.children[k].buttonMode = true;
+            flyInfo.children[k].cursor = 'wait';
             flyInfo.children[k].on('mouseover', ButtonOverText)
             flyInfo.children[k].on('mouseout', ButtonOutText)
-            flyInfo.children[k].on('click', onClickText);
+            flyInfo.children[k].on('click', function () { onClickText(flyInfo.children[k]) } );
         }
-        backGroundSprite.addChild(flyInfo);
-        backGroundSprite.addChild(new PIXI.display.Layer(maskGroup))
         backGroundSprite.addChild(new PIXI.display.Layer(infoGroup))
-
-        console.log(arrival1.interactive)
+        backGroundSprite.addChild(flyInfo, scrollmask);
+        backGroundSprite.addChild(cargoAirfield);
 
         function ButtonOverText(){
-            console.log("nanana")
+            console.log("over text...")
         }
 
         function ButtonOutText(){
 
         }
 
-        function onClickText(){
+        function onClickText(clickedObj){
             app.ticker.remove(movetext)
-            console.log("nanana")
+            // textOptions.fill = '0xd2123c';
+            // textOptions.fontSize = 30;
+            for(let i in flyInfo.children){
+                if(flyInfo.children[i].style.fill === '#d2123c' && flyInfo.children[i] != clickedObj)
+                    flyInfo.children[i].style.fill = '#25d36c'
+                if(flyInfo.children[i].num === clickedObj.num && flyInfo.children[i] != clickedObj)
+                    clickedObj2 = flyInfo.children[i];
+            }
+            console.log(clickedObj.num)
 
+            clickedObj.style.fill = '#d2123c'
+            clickedObj2.style.fill = '#d2123c'
+
+            cancelbutton.visible = true;
+            reservebutton.visible = true;
         }
-
-        //console.log(flyInfo.children[1].hitArea)
 
         // koniec hoveru nad textom /////////////////                 /////////////////////             /////////////
 
@@ -218,12 +253,10 @@ function airportScene(buildingArray, sceneID) {
         function movetext(){
             for(let i in flyInfo.children){
                     flyInfo.children[i].y -= 1;
-                    if(flyInfo.children[i].y <= 800)
+                    if(flyInfo.children[i].y <= 600)
                         flyInfo.children[i].y = 1200;
                 }
-
-
-
+  
         }
 
 
