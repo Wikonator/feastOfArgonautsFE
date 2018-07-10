@@ -695,7 +695,7 @@ function showStelaContainer(resources, backSprite) {
             }
             let noHits = true;
             mouseleave, nejakeFunkFunkcion
-            fuction(event) {
+            function(event) {
                 event.data
             }
 
