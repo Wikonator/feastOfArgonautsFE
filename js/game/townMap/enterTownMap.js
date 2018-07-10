@@ -9,7 +9,7 @@ function enterTownMap(){
     airportBuilding = new PIXI.Sprite(
         PIXI.loader.resources["townMap"].textures["airport.png"]
     ),
-    generalStoreBuilding = new PIXI.Sprite(
+    PSecBuilding = new PIXI.Sprite(
         PIXI.loader.resources["townMap"].textures["OQ.png"]
     ),
     governorsHouseBuilding = new PIXI.Sprite(
@@ -27,7 +27,7 @@ function enterTownMap(){
     researchTrainingBuilding = new PIXI.Sprite(
         PIXI.loader.resources["townMap"].textures["research_training.png"]
     ),
-    secCoBuilding = new PIXI.Sprite(
+    GeneralSupplyBuilding = new PIXI.Sprite(
         PIXI.loader.resources["townMap"].textures["research.png"]
     ),
     templeBuilding = new PIXI.Sprite(
@@ -43,9 +43,9 @@ function enterTownMap(){
 
 
 
-    let buildingArray = [ airportBuilding, generalStoreBuilding, governorsHouseBuilding,
+    let buildingArray = [ airportBuilding, PSecBuilding, governorsHouseBuilding,
         marketBuilding, playerHouseBuilding, ragnarBuilding, researchTrainingBuilding,
-        secCoBuilding, templeBuilding ];
+        GeneralSupplyBuilding, templeBuilding ];
 
 
     playerHouseBuilding.sceneId = 1;
@@ -61,11 +61,11 @@ function enterTownMap(){
     airportBuilding.interactive = true;
 
 
-    generalStoreBuilding.sceneId = 3;
-    generalStoreBuilding.on("click", enterGeneralStoreBuilding);
-    generalStoreBuilding.on("mouseover", buildingOverEnter);
-    generalStoreBuilding.on("mouseout", buildingOverEnd);
-    generalStoreBuilding.interactive = true;
+    GeneralSupplyBuilding.sceneId = 3;
+    GeneralSupplyBuilding.on("click", enterGeneralStoreBuilding);
+    GeneralSupplyBuilding.on("mouseover", buildingOverEnter);
+    GeneralSupplyBuilding.on("mouseout", buildingOverEnd);
+    GeneralSupplyBuilding.interactive = true;
 
     function enterPlayerBuilding() {
         playerHouseScene(buildingArray, playerHouseBuilding.sceneId);
@@ -80,8 +80,8 @@ function enterTownMap(){
         generalStoreScene();
     }
 
-    backGroundSprite.addChild(airportBuilding, generalStoreBuilding, governorsHouseBuilding,
-        marketBuilding, playerHouseBuilding, ragnarBuilding, templeBuilding, researchTrainingBuilding, secCoBuilding );
+    backGroundSprite.addChild(airportBuilding, PSecBuilding, governorsHouseBuilding,
+        marketBuilding, playerHouseBuilding, ragnarBuilding, templeBuilding, researchTrainingBuilding, GeneralSupplyBuilding );
     playArea.addChild(backGroundSprite);
 
     for (let i in buildingArray) {

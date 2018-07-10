@@ -328,7 +328,7 @@ function showStelaContainer(resources, backSprite) {
                         checkers.push(pathsFromBack[i]);
                     }
                 }
-                console.log(checkers);
+                console.log(checkers);2
                 return checkers;
             }
 
@@ -555,9 +555,12 @@ function showStelaContainer(resources, backSprite) {
         }
     }
 
+
+
     function onDragStart(event) {
-        this.data = event.data;
+        this.data = event.data;         (data. location)
         this.scale = {x: 1, y: 1};
+        console.log("pick me up :3");
 
         if (!this.dragging) {
             this.data = event.data;
@@ -619,7 +622,9 @@ function showStelaContainer(resources, backSprite) {
                 for (let spot in placeHolderArray) {
                     if (hitTestRectangle(this, placeHolderArray[spot])) {
                         placeHolderArray[spot].hold = undefined;
-                        this.oldPlaceholerIdxy = placeHolderArray[spot].idxy;
+                        this.oldPlaceholderIdxy = placeHolderArray[spot].idxy;
+                        console.log("on pickup this old placeholder Idxy: ", this.oldPlaceholderIdxy);
+                        return;
                     }
                 }
             }
@@ -675,13 +680,13 @@ function showStelaContainer(resources, backSprite) {
                 } else {
                     makeReturningDiamond(this);
                 }
-                console.log("old placeholder pred emitom:", this.oldPlaceholerIdxy);
+                console.log("old placeholder pred emitom:", this.oldPlaceholderIdxy);
                 stelaArea.removeChild(this);        // removni sprajta
                 // povedz o tom seckym znamym           // aType: 1 - dvihni (stela-> kopa}
                 let data = {
                     aType: 1,
-                    idxs: this.oldPlaceholerIdxy.idx,
-                    idys: this.oldPlaceholerIdxy.idy,
+                    idxs: this.oldPlaceholderIdxy.idx,
+                    idys: this.oldPlaceholderIdxy.idy,
                     mType: this.type.mType,
                     sType: [{type: this.type.sType}]
 
@@ -689,8 +694,12 @@ function showStelaContainer(resources, backSprite) {
                 emitStuff(data);
             }
             let noHits = true;
+            mouseleave, nejakeFunkFunkcion
+            fuction(event) {
+                event.data
+            }
+
             for (let spot in placeHolderArray) {
-                console.log(placeHolderArray[spot]);
                 if (hitTestRectangle(this, placeHolderArray[spot])) {           // dropped on a placeholder
                     // console.log("a hit!, this placeholder idxy:",placeHolderArray[spot].idxy);
                     console.log("boom headshot");
@@ -698,7 +707,7 @@ function showStelaContainer(resources, backSprite) {
                         if (!this.pileOfGems) {         // this is NOT from the pile of gems
                             //return it to its orig. position
                             for (let index in placeHolderArray) {
-                                if (placeHolderArray[index].idxy == this.oldPlaceholerIdxy) {
+                                if (placeHolderArray[index].idxy == this.oldPlaceholderIdxy) {
                                     placeHolderArray[index].hold = this.type.sType;
                                     this.position = this.oldPosition;
                                 }
@@ -730,8 +739,8 @@ function showStelaContainer(resources, backSprite) {
                                     placeHolderArray[spot].hold = this.type.sType;
                                     this.position = placeHolderArray[spot].position;
                                     this.oldPosition = placeHolderArray[spot].position;
-                                    this.oldPlaceholerIdxy = placeHolderArray[spot].idxy;
-                                    console.log("oldPlacehodlerIDxy",this.oldPlaceholerIdxy);
+                                    this.oldPlaceholderIdxy = placeHolderArray[spot].idxy;
+                                    console.log("oldPlacehodlerIDxy",this.oldPlaceholderIdxy);
                                     let dataToSend;
                                     if (this.pileOfGems) {           //0 - poloz (kopa-> stela)
                                         dataToSend = {
@@ -744,8 +753,8 @@ function showStelaContainer(resources, backSprite) {
                                     } else { //                 2 - presun (stela -> stela)
                                         dataToSend = {
                                             aType: 2,
-                                            idxs: this.oldPlaceholerIdxy.idx,
-                                            idys: this.oldPlaceholerIdxy.idy,
+                                            idxs: this.oldPlaceholderIdxy.idx,
+                                            idys: this.oldPlaceholderIdxy.idy,
                                             idxe: placeHolderArray[spot].idxy.idx,
                                             idye: placeHolderArray[spot].idxy.idy,
                                             mType: placeHolderArray[spot].type.mType,
@@ -815,7 +824,7 @@ function showStelaContainer(resources, backSprite) {
 
 function makeReturningToken(thiss) {
         let returningToken = new PIXI.Sprite(resources["tokenAndActive"].textures["token_0" + (Number(thiss.type.sType)) + ".png"]);
-        console.log(thiss.originalTokenSpot);
+
         returningToken.position = thiss.originalTokenSpot;
         returningToken.pileOfGems = true;
         returningToken.interactive = true;
@@ -886,8 +895,6 @@ function makeReturningToken(thiss) {
         let flash = new PIXI.extras.AnimatedSprite(
             redFlashTexture
         );
-        console.log("pos x",position.position.x);
-        console.log("pos y",position.position.y);
         flash.position = {x:position.position.x, y:position.position.y};
         console.log(flash.position);
         flash.anchor = {x:0.5, y:0.5};
@@ -953,8 +960,8 @@ function makeReturningToken(thiss) {
         this.texture = this.pressed;
         let stelaData = {
             aType: 3,
-            // idxs: this.oldPlaceholerIdxy.idx,
-            // idys: this.oldPlaceholerIdxy.idy,
+            // idxs: this.oldPlaceholderIdxy.idx,
+            // idys: this.oldPlaceholderIdxy.idy,
             // idxe: placeHolderArray[spot].idxy.idx,
             // idye: placeHolderArray[spot].idxy.idy,
             // mType: placeHolderArray[spot].type.mType,
