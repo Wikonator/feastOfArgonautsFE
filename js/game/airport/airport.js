@@ -38,7 +38,8 @@ function airportScene(buildingArray, sceneID) {
             sceneLoader.resources["cargo"].textures['line_divider_B.png']
         ), line_divider_C = new PIXI.Sprite (
             sceneLoader.resources["cargo"].textures['line_divider_A.png']
-
+        ), poster_small = new PIXI.Sprite (
+            sceneLoader.resources["cargo"].textures['plagat_small.png']
 
 
         );
@@ -67,7 +68,14 @@ function airportScene(buildingArray, sceneID) {
         reservebutton.y = 850;
         reservebutton.parentGroup = infoGroup;
         reservebutton.zIndex = 4;
-        
+
+
+        poster_small.parentGroup = infoGroup;
+        poster_small.zIndex = 2;
+        poster_small.visible = true;
+        poster_small.interactive = true;
+        poster_small.on('click', function() {onClickPoster(sceneLoader, backGroundSprite) } )
+
         cancelbutton.interactive = true;
         cancelbutton.on('mouseover', ButtonOver)
         cancelbutton.on('mouseout', ButtonOut)
@@ -76,6 +84,7 @@ function airportScene(buildingArray, sceneID) {
         reservebutton.interactive = true;
         reservebutton.on('mouseover', ButtonOver)
         reservebutton.on('mouseout', ButtonOut);
+        reservebutton.on('click', function() { loadingBayOpen(sceneLoader, backGroundSprite) } )
 
 /////////                     ///////////////                      //////////////////                   //////////        ///////////
         function ButtonOver() {
@@ -107,7 +116,7 @@ function airportScene(buildingArray, sceneID) {
             }       
         }
 //////////////               //////////              ////////////////                         ///////////           ///////////////////        
-        backGroundSprite.addChild(cancelbutton, reservebutton, line_divider_A, line_divider_B, line_divider_C);
+        backGroundSprite.addChild(cancelbutton, reservebutton, line_divider_A, line_divider_B, line_divider_C, poster_small);
 
         textOptions.fill = '#7fd3a1'; textOptions.fontSize = 35;
         let arrivalTimeText = new PIXI.Text("ARRIVAL TIME", textOptions),
@@ -236,8 +245,6 @@ function airportScene(buildingArray, sceneID) {
                 if(flyInfo.children[i].num === clickedObj.num && flyInfo.children[i] != clickedObj)
                     clickedObj2 = flyInfo.children[i];
             }
-            console.log(clickedObj.num)
-
             clickedObj.style.fill = '#d2123c'
             clickedObj2.style.fill = '#d2123c'
 
@@ -260,7 +267,6 @@ function airportScene(buildingArray, sceneID) {
         }
 
 
-
         // toto je docasny backbutton
         let backButton = new PIXI.Graphics;
         backButton.lineStyle(2, 0x0000FF, 1);
@@ -281,6 +287,7 @@ function airportScene(buildingArray, sceneID) {
 
 
     }
+
 }
 
 
