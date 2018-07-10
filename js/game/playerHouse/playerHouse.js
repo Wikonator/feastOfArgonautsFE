@@ -1,4 +1,4 @@
-function playerHouseScene(buildingArray, sceneId, stage) {
+function playerHouseScene(buildingArray, sceneId) {
 
     let backGroundSprite = app.stage.children[0].children[0];
     if(backGroundSprite.children[0])
@@ -55,20 +55,5 @@ function playerHouseScene(buildingArray, sceneId, stage) {
             enterTownMap();
         } );
         backGroundSprite.addChild(backButton);
-    
    }
-
-    // function setup() {
-    //     var placehol_11, placehol_12, placehol_21, placehol_22, placehol_23, placehol_31, placehol_32, placehol_33;
-    //     var anim;
-    //     let background = PIXI.Texture.fromImage("images/01_layout_01.png")
-    //     let bg = new PIXI.Sprite(background)
-    //     stage.addChild(bg);
-    //     add_placeholder();
-    //     add_lines();
-    //     add_diamonds();
-    //
-    //
-    //     app.ticker.add(delta => gameloop(delta));
-    // }
 }

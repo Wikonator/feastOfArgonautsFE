@@ -26,8 +26,8 @@ function airportScene(buildingArray, sceneID) {
     function loadNextScene (sceneLoader, resources) {
 
         backGroundSprite.texture = resources["airport"].texture;
-        
-        
+
+
         let cancelbutton = new PIXI.Sprite (
             sceneLoader.resources["cargo"].textures['cancel_buttn_usual2.png']
         ), reservebutton = new PIXI.Sprite (
@@ -39,8 +39,8 @@ function airportScene(buildingArray, sceneID) {
         ), line_divider_C = new PIXI.Sprite (
             sceneLoader.resources["cargo"].textures['line_divider_A.png']
 
-            
-        
+
+
         );
         line_divider_C.x += 250;
 
@@ -92,7 +92,7 @@ function airportScene(buildingArray, sceneID) {
                 this.isdown = false;
                 this.texture = this.hover;
             } else {
-    
+
                 this.isdown = true;
                 this.texture = this.pressed;
                 this.alpha = 1;
@@ -127,7 +127,7 @@ function airportScene(buildingArray, sceneID) {
         timeCounter.visible = true;
         backGroundSprite.addChild(reservedTimeText, timeCounter);
 
-        
+
 
 
         let flyInfo = new PIXI.Container();
@@ -135,7 +135,7 @@ function airportScene(buildingArray, sceneID) {
         textOptions.fill = '#25d36c';
         let arrival1 = new PIXI.Text("20:08", textOptions),
         arrival2 = new PIXI.Text("15:00", textOptions),
-        arrival3 = new PIXI.Text("11:55", textOptions), 
+        arrival3 = new PIXI.Text("11:55", textOptions),
         arrival4 = new PIXI.Text("16:30", textOptions);
 
         arrival1.position = {x: 1200, y:790}
@@ -245,7 +245,7 @@ function airportScene(buildingArray, sceneID) {
             reservebutton.visible = true;
         }
 
-        // koniec hoveru nad textom /////////////////                 /////////////////////             ///////////// 
+        // koniec hoveru nad textom /////////////////                 /////////////////////             /////////////
 
 
         app.ticker.add(movetext)
@@ -258,10 +258,10 @@ function airportScene(buildingArray, sceneID) {
                 }
   
         }
-                
 
 
-        // toto je docasny backbutton 
+
+        // toto je docasny backbutton
         let backButton = new PIXI.Graphics;
         backButton.lineStyle(2, 0x0000FF, 1);
         backButton.beginFill(0x00000, 1);

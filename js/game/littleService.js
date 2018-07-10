@@ -192,10 +192,7 @@ function checkRefresh() {
         createMessageTable(dataFromBack.vault.messages[1]);          // this order must b maintained - refactor into one function
         dataCameSwitch = false;
 
-
-    } else {
-        return
-    }
+    } else {  }
 }
 
 
