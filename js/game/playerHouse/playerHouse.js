@@ -22,7 +22,9 @@ function playerHouseScene(buildingArray, sceneId) {
             .add("tokenAndActive", "images/" + resolutionParameter + '/playerHouse/spritesheet_stela/temporaryTokenActiv.json')
             .add("23_combi", "images/" + resolutionParameter + '/playerHouse/spritesheet_stela/placeholder02_03.png')
             .add("45_combi", "images/" + resolutionParameter + '/playerHouse/spritesheet_stela/placeholder04_05.png')
-          .load((sceneLoader, resources) => {
+            .add("nulaPart", "images/" + resolutionParameter + '/playerHouse/spritesheet_stela/nula_partial.png')
+            .add("nulaFull", "images/" + resolutionParameter + '/playerHouse/spritesheet_stela/nula_full.png')
+            .load((sceneLoader, resources) => {
             loadNextScene(sceneLoader, resources);
         });
 
@@ -52,5 +54,7 @@ function playerHouseScene(buildingArray, sceneId) {
             enterTownMap();
         } );
         backGroundSprite.addChild(backButton);
+
+        // showStelaContainer(resources, backGroundSprite); << utility to avoid waiting, remove before commit
    }
 }
