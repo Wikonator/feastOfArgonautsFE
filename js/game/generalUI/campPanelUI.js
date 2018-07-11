@@ -207,7 +207,7 @@ for (let i = 0; i < 6; ++i) {
 }
 
 textOptions.fontSize = 22;
-
+textOptions.fill = "white";
 let                                                   // Button Texts
     campTabCampsTxt = new PIXI.Text("CAMPS", textOptions),
     campTabCampAreaTxt = new PIXI.Text('CAMP SITES', textOptions),

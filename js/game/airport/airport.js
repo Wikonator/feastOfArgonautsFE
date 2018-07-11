@@ -19,13 +19,15 @@ function airportScene(buildingArray, sceneID) {
         sceneLoader
             .add("airport", 'images/' + resolutionParameter + '/airport/airportUI.png')
             .add("cargo", 'images/' + resolutionParameter + '/airport/airportPanels.json')
+            .add("griffinCargoLines", 'images/' + resolutionParameter + '/airport/griffinCargoLines.json')
+            .add("poster01", 'images/' + resolutionParameter + '/airport/infoPanel_01_big.png')
             .load((sceneLoader, resources) => {
             loadNextScene(sceneLoader, resources);
         });
 
-    function loadNextScene (sceneLoader, resources) {
+    function loadNextScene (sceneLoader) {
 
-        backGroundSprite.texture = resources["airport"].texture;
+        backGroundSprite.texture = sceneLoader.resources["airport"].texture;
 
 
         let cancelbutton = new PIXI.Sprite (
@@ -38,7 +40,7 @@ function airportScene(buildingArray, sceneID) {
             sceneLoader.resources["cargo"].textures['line_divider_B.png']
         ), line_divider_C = new PIXI.Sprite (
             sceneLoader.resources["cargo"].textures['line_divider_A.png']
-        ), poster_small = new PIXI.Sprite (
+        ), poster_small01 = new PIXI.Sprite (
             sceneLoader.resources["cargo"].textures['plagat_small.png']
 
 
@@ -70,11 +72,12 @@ function airportScene(buildingArray, sceneID) {
         reservebutton.zIndex = 4;
 
 
-        poster_small.parentGroup = infoGroup;
-        poster_small.zIndex = 2;
-        poster_small.visible = true;
-        poster_small.interactive = true;
-        poster_small.on('click', function() {onClickPoster(sceneLoader, backGroundSprite) } )
+        poster_small01.x = 520;
+        poster_small01.y = 680;
+        poster_small01.height = 500;
+        poster_small01.width = 400;
+        poster_small01.interactive = true;
+        poster_small01.on('click', function() {onClickPoster(sceneLoader, backGroundSprite) } )
 
         cancelbutton.interactive = true;
         cancelbutton.on('mouseover', ButtonOver)
@@ -116,7 +119,7 @@ function airportScene(buildingArray, sceneID) {
             }       
         }
 //////////////               //////////              ////////////////                         ///////////           ///////////////////        
-        backGroundSprite.addChild(cancelbutton, reservebutton, line_divider_A, line_divider_B, line_divider_C, poster_small);
+        backGroundSprite.addChild(cancelbutton, reservebutton, line_divider_A, line_divider_B, line_divider_C);
 
         textOptions.fill = '#7fd3a1'; textOptions.fontSize = 35;
         let arrivalTimeText = new PIXI.Text("ARRIVAL TIME", textOptions),
@@ -134,7 +137,7 @@ function airportScene(buildingArray, sceneID) {
         timeCounter.position = {x: 2055, y: 930};
         reservedTimeText.visible = true;
         timeCounter.visible = true;
-        backGroundSprite.addChild(reservedTimeText, timeCounter);
+        backGroundSprite.addChild(reservedTimeText, timeCounter, poster_small01);
 
 
 
@@ -228,7 +231,7 @@ function airportScene(buildingArray, sceneID) {
         backGroundSprite.addChild(cargoAirfield);
 
         function ButtonOverText(){
-            console.log("over text...")
+
         }
 
         function ButtonOutText(){
@@ -287,6 +290,7 @@ function airportScene(buildingArray, sceneID) {
 
 
     }
+
 
 }
 

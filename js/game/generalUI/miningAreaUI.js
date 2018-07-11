@@ -137,6 +137,7 @@ function miningAreaUI() {
         if (this.isdown) {              // uz stlaceny bol
             this.texture = this.hover;
             this.isdown = false;
+            
             for (let subArea in this.children) {
                 if (this.children[subArea].isdown) {
                     this.children[subArea].isdown = false;
