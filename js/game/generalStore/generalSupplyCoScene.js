@@ -1,4 +1,4 @@
-function generalStoreScene() {
+function generalSupplyCoScene() {
 
     let selectionSquaresArray = [], buttonNameArray = ["TENTS & CAMPS", "FOOD", "MEDICINE", "OPERATORS HQ", "CAMP SAFETY", "EXO SPARES", "FUEL", "H2O"],
         backGroundSprite = app.stage.children[0].children[0];

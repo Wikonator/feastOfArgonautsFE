@@ -77,7 +77,7 @@ function enterTownMap(){
 
     function enterGeneralStoreBuilding() {
         console.log("enter the general store");
-        generalStoreScene();
+        generalSupplyCoScene();
     }
 
     backGroundSprite.addChild(airportBuilding, PSecBuilding, governorsHouseBuilding,
