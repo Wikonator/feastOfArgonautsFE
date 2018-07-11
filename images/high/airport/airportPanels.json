@@ -29,8 +29,8 @@
 	"frame": {"x":3568,"y":1996,"w":256,"h":59},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":1336,"y":1126,"w":256,"h":59},
-	"sourceSize": {"w":3840,"h":2160}
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":59},
+	"sourceSize": {"w":256,"h":59}
 },
 "buttn_usual-1.png":
 {
@@ -53,8 +53,8 @@
 	"frame": {"x":3748,"y":2057,"w":256,"h":59},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":1336,"y":1126,"w":256,"h":59},
-	"sourceSize": {"w":3840,"h":2160}
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":59},
+	"sourceSize": {"w":256,"h":59}
 },
 "Camp_buttn_green.png":
 {
@@ -221,8 +221,8 @@
 	"frame": {"x":3658,"y":1058,"w":197,"h":250},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":259,"y":342,"w":197,"h":250},
-	"sourceSize": {"w":1920,"h":1080}
+	"spriteSourceSize": {"x":0,"y":0,"w":197,"h":250},
+	"sourceSize": {"w":197,"h":250}
 },
 "plan_flight_buttn.png":
 {
@@ -293,8 +293,8 @@
 	"frame": {"x":3609,"y":1479,"w":22,"h":24},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":2071,"y":1576,"w":22,"h":24},
-	"sourceSize": {"w":3840,"h":2160}
+	"spriteSourceSize": {"x":0,"y":0,"w":22,"h":24},
+	"sourceSize": {"w":22,"h":24}
 },
 "text_amount.png":
 {
@@ -469,16 +469,16 @@
 	"frame": {"x":3748,"y":2118,"w":256,"h":59},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":1336,"y":1288,"w":256,"h":59},
-	"sourceSize": {"w":3840,"h":2160}
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":59},
+	"sourceSize": {"w":256,"h":59}
 },
 "unload_usual.png":
 {
 	"frame": {"x":3826,"y":1996,"w":256,"h":59},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":1336,"y":1288,"w":256,"h":59},
-	"sourceSize": {"w":3840,"h":2160}
+	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":59},
+	"sourceSize": {"w":256,"h":59}
 }},
 "meta": {
 	"app": "https://www.codeandweb.com/texturepacker",

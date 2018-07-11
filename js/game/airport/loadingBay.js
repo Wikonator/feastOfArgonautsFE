@@ -1,6 +1,6 @@
 function loadingBayOpen(sceneLoader, backGroundSprite){
     let loadingBay = new PIXI.Container()
-
+    var seatCounter = 0;
     let topPanel = new PIXI.Sprite (
         sceneLoader.resources["cargo"].textures['top_panel_LB.png']
     ), diplya_bckg = new PIXI.Sprite (
@@ -15,24 +15,19 @@ function loadingBayOpen(sceneLoader, backGroundSprite){
         sceneLoader.resources["cargo"].textures['line_divider.png']
     ), text_amount = new PIXI.Sprite (
         sceneLoader.resources["cargo"].textures['text_amount.png']
-    ), text_capacity = new PIXI.Sprite (
-        sceneLoader.resources["cargo"].textures['text_capacity.png']
-    ), text_Capacity = new PIXI.Sprite (
-        sceneLoader.resources["cargo"].textures['text_Capacity.png']
+
     ), text_load = new PIXI.Sprite (
         sceneLoader.resources["cargo"].textures['text_load.png']
     ), text_load_all_usual = new PIXI.Sprite (
         sceneLoader.resources["cargo"].textures['text_load_all_usual.png']
     ), text_unload = new PIXI.Sprite (
         sceneLoader.resources["cargo"].textures['text_unload.png']
-    ), unload_usual = new PIXI.Sprite (
+    ), unloadButtn = new PIXI.Sprite (
         sceneLoader.resources["cargo"].textures['unload_usual.png']
-    ), Buttn_usual = new PIXI.Sprite (
+    ), loadAllButtn = new PIXI.Sprite (
         sceneLoader.resources["cargo"].textures['Buttn_usual.png']
-    ), griffin_load_scheme = new PIXI.Sprite (
-        sceneLoader.resources["cargo"].textures['griffin_load_scheme.png']
-    ), text_Griffin = new PIXI.Sprite (
-        sceneLoader.resources["cargo"].textures['text_Griffin-042.png']
+    ), loadButtn = new PIXI.Sprite (
+        sceneLoader.resources["cargo"].textures['Buttn_usual.png']
     ), text_plan_flight = new PIXI.Sprite (
         sceneLoader.resources["cargo"].textures['text_plan_flight.png']
     ), text_Shiping_Cost = new PIXI.Sprite (
@@ -61,12 +56,8 @@ function loadingBayOpen(sceneLoader, backGroundSprite){
         sceneLoader.resources["cargo"].textures['line.png']
     ), line_above = new PIXI.Sprite (
         sceneLoader.resources["cargo"].textures['line_above.png']
-    ), griffin_passengers_scheme = new PIXI.Sprite (
-        sceneLoader.resources["cargo"].textures['griffin_passengers_scheme.png']
     ), camps_main_panel = new PIXI.Sprite (
         sceneLoader.resources["cargo"].textures['camps_main_panel.png']
-    ), text_passengers_seats = new PIXI.Sprite (
-        sceneLoader.resources["cargo"].textures['text_passengers seats.png']
     ), text_item = new PIXI.Sprite (
         sceneLoader.resources["cargo"].textures['text_item.png']
      ), Camp_buttn_yellow = new PIXI.Sprite (
@@ -103,57 +94,42 @@ function loadingBayOpen(sceneLoader, backGroundSprite){
     plan_flight_buttn.on('mouseout', ButtonOut)
     //cancel_buttn.on('click', onClickCancel)
 
-    // treba lepsie urcit pozicie
-    numCamp.hover = sceneLoader.resources["cargo"].textures['small_buttn_pressed_enlarged.png'];
-    numCamp.normal = sceneLoader.resources["cargo"].textures['small_buttn_usual.png'];
-    numCamp.x = 326; //326 // 365
-    numCamp.y = 358; // 358
-    numCamp.interactive = true;
-    numCamp.on('mouseover', ButtonOver)
-    numCamp.on('mouseout', ButtonOut)
 
+    loadAllButtn.hover = sceneLoader.resources["cargo"].textures['Buttn_hovered.png'];
+    loadAllButtn.normal = sceneLoader.resources["cargo"].textures['Buttn_usual.png'];
+    loadAllButtn.x = 1336;
+    loadAllButtn.y = 1126;
+    loadAllButtn.interactive = true;
+    loadAllButtn.on('mouseover', ButtonOver)
+    loadAllButtn.on('mouseout', ButtonOut)
+    loadAllButtn.on('click', loadAll)
 
+    loadButtn.hover = sceneLoader.resources["cargo"].textures['Buttn_hovered.png'];
+    loadButtn.normal = sceneLoader.resources["cargo"].textures['Buttn_usual.png'];
+    loadButtn.x = 1336;
+    loadButtn.y = 1221; // +95
+    loadButtn.interactive = true;
+    loadButtn.on('mouseover', ButtonOver)
+    loadButtn.on('mouseout', ButtonOut)
+    loadButtn.on('click', load)
+
+    unloadButtn.hover = sceneLoader.resources["cargo"].textures['unload_hovered.png'];
+    unloadButtn.normal = sceneLoader.resources["cargo"].textures['unload_usual.png'];
+    unloadButtn.x = 1336;
+    unloadButtn.y = 1288; 
+    unloadButtn.interactive = true;
+    unloadButtn.on('mouseover', ButtonOver)
+    unloadButtn.on('mouseout', ButtonOut)
+    unloadButtn.on('click', unload)
     ///////////   ///////////////       //////////////// AREAS ///////////////         /////////////////////            //////////////////////
-    // minningArea1.hover = sceneLoader.resources["cargo"].textures['buttn_hovered.png'];
-    // minningArea1.normal = sceneLoader.resources["cargo"].textures['buttn_usual.png'];
-    // minningArea1.pressed = sceneLoader.resources["cargo"].textures['mining_area_pressed']
     minningArea1.x = 329; 
     minningArea1.y = 627;
-    // minningArea1.interactive = true;
-    // minningArea1.on('mouseover', ButtonOver)
-    // minningArea1.on('mouseout', ButtonOut)
-    // minningArea1.on('click', function() {onClickCamps(this) } )
-
-    // minningArea2.hover = sceneLoader.resources["cargo"].textures['buttn_hovered.png'];
-    // minningArea2.normal = sceneLoader.resources["cargo"].textures['buttn_usual.png'];
-    // minningArea2.pressed = sceneLoader.resources["cargo"].textures['mining_area_pressed']
     minningArea2.x = 652;
     minningArea2.y = 627;
-    // minningArea2.interactive = true;
-    // minningArea2.on('mouseover', ButtonOver)
-    // minningArea2.on('mouseout', ButtonOut)
-    // minningArea2.on('click', function() {onClickCamps(this) } )
-
-    // minningArea3.hover = sceneLoader.resources["cargo"].textures['buttn_hovered.png'];
-    // minningArea3.normal = sceneLoader.resources["cargo"].textures['buttn_usual.png'];
-    // minningArea3.pressed = sceneLoader.resources["cargo"].textures['mining_area_pressed']
     minningArea3.x = 975; 
     minningArea3.y = 627;
-    // minningArea3.interactive = true;
-    // minningArea3.on('mouseover', ButtonOver)
-    // minningArea3.on('mouseout', ButtonOut)
-    // minningArea3.on('click', function() {onClickCamps(this) } )
-
-    // minningArea4.hover = sceneLoader.resources["cargo"].textures['buttn_hovered.png'];
-    // minningArea4.normal = sceneLoader.resources["cargo"].textures['buttn_usual.png'];
-    // minningArea4.pressed = sceneLoader.resources["cargo"].textures['mining_area_pressed']
     minningArea4.x = 1298;  
     minningArea4.y = 627;
-    // minningArea4.interactive = true;
-    // minningArea4.on('mouseover', ButtonOver)
-    // minningArea4.on('mouseout', ButtonOut)
-    // minningArea4.on('click', function() {onClickCamps(this) } )
-
 
     textOptions.fill = '#11d1de';
     textOptions.fontSize = 30;
@@ -172,46 +148,31 @@ function loadingBayOpen(sceneLoader, backGroundSprite){
     let zetta = new PIXI.Text("ZETTA", textOptions);
     zetta.x = 1400;  // 1298 , 1084
     zetta.y = 653;
-
-    // function onClickCamps(clickedObj){
-    //     if (this.isdown) {
-    //         this.isdown = false;
-    //         this.texture = this.hover;
-    //     } else {
-
-    //         this.isdown = true;
-    //         this.texture = this.pressed;
-    //         this.alpha = 1;
-    //     }
-
-    //     console.log(clickedObj);
-    // }
     ////////////////////////// / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / // 
     let miningAreaButtons = [minningArea1, minningArea2, minningArea3, minningArea4];
     let subareaTexture = sceneLoader.resources["cargo"].textures['small_buttn_usual.png'];
-
-    console.log(subareaTexture);
-    console.log(dataFromBack.areas.btn[0].state);
+    textOptions.fontSize = 10;
     for (let i in miningAreaButtons) {
         
-        let subButtonX = -65,
-        subButtonY = 70;
+        let subButtonX = 40,
+        subButtonY = 100;
         miningAreaButtons[i].interactive = true;
         miningAreaButtons[i].on("click", miningClick);
         miningAreaButtons[i].on('mouseover', onMiningOver);
         miningAreaButtons[i].on('mouseout', onMiningOut);
         miningAreaButtons[i].hover = sceneLoader.resources["cargo"].textures['buttn_hovered.png'];
         miningAreaButtons[i].normal = sceneLoader.resources["cargo"].textures['buttn_usual.png'];
-        miningAreaButtons[i].pressed = sceneLoader.resources["cargo"].textures['area_buttn_pressed.png'];
+        miningAreaButtons[i].pressed = sceneLoader.resources["cargo"].textures['buttn_hovered.png'];
         miningAreaButtons[i].disabled = sceneLoader.resources["cargo"].textures['buttn_usual.png'];
         miningAreaButtons[i].isDisabled = dataFromBack.areas.btn[i].state;
+        
         for (let subArea in dataFromBack.areas.btn[i].btn) {
             let subAreaButton = new PIXI.Sprite(subareaTexture);
             let subAreaText = new PIXI.Text(dataFromBack.areas.btn[i].btn[subArea].text, textOptions);
             subAreaText.anchor = {x: 0.5, y: 0.5};
             subAreaText.scale = {x: 1.5, y: 1.5};
             subAreaButton.addChild(subAreaText);
-            subAreaButton.scale = {x: 0.7, y: 0.7};
+            subAreaButton.scale = {x: 1.5, y: 1.5};
             subAreaButton.anchor = {x: 0.5, y: 0.5};
             subAreaButton.state = dataFromBack.areas.btn[i].btn[subArea].state;
             subAreaButton.position = {x: subButtonX, y: subButtonY};
@@ -219,6 +180,8 @@ function loadingBayOpen(sceneLoader, backGroundSprite){
             subAreaButton.hover = sceneLoader.resources["cargo"].textures['small_buttn_pressed_enlarged.png'];
             subAreaButton.pressed = sceneLoader.resources["cargo"].textures['small_buttn_pressed_enlarged.png'];
             subAreaButton.disabled = sceneLoader.resources["cargo"].textures['small_buttn_usual.png'];
+            subAreaButton.width = 60;
+            subAreaButton.height = 60;
             subAreaButton.isDisabled = false;
             subAreaButton.interactive = true;
             subAreaButton.on("click", subAreaClick);
@@ -242,45 +205,42 @@ function loadingBayOpen(sceneLoader, backGroundSprite){
                 return
             }
             if (this.isdown) {  
-                console.log("buttn is down")            // uz stlaceny bol
+                console.log("buttn is down")     
                 this.texture = this.hover;
                 this.isdown = false;
 
-                // tu je pes zakopany
-            //     for (let subArea in this.children) {
-            //         if (this.children[subArea].isdown) {
-            //             this.children[subArea].isdown = false;
-            //             this.children[subArea].texture = this.children[subArea].normal;
-            //         }
-            //         this.children[subArea].visible = false;
-            //     }
-            // } else {
-            //     console.log("button was not down")
-            //     for (let i in miningAreaButtons) {
-            //         console.log(i);
-            //         if (miningAreaButtons[i].isDisabled == 1) {
-            //             break;
-            //         } else {
-            //             console.log("button was not pressed before")
-            //             console.log(miningAreaButtons[i].children)
-            //             miningAreaButtons[i].texture = miningAreaButtons[i].normal;
-            //             miningAreaButtons[i].isdown = false;
-            //             for (let subArea in miningAreaButtons[i].children) {
-            //                 miningAreaButtons[i].children[subArea].visible = false;
-            //                 console.log(miningAreaButtons[i].children[subArea].visible);
-            //             }
-            //         }
-            //     }
-            //     console.log("after the subarea for")
+                for (let subArea in this.children) {
+                    if (this.children[subArea].isdown) {
+                        console.log(this.children[subArea])
+                        this.children[subArea].isdown = false;
+                        this.children[subArea].texture = this.children[subArea].normal;
+                    }
+                    this.children[subArea].visible = false;
+                }
+            } else {
+                for (let i in miningAreaButtons) {
+                    if (miningAreaButtons[i].isDisabled == 1) {
+                        break;
+                    } else {
+                        miningAreaButtons[i].texture = miningAreaButtons[i].normal;
+                        miningAreaButtons[i].isdown = false;
+                        for (let subArea in miningAreaButtons[i].children) {
+                            miningAreaButtons[i].children[subArea].visible = false;
+                            console.log(miningAreaButtons[i].children[subArea].visible);
+                        }
+                    }
+                }
                 this.texture = this.pressed;
                 this.isdown = true;
-                // for (let subArea in this.children) {
-                //     this.children[subArea].visible = true;
-                //}
+                for (let subArea in this.children) {
+                    console.log(this.children[subArea])
+                    this.children[subArea].visible = true;
+                }
             }
         }
     
         function onMiningOver() {
+            console.log("hover tlacitka")
             if (this.isDisabled === 1) {
                 return
             }
@@ -349,16 +309,20 @@ function loadingBayOpen(sceneLoader, backGroundSprite){
 
 /////////////////         ///////////////////////         END AREAS        //////////////////////               /////////////////             ///////////
 
-    loadingBay.addChild(topPanel, diplya_bckg, ui_panel_bottom, ui_panel_top, items_main_panel_green, text_amount, text_capacity, text_Capacity, text_load, text_load
-        , text_load_all_usual, text_unload, unload_usual, Buttn_usual, griffin_load_scheme, text_Griffin, plan_flight_buttn, text_plan_flight, text_Shiping_Cost, text_sigma_usual, buttn01, buttn03, 
-        buttn04, arrow_buttn, arrow_buttn2, Camp_buttn_green, cancel_buttn, text_cancel, line, line_above, griffin_passengers_scheme, camps_main_panel,
-        text_passengers_seats, text_item, line_divider, Camp_buttn_yellow, numCamp,  minningArea1, minningArea2, minningArea3, minningArea3, minningArea4, sigma, gamma, delta, zetta)
+    loadingBay.addChild(topPanel, diplya_bckg, ui_panel_bottom, ui_panel_top, items_main_panel_green, text_amount, text_load, text_load
+        , text_load_all_usual, text_unload, unloadButtn, loadAllButtn, plan_flight_buttn, text_plan_flight, text_Shiping_Cost, text_sigma_usual, buttn01, buttn03, 
+        buttn04, arrow_buttn, arrow_buttn2, Camp_buttn_green, cancel_buttn, text_cancel, line, line_above, camps_main_panel, 
+        text_item, line_divider, Camp_buttn_yellow, numCamp,  minningArea1, minningArea2, minningArea3, minningArea3, minningArea4, sigma, gamma, delta, zetta, loadButtn)
 
-    backGroundSprite.addChild(loadingBay);
-
-
-
-
+        
+        
+        
+        /////////     VOLANIE FUNKCII NA LOADING  ////////////////          ////////////// 
+    let arrayOfSeats = [];
+    let arrayOfCargo = [];
+    arrayOfSeats = griffin_seats_loading(loadingBay, sceneLoader);
+    arrayOfCargo = griffin_cargo_loading(loadingBay, sceneLoader);
+    
 
     ///////////// //////////////      onclick       //////////////////////    buttonover        ////////////
     function ButtonOver() {
@@ -373,6 +337,22 @@ function loadingBayOpen(sceneLoader, backGroundSprite){
     function onClickCancel(){
         backGroundSprite.removeChild(loadingBay)
     }
+    //////////////////      ///////////////////////  LOAD FUNCKCIA-onclick   ////////////////////////      ////      ///        //////////////
+    function load(){
+        loadPassanger(arrayOfSeats, 1, seatCounter++);
+        //loadCargo(arrayOfCargo, 1)
 
-    ////////////            ////////////////                //////////////////            ///////
+    }
+    function unload(){
+        loadPassanger(arrayOfSeats, 0, --seatCounter)
+    }
+    function loadAll(){
+        
+    }
+
+    ////////////     ADD TO BACKGROUNDSPRITE       ////////////////                //////////////////            ///////
+    
+    backGroundSprite.addChild(loadingBay);
+
+
 }
