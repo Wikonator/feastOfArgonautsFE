@@ -7,8 +7,7 @@ function playerHouseScene(buildingArray, sceneId) {
             backGroundSprite.removeChild(backGroundSprite.children[0]);        
         }
     }
-
-            // fog transition
+             // fog transition
             // add loading screen here
         let sceneLoader = new PIXI.loaders.Loader();
 
@@ -41,8 +40,6 @@ function playerHouseScene(buildingArray, sceneId) {
             showStelaContainer(resources, backGroundSprite);
         } );
         backGroundSprite.addChild(table);
-
-
 
         let backButton = new PIXI.Graphics();
         backButton.lineStyle(0);

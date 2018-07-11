@@ -558,7 +558,7 @@ function showStelaContainer(resources, backSprite) {
 
 
     function onDragStart(event) {
-        this.data = event.data;         (data. location)
+        this.data = event.data;
         this.scale = {x: 1, y: 1};
         console.log("pick me up :3");
 
@@ -694,11 +694,6 @@ function showStelaContainer(resources, backSprite) {
                 emitStuff(data);
             }
             let noHits = true;
-            mouseleave, nejakeFunkFunkcion
-            function(event) {
-                event.data
-            }
-
             for (let spot in placeHolderArray) {
                 if (hitTestRectangle(this, placeHolderArray[spot])) {           // dropped on a placeholder
                     // console.log("a hit!, this placeholder idxy:",placeHolderArray[spot].idxy);

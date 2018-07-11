@@ -8,7 +8,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":267,"h":330},
 	"sourceSize": {"w":267,"h":330}
 },
-"capsule types text inisde.png":
+"capsuleTypes.png":
 {
 	"frame": {"x":1,"y":435,"w":464,"h":117},
 	"rotated": false,
@@ -24,7 +24,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":416,"h":154},
 	"sourceSize": {"w":416,"h":154}
 },
-"emergency catapult delivery system copy.png":
+"deliverySystem.png":
 {
 	"frame": {"x":1,"y":253,"w":644,"h":180},
 	"rotated": false,
@@ -40,7 +40,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":404,"h":142},
 	"sourceSize": {"w":404,"h":142}
 },
-"list of urgent needs_text inisde.png":
+"urgentNeeds.png":
 {
 	"frame": {"x":1,"y":1,"w":974,"h":250},
 	"rotated": false,
@@ -56,7 +56,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":404,"h":142},
 	"sourceSize": {"w":404,"h":142}
 },
-"special_offer text inisde.png":
+"specialOffer.png":
 {
 	"frame": {"x":647,"y":253,"w":329,"h":195},
 	"rotated": false,
