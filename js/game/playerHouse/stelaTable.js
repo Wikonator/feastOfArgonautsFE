@@ -1,5 +1,13 @@
 function showStelaContainer(resources, backSprite) {
     let backGroundSprite = backSprite;
+
+    let screenShadow = new PIXI.Graphics();
+    screenShadow.beginFill(0x000000, 0.8);
+    screenShadow.drawRect(0,0,windowWidth*2.5, windowHeight*2.5);
+    screenShadow.endFill();
+    screenShadow.lineStyle(0);
+    backGroundSprite.addChild(screenShadow);
+
     let pathGroup = new PIXI.display.Group(1,
         function (sprite) {
             sprite.zOrder = -sprite.y;
@@ -145,7 +153,9 @@ function showStelaContainer(resources, backSprite) {
     let layoutX = 0, layoutY = 50;
     for (let i = 0; i < 2; ++i) {
         for (let indx = 0; indx < 3; ++indx) {
+
             let thisTile = new PIXI.Sprite(resources["stelaAssets"].textures['01_layout_01.png']);
+            console.log(resources["stelaAssets"].textures['01_layout_01.png'].orig);
             thisTile.position = {x: layoutX, y: layoutY};
             thisTile.scale = {x: 0.7, y: 0.7};
             // thisTile.scale.y = 1.15;
@@ -176,10 +186,87 @@ function showStelaContainer(resources, backSprite) {
     rightArrow.position = {x: 3800, y: 2180};
     rightArrow.anchor = {x: 1, y: 1};
 
-    tableContainer.addChild(bottomStelaText
-        // , leftArrow, rightArrow
-    );
+    tableContainer.addChild(bottomStelaText);
 
+    let nulaPositions = [], nulatronBulbsArray = [];
+    function createTheNulatron () {
+
+        // console.log(dataFromBack);
+        // create an array of positions where index is position.x (multiply) - 25times
+        let lightBulbY = 260, lightBulbX = 1150;
+        for (let idx = 1; idx <= 25; ++idx) {
+            let lightBulbPosition = {x: lightBulbX, y: lightBulbY};
+            lightBulbX += 60;
+            nulaPositions.push(lightBulbPosition);
+        }
+        // get data from the back and calculate the nula bar (divide total nrgy - more than 5 and less than 5 have diff sprites)
+    }
+    createTheNulatron();
+
+    function showLightBulbs() {
+
+        let tempNulaBar = 156; // << here cometh the backData
+        let barsToFill = tempNulaBar / 10;  // 15.6
+        let lastBar = barsToFill%5;  // 15.6 % 10 = 5.6
+        let idx = 0;
+        // place as many sprites as you need, place the last half sprite
+        while ( idx < (barsToFill-1)) {
+            let lightBulb = new PIXI.Sprite(resources["nulaFull"].texture);
+            lightBulb.half = false;
+            lightBulb.position = {x:nulaPositions[idx].x, y: nulaPositions[idx].y};
+            tableContainer.addChild(lightBulb);
+            nulatronBulbsArray.push(lightBulb);
+            ++idx;
+        }
+        if (lastBar >= 0.5) {
+            let lightBulb = new PIXI.Sprite(resources["nulaPart"].texture);
+            lightBulb.half = true;
+            lightBulb.position = {x:nulaPositions[idx].x - 2, y: (nulaPositions[idx].y + 30)};
+            tableContainer.addChild(lightBulb);
+            nulatronBulbsArray.push(lightBulb);
+        }
+
+    }
+    showLightBulbs();
+
+    function updateLightBulbs(less, value) {
+        console.log("lets update the lightbulbs");
+        let lastNulaBulb = nulatronBulbsArray[nulatronBulbsArray.length-1];
+        let lastIndex = nulatronBulbsArray.length - 1;
+        console.log(nulatronBulbsArray.length);
+        if (less) {
+            console.log('less is true letts decrease');
+            // remove half sprite or change full into half sprite
+            if (lastNulaBulb.half) {       // remove the sprite and pop it from the bulbsArray
+                console.log(nulatronBulbsArray.length);
+                tableContainer.removeChild(nulatronBulbsArray.pop());
+                console.log(nulatronBulbsArray.length);
+            } else {
+                // change full into half
+                lastNulaBulb.texture = resources["nulaPart"].texture;
+                lastNulaBulb.half = true;
+                console.log(nulaPositions[lastIndex].y);
+                lastNulaBulb.position = {x:nulaPositions[lastIndex].x, y: nulaPositions[lastIndex].y + 30};
+                console.log(lastNulaBulb.position);
+            }
+        } else {
+            console.log("add one");
+            // add half sprite or change into full sprite
+            if (lastNulaBulb.half) { // last sprite in the nulatron is half full
+                console.log("change to full");
+                lastNulaBulb.texture = resources["nulaFull"].texture;
+                lastNulaBulb.position.x += 2; lastNulaBulb.position.y -= 30;
+                lastNulaBulb.half = false;
+            } else {    // its full
+                console.log("add a new half one");
+                let lightBulb = new PIXI.Sprite(resources["nulaPart"].texture);
+                lightBulb.half = true;
+                lightBulb.position = {x:nulaPositions[lastIndex+1].x - 2, y: (nulaPositions[lastIndex+1].y + 30)};
+                tableContainer.addChild(lightBulb);
+                nulatronBulbsArray.push(lightBulb);
+            }
+        }
+    }
 
     function Position(x, y) {
         this.x = x;
@@ -301,7 +388,6 @@ function showStelaContainer(resources, backSprite) {
 
     let elektrikStorage = [];
     function stelaPathMaker(pathsFromBack, update) {
-        console.log(originalPathsFromBack);
         if (!update) {
             for (let path in pathsFromBack) {
                 let deWey = new PIXI.Sprite(
@@ -618,19 +704,24 @@ function showStelaContainer(resources, backSprite) {
                         diamondArea.addChild(newGem);
                     }
                 }
+                let newPosition = this.data.getLocalPosition(this.parent);
+                this.x = newPosition.x;
+                this.y = newPosition.y;
             } else {
+                console.log("neni z pile of gems");
                 for (let spot in placeHolderArray) {
                     if (hitTestRectangle(this, placeHolderArray[spot])) {
                         placeHolderArray[spot].hold = undefined;
+                        console.log("stary placeholder: ",placeHolderArray[spot].idxy);
                         this.oldPlaceholderIdxy = placeHolderArray[spot].idxy;
                         console.log("on pickup this old placeholder Idxy: ", this.oldPlaceholderIdxy);
+                        let newPosition = this.data.getLocalPosition(this.parent);
+                        this.x = newPosition.x;
+                        this.y = newPosition.y;
                         return;
                     }
                 }
             }
-            var newPosition = this.data.getLocalPosition(this.parent);
-            this.x = newPosition.x;
-            this.y = newPosition.y;
         }
     }
 
@@ -692,12 +783,12 @@ function showStelaContainer(resources, backSprite) {
 
                 };
                 emitStuff(data);
+                updateLightBulbs(false, 0.5);
             }
             let noHits = true;
             for (let spot in placeHolderArray) {
                 if (hitTestRectangle(this, placeHolderArray[spot])) {           // dropped on a placeholder
-                    // console.log("a hit!, this placeholder idxy:",placeHolderArray[spot].idxy);
-                    console.log("boom headshot");
+                    console.log("a hit!, this placeholder idxy:",placeHolderArray[spot].idxy);
                     if (typeof placeHolderArray[spot].hold !== "undefined") {          // something is there
                         if (!this.pileOfGems) {         // this is NOT from the pile of gems
                             //return it to its orig. position
@@ -732,9 +823,7 @@ function showStelaContainer(resources, backSprite) {
 
                                     //if so
                                     placeHolderArray[spot].hold = this.type.sType;
-                                    this.position = placeHolderArray[spot].position;
-                                    this.oldPosition = placeHolderArray[spot].position;
-                                    this.oldPlaceholderIdxy = placeHolderArray[spot].idxy;
+
                                     console.log("oldPlacehodlerIDxy",this.oldPlaceholderIdxy);
                                     let dataToSend;
                                     if (this.pileOfGems) {           //0 - poloz (kopa-> stela)
@@ -745,6 +834,12 @@ function showStelaContainer(resources, backSprite) {
                                             mType: placeHolderArray[spot].type.mType,
                                             sType: [{type: placeHolderArray[spot].type.sType[types].type}]
                                         };
+                                        this.position = placeHolderArray[spot].position;
+                                        this.oldPosition = placeHolderArray[spot].position;
+                                        this.oldPlaceholderIdxy = placeHolderArray[spot].idxy;
+
+                                        // decrease nula value and redraw the nulatron
+                                        updateLightBulbs(true, 0.5);
                                     } else { //                 2 - presun (stela -> stela)
                                         dataToSend = {
                                             aType: 2,
@@ -755,6 +850,9 @@ function showStelaContainer(resources, backSprite) {
                                             mType: placeHolderArray[spot].type.mType,
                                             sType: [{type: placeHolderArray[spot].type.sType[types].type}]
                                         };
+                                        this.position = placeHolderArray[spot].position;
+                                        this.oldPosition = placeHolderArray[spot].position;
+                                        this.oldPlaceholderIdxy = placeHolderArray[spot].idxy;
                                     }
                                     console.log(dataToSend);
                                     playGreenFlash(placeHolderArray[spot]);            // play blue blink anim8
@@ -900,7 +998,7 @@ function makeReturningToken(thiss) {
 
     socket.on("stela:onRefresh", function (data) {
 
-        console.log("data from update: ",data);
+        // console.log("data from update: ",data);
         stelaPathMaker(data.stela.layout.paths, true);
         resourceUpdate(data);
     });
@@ -921,6 +1019,8 @@ function makeReturningToken(thiss) {
         }
     }
 
+
+
     function crossOver() {
         this.children[0].texture = this.children[0].hover;
     }
@@ -930,8 +1030,7 @@ function makeReturningToken(thiss) {
 
     }
     function crossClose() {
-        console.log("i lcicked");
-        backGroundSprite.removeChild(tableContainer);
+        backGroundSprite.removeChild(tableContainer, screenShadow);
     }
 
 

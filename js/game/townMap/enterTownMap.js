@@ -77,7 +77,7 @@ function enterTownMap(){
 
     function enterGeneralStoreBuilding() {
         console.log("enter the general store");
-        generalStoreScene();
+        generalSupplyCoScene();
     }
 
     backGroundSprite.addChild(airportBuilding, PSecBuilding, governorsHouseBuilding,
@@ -90,7 +90,9 @@ function enterTownMap(){
         buildingArray[i].hitArea = new PIXI.Rectangle( buildingArray[i].texture.trim.x, buildingArray[i].texture.trim.y, buildingArray[i].texture.trim.width, buildingArray[i].texture.trim.height);
         buildingArray[i].on("mouseover", buildingOverEnter);
         // buildingArray[i].on("mouseout", buildingOverEnd);
-    };
+    }
+
+    // enterPlayerBuilding();  // <<<<<< temporary dont forget to erase before commiting
 
     resize();
 
