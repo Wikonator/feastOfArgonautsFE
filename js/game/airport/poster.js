@@ -3,12 +3,6 @@ function onClickPoster(sceneLoader, backGroundSprite){
     let bigPoster01 = new PIXI.Sprite()
     bigPoster01.texture = sceneLoader.resources["poster01"].texture;
 
-
-
-
-    //console.log(PIXI.loader.resources["crossAndDiamonds"].textures['close_btn_bg.png'])
-    // close_btn_icon_hover.png
-    // close_btn_icon.png
     let cancelHolder = new PIXI.Sprite (
         PIXI.loader.resources["crossAndDiamonds"].textures['close_btn_bg.png']
     ), cancelCross = new PIXI.Sprite (
@@ -25,8 +19,8 @@ function onClickPoster(sceneLoader, backGroundSprite){
     cancelCross.y = 290;
     cancelCross.scale = {x: 2, y: 2};
 
-    cancelHolder.x = 2610;
-    cancelHolder.y = 270;
+    cancelHolder.x = 2605;
+    cancelHolder.y = 265;
     cancelHolder.scale = {x: 2, y: 2};
 
     bigPoster01.x = 1160;

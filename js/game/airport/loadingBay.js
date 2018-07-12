@@ -1,6 +1,14 @@
 function loadingBayOpen(sceneLoader, backGroundSprite){
+    let dataFromBack_onBay;
+    socket.emit("cargo:onBay");
+
+    socket.on("cargo:onBay", function (jsonFromBack) {
+        dataFromBack_onBay = jsonFromBack;
+        console.log(dataFromBack_onBay);
+    })
+
     let loadingBay = new PIXI.Container()
-    var seatCounter = 0;
+    var seatCounter = 0, ammount = 0;
     let topPanel = new PIXI.Sprite (
         sceneLoader.resources["cargo"].textures['top_panel_LB.png']
     ), diplya_bckg = new PIXI.Sprite (
@@ -62,20 +70,9 @@ function loadingBayOpen(sceneLoader, backGroundSprite){
         sceneLoader.resources["cargo"].textures['text_item.png']
      ), Camp_buttn_yellow = new PIXI.Sprite (
          sceneLoader.resources["cargo"].textures['Camp_buttn_yellow.png']
-    ), minningArea1 = new PIXI.Sprite (
-        sceneLoader.resources["cargo"].textures['buttn_usual.png']
-    ), minningArea2 = new PIXI.Sprite (
-        sceneLoader.resources["cargo"].textures['buttn_usual.png']
-    ), minningArea3 = new PIXI.Sprite (
-        sceneLoader.resources["cargo"].textures['buttn_usual.png']
-    ), minningArea4 = new PIXI.Sprite (
-        sceneLoader.resources["cargo"].textures['buttn_usual.png']
-    ), numCamp = new PIXI.Sprite (
-        sceneLoader.resources["cargo"].textures['small_buttn_usual.png']
-
-
     );
 
+    diplya_bckg.interactive = true;
     cancel_buttn.hover = sceneLoader.resources["cargo"].textures['cancel_buttn_hovered.png'];
     cancel_buttn.normal = sceneLoader.resources["cargo"].textures['cancel_buttn.png'];
     cancel_buttn.x = 1797;
@@ -121,203 +118,104 @@ function loadingBayOpen(sceneLoader, backGroundSprite){
     unloadButtn.on('mouseover', ButtonOver)
     unloadButtn.on('mouseout', ButtonOut)
     unloadButtn.on('click', unload)
-    ///////////   ///////////////       //////////////// AREAS ///////////////         /////////////////////            //////////////////////
-    minningArea1.x = 329; 
-    minningArea1.y = 627;
-    minningArea2.x = 652;
-    minningArea2.y = 627;
-    minningArea3.x = 975; 
-    minningArea3.y = 627;
-    minningArea4.x = 1298;  
-    minningArea4.y = 627;
+    /////     ///////////// /////////                //         ITEM LIST                    //////////// ///////////////             //////////////////////////                /////////////////////////          /////////////////////////// /
 
-    textOptions.fill = '#11d1de';
-    textOptions.fontSize = 30;
-    let sigma = new PIXI.Text("SIGMA", textOptions);
-    sigma.x = 423;  // 1298 , 1084
-    sigma.y = 653;
-
-    let gamma = new PIXI.Text("GAMMA", textOptions);
-    gamma.x = 737;  // 1298 , 1084
-    gamma.y = 653;
-
-    let delta = new PIXI.Text("DELTA", textOptions);
-    delta.x = 1075;  // 1298 , 1084
-    delta.y = 653;
-
-    let zetta = new PIXI.Text("ZETTA", textOptions);
-    zetta.x = 1400;  // 1298 , 1084
-    zetta.y = 653;
-    ////////////////////////// / / / / / / / / / / / / / / / / / / / / / / / / / / / / / / // 
-    let miningAreaButtons = [minningArea1, minningArea2, minningArea3, minningArea4];
-    let subareaTexture = sceneLoader.resources["cargo"].textures['small_buttn_usual.png'];
-    textOptions.fontSize = 10;
-    for (let i in miningAreaButtons) {
-        
-        let subButtonX = 40,
-        subButtonY = 100;
-        miningAreaButtons[i].interactive = true;
-        miningAreaButtons[i].on("click", miningClick);
-        miningAreaButtons[i].on('mouseover', onMiningOver);
-        miningAreaButtons[i].on('mouseout', onMiningOut);
-        miningAreaButtons[i].hover = sceneLoader.resources["cargo"].textures['buttn_hovered.png'];
-        miningAreaButtons[i].normal = sceneLoader.resources["cargo"].textures['buttn_usual.png'];
-        miningAreaButtons[i].pressed = sceneLoader.resources["cargo"].textures['buttn_hovered.png'];
-        miningAreaButtons[i].disabled = sceneLoader.resources["cargo"].textures['buttn_usual.png'];
-        miningAreaButtons[i].isDisabled = dataFromBack.areas.btn[i].state;
-        
-        for (let subArea in dataFromBack.areas.btn[i].btn) {
-            let subAreaButton = new PIXI.Sprite(subareaTexture);
-            let subAreaText = new PIXI.Text(dataFromBack.areas.btn[i].btn[subArea].text, textOptions);
-            subAreaText.anchor = {x: 0.5, y: 0.5};
-            subAreaText.scale = {x: 1.5, y: 1.5};
-            subAreaButton.addChild(subAreaText);
-            subAreaButton.scale = {x: 1.5, y: 1.5};
-            subAreaButton.anchor = {x: 0.5, y: 0.5};
-            subAreaButton.state = dataFromBack.areas.btn[i].btn[subArea].state;
-            subAreaButton.position = {x: subButtonX, y: subButtonY};
-            subAreaButton.normal = subAreaButton.texture;
-            subAreaButton.hover = sceneLoader.resources["cargo"].textures['small_buttn_pressed_enlarged.png'];
-            subAreaButton.pressed = sceneLoader.resources["cargo"].textures['small_buttn_pressed_enlarged.png'];
-            subAreaButton.disabled = sceneLoader.resources["cargo"].textures['small_buttn_usual.png'];
-            subAreaButton.width = 60;
-            subAreaButton.height = 60;
-            subAreaButton.isDisabled = false;
-            subAreaButton.interactive = true;
-            subAreaButton.on("click", subAreaClick);
-            subAreaButton.on("mouseover", onSubAreaOver);
-            subAreaButton.on("mouseout", onSubAreaOut);
-            subAreaButton.click = function (e) {
-                e.stopPropagation()
-            };
-            subAreaButton.visible = false;
-            if (subAreaButton.state === 1) {
-                subAreaButton.texture = subAreaButton.disabled;
-                subAreaButton.isDisabled = true;
-            }
-            subButtonX += 55;
-            miningAreaButtons[i].addChild(subAreaButton);
+    let getCampItemIcon = function (itemGroup) {
+        switch (itemGroup) {
+            case "inventory":
+                return PIXI.loader.resources["campsVaultTable"].textures['inventory_icon.png'];
+            case "operators":
+                return PIXI.loader.resources["campsVaultTable"].textures['operator_icon.png'];
+            case "exos":
+                return PIXI.loader.resources["campsVaultTable"].textures['exoskeleton_icon.png'];
+            case "rents" :
+                return PIXI.loader.resources["campsVaultTable"].textures['camp_site_icon.png'];
+            default:
+                console.log(itemGroup);
+                return
         }
+    };
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
     }
-        //////////////////////////// /  Mining area button functions /////////////////////////////
-        function miningClick() {
-            if (this.isDisabled === 1) {
-                return
-            }
-            if (this.isdown) {  
-                console.log("buttn is down")     
-                this.texture = this.hover;
-                this.isdown = false;
 
-                for (let subArea in this.children) {
-                    if (this.children[subArea].isdown) {
-                        console.log(this.children[subArea])
-                        this.children[subArea].isdown = false;
-                        this.children[subArea].texture = this.children[subArea].normal;
-                    }
-                    this.children[subArea].visible = false;
-                }
-            } else {
-                for (let i in miningAreaButtons) {
-                    if (miningAreaButtons[i].isDisabled == 1) {
-                        break;
-                    } else {
-                        miningAreaButtons[i].texture = miningAreaButtons[i].normal;
-                        miningAreaButtons[i].isdown = false;
-                        for (let subArea in miningAreaButtons[i].children) {
-                            miningAreaButtons[i].children[subArea].visible = false;
-                            console.log(miningAreaButtons[i].children[subArea].visible);
-                        }
-                    }
-                }
-                this.texture = this.pressed;
-                this.isdown = true;
-                for (let subArea in this.children) {
-                    console.log(this.children[subArea])
-                    this.children[subArea].visible = true;
-                }
-            }
-        }
-    
-        function onMiningOver() {
-            console.log("hover tlacitka")
-            if (this.isDisabled === 1) {
-                return
-            }
-            if (this.isdown) {
-                return;
-            }
-            this.texture = this.hover;
-        }
-    
-        function onMiningOut() {
-            if (this.isDisabled === 1) {
-                return
-            }
-            if (this.isdown) {
-                return;
-            }
-            this.texture = this.normal;
-        }
-    
-        function onSubAreaOver() {
-            if (this.state === 1) {
-                return
-            }
-            if (this.isdown) {
-                return;
-            }
-            this.texture = this.hover;
-        }
-    
-            function subAreaClick() {
-                if (this.state === 1) {
-                    return
-                }
-                if (this.isdown) {
-                    this.texture = this.hover;
-                    this.isdown = false;
-                } else {
-                    let subArray = this.parent.children;
-                    for (let i in subArray) {
-                        if (subArray[i].state === 1) {
-                            break;
-                        } else {
-                            subArray[i].texture = subArray[i].normal;
-                            subArray[i].isdown = false;
-                        }
-                    }
-                    this.texture = this.pressed;
-                    this.isdown = true;
-                }
-    
-            }
-    
-        function onSubAreaOut() {
-            if (this.state === 1) {
-                return
-            }
-            if (this.isdown) {
-                return;
-            }
-            this.texture = this.normal;
-        }
-    
-    
+    // console.log(dataFromBack)  // s tymto idem pracovat
+
+    // definujem nazvy premennych 
+    textOptions.fill = '#25d36c';
+    textOptions.fontSize = 30;
+    let items = [];
+    for(let i in dataFromBack.vault.camps){
+        items.push("item"+i);
+    }
+    let ammountOfItems = [];
+    for(let i in dataFromBack.vault.camps){
+        ammountOfItems.push("ammountOfItems"+i);
+    }
+    let capacityOfItems = [];
+    for(let i in dataFromBack.vault.camps){
+        capacityOfItems.push("capacityOfItems"+i);
+    }
+
+    for(let index in dataFromBack.vault.camps){
+        items[index] = new PIXI.Text(dataFromBack.vault.camps[index].label, textOptions);
+        ammountOfItems[index] = new PIXI.Text(dataFromBack.vault.camps[index].label, textOptions);
+        capacityOfItems[index] = new PIXI.Text(dataFromBack.vault.camps[index].label, textOptions)
+    }
+    for(let i in items){
+        items[i].num = i;
+        items[i].x = 376;
+        items[i].y = 1246 + (i * 100);
+        items[i].interactive = true;
+        items[i].on('click', function () { onClickText(items[i]) } );
+    }
+    for(let i in ammountOfItems){
+        ammountOfItems[i].num = i;
+        ammountOfItems[i].x = 600;
+        ammountOfItems[i].y = 1246 + (i * 100);
+        ammountOfItems[i].interactive = true;
+        ammountOfItems[i].on('click', function () { onClickText(items[i]) } );
+    }
+    for(let i in capacityOfItems){
+        capacityOfItems[i].num = i;
+        capacityOfItems[i].x = 900;
+        capacityOfItems[i].y = 1246 + (i * 100);
+        capacityOfItems[i].interactive = true;
+        capacityOfItems[i].on('click', function () { onClickText(items[i]) } );
+    }
 
 
 
-/////////////////         ///////////////////////         END AREAS        //////////////////////               /////////////////             ///////////
+/////////////////             ////////////////////      CAMPS PANEL /////////////             ///////////////////              ////////////
+    textOptions.fill = '#e8d21f';
+    textOptions.fontSize = 35;
+    let amundsen = new PIXI.Text("AMUNDSEN", textOptions)
+    amundsen.x = 548; //448
+    amundsen.y = 900;
 
+    textOptions.fill = '#13e859';
+    textOptions.fontSize = 35;
+    let columb = new PIXI.Text("COLUMB", textOptions)
+    columb.x = 1108;
+    columb.y = 900;
+
+
+
+/////       //////          /////           /////           /////           /////           ////    /////   ////    ////    /////   /////   /////   /////
     loadingBay.addChild(topPanel, diplya_bckg, ui_panel_bottom, ui_panel_top, items_main_panel_green, text_amount, text_load, text_load
         , text_load_all_usual, text_unload, unloadButtn, loadAllButtn, plan_flight_buttn, text_plan_flight, text_Shiping_Cost, text_sigma_usual, buttn01, buttn03, 
         buttn04, arrow_buttn, arrow_buttn2, Camp_buttn_green, cancel_buttn, text_cancel, line, line_above, camps_main_panel, 
-        text_item, line_divider, Camp_buttn_yellow, numCamp,  minningArea1, minningArea2, minningArea3, minningArea3, minningArea4, sigma, gamma, delta, zetta, loadButtn)
+        text_item, line_divider, Camp_buttn_yellow, loadButtn, amundsen, columb)
 
-        
+
+    for(var i in items){
+        loadingBay.addChild(items[i], ammountOfItems[i], capacityOfItems[i])
+    }       
         
         
         /////////     VOLANIE FUNKCII NA LOADING  ////////////////          ////////////// 
+    miningAreaLoading(loadingBay, sceneLoader);
+
     let arrayOfSeats = [];
     let arrayOfCargo = [];
     arrayOfSeats = griffin_seats_loading(loadingBay, sceneLoader);
@@ -337,14 +235,43 @@ function loadingBayOpen(sceneLoader, backGroundSprite){
     function onClickCancel(){
         backGroundSprite.removeChild(loadingBay)
     }
+
+    function onClickText(clickedObj){
+        // app.ticker.remove(movetext)
+        // textOptions.fill = '0xd2123c';
+        // textOptions.fontSize = 30;
+        for(let i in capacityOfItems){
+            capacityOfItems[i].style.fill = '#25d36c';
+        }
+        for(let i in ammountOfItems){
+            ammountOfItems[i].style.fill = '#25d36c';
+        }
+        for(let i in items){
+            if(items[i].style.fill === '#d2123c' && items[i] != clickedObj)
+                items[i].style.fill = '#25d36c';
+            for(var k in ammountOfItems){
+                if(ammountOfItems[k].num === clickedObj.num && ammountOfItems[k] != clickedObj)
+                clickedObj2 = ammountOfItems[k];
+            }
+            for(var p in capacityOfItems){
+                if(capacityOfItems[p].num === clickedObj.num && capacityOfItems[p] != clickedObj)
+                clickedObj3 = capacityOfItems[p];
+            }
+        }
+        clickedObj.style.fill = '#d2123c'
+        clickedObj2.style.fill = '#d2123c'
+        clickedObj3.style.fill = '#d2123c'
+
+    }
     //////////////////      ///////////////////////  LOAD FUNCKCIA-onclick   ////////////////////////      ////      ///        //////////////
     function load(){
         loadPassanger(arrayOfSeats, 1, seatCounter++);
-        //loadCargo(arrayOfCargo, 1)
+        ammount = loadCargo(arrayOfCargo, 1, 50, ammount) // pole naplne griffina, stav(1 nakladam), velkost nakaldanej veci, kolko uz som toho nalozil
 
     }
     function unload(){
         loadPassanger(arrayOfSeats, 0, --seatCounter)
+        ammount = loadCargo(arrayOfCargo, 0, 50, ammount)
     }
     function loadAll(){
         
@@ -354,5 +281,13 @@ function loadingBayOpen(sceneLoader, backGroundSprite){
     
     backGroundSprite.addChild(loadingBay);
 
+    //  function emitStuff(json) {
+    //         console.log("emmiting", json);
+    //         json.idStela = stelaId;
+    //         socket.emit("stela:onAction", json);
+    //     }
+
+
+    socket.on()
 
 }

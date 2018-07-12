@@ -126,7 +126,14 @@ function griffin_cargo_loading(loadingBay, sceneLoader){
             arrayOfPanel[i].y = 1024 - (i*7);
         }
     }
-
+    for(i in arrayOfLines){
+        arrayOfLines[i].type = i;
+        arrayOfPanel[i].typeof = "line";
+    }
+    for(i in arrayOfPanel){
+        arrayOfPanel[i].type = i;
+        arrayOfPanel[i].typeof = "panel";
+    }
     for(i in arrayOfCargo){
         arrayOfCargo[i].visible = false;
     }
