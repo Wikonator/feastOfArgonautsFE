@@ -2,7 +2,7 @@ function loadPrepaidPacks(backGroundSprite, sceneLoader, dataFromBack){
     let prepaidPacks = new PIXI.Container();
 
     let leftClick = new PIXI.Sprite (
-        sceneLoader.resources["prePaidPacks"].textures['leftClickNoGlo.png']
+        sceneLoader.resources["prepaidPax"].textures['arrow_left.png']
     ), line_yellow = new PIXI.Sprite (
         sceneLoader.resources["prePaidPacks"].textures['line+mask.png']
     ), text_prepaid = new PIXI.Sprite (
@@ -10,8 +10,12 @@ function loadPrepaidPacks(backGroundSprite, sceneLoader, dataFromBack){
     ), panel_yellow = new PIXI.Sprite (
         sceneLoader.resources["prePaidPacks"].textures['right click + edit contents_c.png']
     ), rightClick = new PIXI.Sprite (
-        sceneLoader.resources["prePaidPacks"].textures['rightClickNoGlo.png']
+        sceneLoader.resources["prepaidPax"].textures['arrow_right.png']
+    ), toolTip = new PIXI.Sprite (
+        sceneLoader.resources["prepaidPax"].textures['toolTip.png']
     );
+
+    toolTip.visibility = false;
 
     line_yellow.position = {x:1500, y:240}
     line_yellow.scale = {x:2, y:2};
@@ -24,23 +28,23 @@ function loadPrepaidPacks(backGroundSprite, sceneLoader, dataFromBack){
     panel_yellow.y = 275;
 
     rightClick.scale = {x: 2, y: 2};
-    rightClick.position = {x:2200, y:325}
-    // rightClick.anchor = {x: 0.5, y: 0.5};
-    rightClick.hover = sceneLoader.resources["prePaidPacks"].textures['rightClickGlo.png'];
-    rightClick.normal = sceneLoader.resources["prePaidPacks"].textures['rightClickNoGlo.png'];
+    rightClick.position = {x:2235, y:357}
+    rightClick.anchor = {x: 0.5, y: 0.5};
+    rightClick.hover = sceneLoader.resources["prepaidPax"].textures['arrow_right_a.png'];
+    rightClick.normal = sceneLoader.resources["prepaidPax"].textures['arrow_right.png'];
     rightClick.interactive = true;
-    rightClick.on('mouseover', ButtonOver)
-    rightClick.on('mouseout', ButtonOut)
+    rightClick.on('mouseover', rightArrowOver)
+    rightClick.on('mouseout', rightArrowOut)
     rightClick.on('click', onClickRight)
 
     leftClick.scale = {x: 2, y: 2};
-    leftClick.position = {x:1550, y:325}
-    //leftClick.anchor = {x: 0.5, y: 0.5};
-    leftClick.hover = sceneLoader.resources["prePaidPacks"].textures['leftClickGlo.png'];
-    leftClick.normal = sceneLoader.resources["prePaidPacks"].textures['leftClickNoGlo.png'];
+    leftClick.position = {x:1575, y:355}  //  leftClick.position =  hoveer {x:1575, y:350}
+    leftClick.anchor = {x: 0.5, y: 0.5};
+    leftClick.hover = sceneLoader.resources["prepaidPax"].textures['arrow_left_a.png'];
+    leftClick.normal = sceneLoader.resources["prepaidPax"].textures['arrow_left.png'];
     leftClick.interactive = true;
-    leftClick.on('mouseover', ButtonOver)
-    leftClick.on('mouseout', ButtonOut)
+    leftClick.on('mouseover', leftArrowOver)
+    leftClick.on('mouseout', leftArrowOut)
     leftClick.on('click', onClickLeft)
 
     let packages = [], statuses = [];
@@ -75,16 +79,60 @@ function loadPrepaidPacks(backGroundSprite, sceneLoader, dataFromBack){
     statuses[0].alpha = 1;
 
 
+    /// /// /// /// TOOLTIP /// // ///////////////      /////////////////       /////////
+        // let graphics = new PIXI.Graphics();
+        // graphics.lineStyle(2, 0x0000FF, 1);
+        // graphics.beginFill(0xFF700B, 1);
+        // graphics.drawRect(1630, 290, 540, 120); //x+20 y+50
+        // backGroundSprite.addChild(graphics);
+
+    panel_yellow.interactive = true;
+    panel_yellow.hitArea = new PIXI.Rectangle(20, -50, 540, 120);
+    panel_yellow.on('mouseover', function(event) { toolTipOn(event) } )
+    panel_yellow.on('mouseout', toolTipOff);
+    panel_yellow.on('mousemove', function(){toolTip.visibility = false;})
+    
+
+
+
     // // // // //  //  //  //  // //  //  
-    function ButtonOver() {
-        this.texture = this.hover;
-        this.y -= 17;
-        this.x += 6;
+    function toolTipOn(event){
+        console.log("in");
+        setTimeout( function () {
+            let mouse = event.data.getLocalPosition(backGroundSprite);
+            toolTip.x = mouse.x;
+            toolTip.y = mouse.y;
+            toolTip.visibility = true;
+            
+        }, 1500)
+
     }
-    function ButtonOut() {
-        this.y += 17;
-        this.x -= 6;
+    
+    function toolTipOff(){
+        console.log("out");
+        toolTip.visibility = false;
+        console.log(toolTip.visibility)
+    }
+    function leftArrowOver() {
+        this.texture = this.hover;
+        this.position.x -= 5;
+        this.position.y -= 13;
+        
+    }
+    function rightArrowOver () {
+        this.texture = this.hover;
+        this.position.x += 2;
+        this.position.y -= 15;
+    }
+    function rightArrowOut () {
         this.texture = this.normal;
+        this.position.x -= 2;
+        this.position.y += 15;
+    }
+    function leftArrowOut() {
+        this.texture = this.normal;
+        this.position.x += 5;
+        this.position.y += 13;
     }
     function onClickLeft(){
         let svici;
@@ -123,6 +171,6 @@ function loadPrepaidPacks(backGroundSprite, sceneLoader, dataFromBack){
     for(var i in packages){
         prepaidPacks.addChild(packages[i], statuses[i])
     }
-    prepaidPacks.addChild(leftClick, line_yellow, text_prepaid, panel_yellow, rightClick);
+    prepaidPacks.addChild(leftClick, line_yellow, text_prepaid, panel_yellow, rightClick, toolTip);
     backGroundSprite.addChild(prepaidPacks);
 }

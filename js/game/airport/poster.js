@@ -1,7 +1,8 @@
-function onClickPoster(sceneLoader, backGroundSprite){
-    
-    let bigPoster01 = new PIXI.Sprite()
-    bigPoster01.texture = sceneLoader.resources["poster01"].texture;
+function onClickPoster(sceneLoader, backGroundSprite, dataFromBack){
+    let bigPosters = [];
+    let bigPoster1 = new PIXI.Sprite()
+    bigPoster1.texture = sceneLoader.resources["poster01"].texture;
+    bigPosters.push(bigPoster1);
 
     let cancelHolder = new PIXI.Sprite (
         PIXI.loader.resources["crossAndDiamonds"].textures['close_btn_bg.png']
@@ -23,16 +24,16 @@ function onClickPoster(sceneLoader, backGroundSprite){
     cancelHolder.y = 265;
     cancelHolder.scale = {x: 2, y: 2};
 
-    bigPoster01.x = 1160;
-    bigPoster01.y = 300;
-    bigPoster01.height *= 3;
-    bigPoster01.width *= 3;
 
-    backGroundSprite.addChild(bigPoster01, cancelHolder, cancelCross);
-    console.log("poster")
+    bigPosters[dataFromBack.info-1].x = 1160;
+    bigPosters[dataFromBack.info-1].y = 300;
+    bigPosters[dataFromBack.info-1].height *= 3;
+    bigPosters[dataFromBack.info-1].width *= 3;
+
+    backGroundSprite.addChild(bigPosters[dataFromBack.info-1], cancelHolder, cancelCross);
 /////     /////    //////////////////   ONCLIK  //////////////            /////////////////
     function onClickClosePoster(){
-        backGroundSprite.removeChild(bigPoster01, cancelHolder, cancelCross)
+        backGroundSprite.removeChild(bigPosters[dataFromBack.info-1], cancelHolder, cancelCross)
     }
     function ButtonOver() {
         this.texture = this.hover;

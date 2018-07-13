@@ -62,8 +62,6 @@ function loadingBayOpen(sceneLoader, backGroundSprite){
         sceneLoader.resources["cargo"].textures['plan_flight_buttn.png']
     ), line = new PIXI.Sprite (
         sceneLoader.resources["cargo"].textures['line.png']
-    ), line_above = new PIXI.Sprite (
-        sceneLoader.resources["cargo"].textures['line_above.png']
     ), camps_main_panel = new PIXI.Sprite (
         sceneLoader.resources["cargo"].textures['camps_main_panel.png']
     ), text_item = new PIXI.Sprite (
@@ -204,7 +202,7 @@ function loadingBayOpen(sceneLoader, backGroundSprite){
 /////       //////          /////           /////           /////           /////           ////    /////   ////    ////    /////   /////   /////   /////
     loadingBay.addChild(topPanel, diplya_bckg, ui_panel_bottom, ui_panel_top, items_main_panel_green, text_amount, text_load, text_load
         , text_load_all_usual, text_unload, unloadButtn, loadAllButtn, plan_flight_buttn, text_plan_flight, text_Shiping_Cost, text_sigma_usual, buttn01, buttn03, 
-        buttn04, arrow_buttn, arrow_buttn2, Camp_buttn_green, cancel_buttn, text_cancel, line, line_above, camps_main_panel, 
+        buttn04, arrow_buttn, arrow_buttn2, Camp_buttn_green, cancel_buttn, text_cancel, line, camps_main_panel, 
         text_item, line_divider, Camp_buttn_yellow, loadButtn, amundsen, columb)
 
 
@@ -220,6 +218,13 @@ function loadingBayOpen(sceneLoader, backGroundSprite){
     let arrayOfCargo = [];
     arrayOfSeats = griffin_seats_loading(loadingBay, sceneLoader);
     arrayOfCargo = griffin_cargo_loading(loadingBay, sceneLoader);
+
+
+     // here continue
+
+    // arrayOfSeats = djinn_seats_loading(loadingBay, sceneLoader);
+    // arrayOfCargo = djinn_cargo_loading(loadingBay, sceneLoader);
+
     
 
     ///////////// //////////////      onclick       //////////////////////    buttonover        ////////////

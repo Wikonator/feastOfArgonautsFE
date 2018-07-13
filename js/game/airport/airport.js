@@ -1,6 +1,6 @@
 function airportScene(sceneID) {
     socket.emit("cargo:onLoad");
-    
+    let smallPosters = [];
     let backGroundSprite = app.stage.children[0].children[0];
     // infogroup je skupina kde robim vrstvy, pridam si tam scrollmask a flyinfo a urcim im z-order
     let infoGroup = new PIXI.display.Group(1, function (sprite) { 
@@ -28,6 +28,7 @@ function airportScene(sceneID) {
             .add("poster01", 'images/' + resolutionParameter + '/airport/infoPanel_01_big.png')
             .add("prePaidPacks", 'images/' + resolutionParameter + '/airport/prePaidPacks.json')
             .add("availableHovers", 'images/' + resolutionParameter + '/airport/availableHovers.json')
+            .add("prepaidPax", 'images/' + resolutionParameter + '/airport/cargo-prepaid.json')
             .load((sceneLoader) => {
             loadNextScene(sceneLoader);
         });
@@ -49,7 +50,7 @@ function airportScene(sceneID) {
             sceneLoader.resources["cargo"].textures['line_divider_B.png']
         ), line_divider_C = new PIXI.Sprite (
             sceneLoader.resources["cargo"].textures['line_divider_A.png']
-        ), poster_small01 = new PIXI.Sprite (
+        ), poster_small1 = new PIXI.Sprite (
             sceneLoader.resources["cargo"].textures['plagat_small.png']
 
 
@@ -81,12 +82,14 @@ function airportScene(sceneID) {
         reservebutton.zIndex = 4;
 
 
-        poster_small01.x = 520;
-        poster_small01.y = 680;
-        poster_small01.height = 500;
-        poster_small01.width = 400;
-        poster_small01.interactive = true;
-        poster_small01.on('click', function() {onClickPoster(sceneLoader, backGroundSprite) } )
+        smallPosters.push(poster_small1);
+
+        smallPosters[dataFromBack.info-1].x = 520;
+        smallPosters[dataFromBack.info-1].y = 680;
+        smallPosters[dataFromBack.info-1].height = 500;
+        smallPosters[dataFromBack.info-1].width = 400;
+        smallPosters[dataFromBack.info-1].interactive = true;
+        smallPosters[dataFromBack.info-1].on('click', function() {onClickPoster(sceneLoader, backGroundSprite, dataFromBack) } )
 
         cancelbutton.interactive = true;
         cancelbutton.on('mouseover', ButtonOver)
@@ -165,35 +168,48 @@ function airportScene(sceneID) {
         timeCounter.position = {x: 2055, y: 930};
         reservedTimeText.visible = true;
         timeCounter.visible = true;
-        backGroundSprite.addChild(reservedTimeText, timeCounter, poster_small01);
+        backGroundSprite.addChild(reservedTimeText, timeCounter, smallPosters[dataFromBack.info-1]);
 
     
         let flyInfo = new PIXI.Container();
         
         textOptions.fill = '#25d36c';
         let arrivals = [];
-        for(var i in dataFromBack.arival){
+        for(let i in dataFromBack.arival){
             arrivals.push("arrival"+i);
         }
         let howercrafts = [];
-        for(var i in dataFromBack.arival){
+        for(let i in dataFromBack.arival){
             howercrafts.push("howercraft"+i);
         }
-        for(var index in dataFromBack.arival){
+        for(let index in dataFromBack.arival){
             let time = timeConversion(dataFromBack.arival[index].arive)
             arrivals[index] = new PIXI.Text(time, textOptions);
             howercrafts[index] = new PIXI.Text(dataFromBack.arival[index].label, textOptions);
         }
-        for(var i in arrivals){
+        for(let i in arrivals){
             arrivals[i].num = i;
             arrivals[i].x = 1200;
             arrivals[i].y = 790 + (i * 100);
+            arrivals[i].interactive = true;
+            arrivals[i].buttonMode = true;
+            arrivals[i].hitArea = new PIXI.Rectangle(-10, -10, 700, 55);
         }
-        for(var i in howercrafts){
+        for(let i in howercrafts){
             howercrafts[i].num = i;
             howercrafts[i].x = 1600;
             howercrafts[i].y = 790 + (i * 100);
         }
+        // var graphics = new PIXI.Graphics();
+        // graphics.lineStyle(2, 0x0000FF, 1);
+        // graphics.beginFill(0xFF700B, 1);
+        // graphics.drawRect(1190, 780, 700, 55);
+        // backGroundSprite.addChild(graphics);
+
+        // arrivals[0].hitArea()
+        // for(let i in arrivals){
+
+        // }
 
         // /////////////// /////////////////////////////////////////
 

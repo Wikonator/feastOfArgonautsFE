@@ -1,0 +1,68 @@
+{"frames": {
+
+"arrow_left.png":
+{
+	"frame": {"x":300,"y":123,"w":36,"h":45},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":775,"y":167,"w":36,"h":45},
+	"sourceSize": {"w":36,"h":45}
+},
+"arrow_left_a.png":
+{
+	"frame": {"x":300,"y":1,"w":40,"h":66},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":773,"y":150,"w":40,"h":66},
+	"sourceSize": {"w":40,"h":66}
+},
+"arrow_right.png":
+{
+	"frame": {"x":300,"y":69,"w":41,"h":52},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":1090,"y":163,"w":41,"h":52},
+	"sourceSize": {"w":41,"h":52}
+},
+"arrow_right_a.png":
+{
+	"frame": {"x":342,"y":1,"w":30,"h":62},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":1096,"y":150,"w":30,"h":62},
+	"sourceSize": {"w":30,"h":62}
+},
+"line_mask.png":
+{
+	"frame": {"x":1,"y":177,"w":393,"h":18},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":753,"y":124,"w":393,"h":18},
+	"sourceSize": {"w":393,"h":18}
+},
+"text_box.png":
+{
+	"frame": {"x":1,"y":92,"w":297,"h":83},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":804,"y":149,"w":297,"h":83},
+	"sourceSize": {"w":297,"h":83}
+},
+"toolTip.png":
+{
+	"frame": {"x":1,"y":1,"w":297,"h":89},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":1138,"y":101,"w":297,"h":89},
+	"sourceSize": {"w":297,"h":89}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "cargo-prepaid.png",
+	"format": "RGBA8888",
+	"size": {"w":395,"h":196},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:730a32859a5fcf0e9b5a0bdaa1823f27:d48eac74d9a58b77e372f5d506e0caec:9e927a85c2112d4414f2723df06d7e10$"
+}
+}
