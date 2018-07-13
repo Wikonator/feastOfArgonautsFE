@@ -1,0 +1,76 @@
+{"frames": {
+
+"arrow.png":
+{
+	"frame": {"x":139,"y":66,"w":53,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":347,"y":746,"w":53,"h":64},
+	"sourceSize": {"w":53,"h":64}
+},
+"arrow_hover.png":
+{
+	"frame": {"x":1,"y":109,"w":52,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":621,"y":746,"w":52,"h":64},
+	"sourceSize": {"w":52,"h":64}
+},
+"arrow_pressed.png":
+{
+	"frame": {"x":55,"y":109,"w":52,"h":64},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":621,"y":746,"w":52,"h":64},
+	"sourceSize": {"w":52,"h":64}
+},
+"name_panel.png":
+{
+	"frame": {"x":1,"y":1,"w":210,"h":63},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":392,"y":803,"w":210,"h":63},
+	"sourceSize": {"w":210,"h":63}
+},
+"right click + edit contents.png":
+{
+	"frame": {"x":213,"y":1,"w":113,"h":87},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":449,"y":734,"w":113,"h":87},
+	"sourceSize": {"w":113,"h":87}
+},
+"Shape 2.png":
+{
+	"frame": {"x":1,"y":175,"w":326,"h":24},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":352,"y":710,"w":326,"h":24},
+	"sourceSize": {"w":326,"h":24}
+},
+"text_Available_howecrafts.png":
+{
+	"frame": {"x":109,"y":132,"w":223,"h":31},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":400,"y":706,"w":223,"h":31},
+	"sourceSize": {"w":223,"h":31}
+},
+"text_Griffin_042.png":
+{
+	"frame": {"x":1,"y":66,"w":136,"h":41},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":426,"y":813,"w":136,"h":41},
+	"sourceSize": {"w":136,"h":41}
+}},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "availableHovers.png",
+	"format": "RGBA8888",
+	"size": {"w":333,"h":200},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:bce401981c3502687c94e623e12c2d96:5654a08efb72f73648523a5441e15f42:4692a61eb05d2a58a6e7fc608ecdd9d5$"
+}
+}

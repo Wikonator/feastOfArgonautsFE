@@ -1,4 +1,6 @@
-function airportScene(buildingArray, sceneID) {
+function airportScene(sceneID) {
+    socket.emit("cargo:onLoad");
+    let smallPosters = [];
     let backGroundSprite = app.stage.children[0].children[0];
     // infogroup je skupina kde robim vrstvy, pridam si tam scrollmask a flyinfo a urcim im z-order
     let infoGroup = new PIXI.display.Group(1, function (sprite) { 
@@ -15,17 +17,25 @@ function airportScene(buildingArray, sceneID) {
             // fog transition
             // add loading screen here
         let sceneLoader = new PIXI.loaders.Loader();
-
+        let dataFromBack;
+        socket.on("cargo:onRefresh", function (jsonFromBack) {
+            dataFromBack = jsonFromBack;
+        })
         sceneLoader
             .add("airport", 'images/' + resolutionParameter + '/airport/airportUI.png')
             .add("cargo", 'images/' + resolutionParameter + '/airport/airportPanels.json')
             .add("griffinCargoLines", 'images/' + resolutionParameter + '/airport/griffinCargoLines.json')
             .add("poster01", 'images/' + resolutionParameter + '/airport/infoPanel_01_big.png')
-            .load((sceneLoader, resources) => {
-            loadNextScene(sceneLoader, resources);
+            .add("prePaidPacks", 'images/' + resolutionParameter + '/airport/prePaidPacks.json')
+            .add("availableHovers", 'images/' + resolutionParameter + '/airport/availableHovers.json')
+            .add("prepaidPax", 'images/' + resolutionParameter + '/airport/cargo-prepaid.json')
+            .load((sceneLoader) => {
+            loadNextScene(sceneLoader);
         });
 
     function loadNextScene (sceneLoader) {
+       
+        console.log(dataFromBack);
 
         backGroundSprite.texture = sceneLoader.resources["airport"].texture;
 
@@ -40,7 +50,7 @@ function airportScene(buildingArray, sceneID) {
             sceneLoader.resources["cargo"].textures['line_divider_B.png']
         ), line_divider_C = new PIXI.Sprite (
             sceneLoader.resources["cargo"].textures['line_divider_A.png']
-        ), poster_small01 = new PIXI.Sprite (
+        ), poster_small1 = new PIXI.Sprite (
             sceneLoader.resources["cargo"].textures['plagat_small.png']
 
 
@@ -72,12 +82,14 @@ function airportScene(buildingArray, sceneID) {
         reservebutton.zIndex = 4;
 
 
-        poster_small01.x = 520;
-        poster_small01.y = 680;
-        poster_small01.height = 500;
-        poster_small01.width = 400;
-        poster_small01.interactive = true;
-        poster_small01.on('click', function() {onClickPoster(sceneLoader, backGroundSprite) } )
+        smallPosters.push(poster_small1);
+
+        smallPosters[dataFromBack.info-1].x = 520;
+        smallPosters[dataFromBack.info-1].y = 680;
+        smallPosters[dataFromBack.info-1].height = 500;
+        smallPosters[dataFromBack.info-1].width = 400;
+        smallPosters[dataFromBack.info-1].interactive = true;
+        smallPosters[dataFromBack.info-1].on('click', function() {onClickPoster(sceneLoader, backGroundSprite, dataFromBack) } )
 
         cancelbutton.interactive = true;
         cancelbutton.on('mouseover', ButtonOver)
@@ -118,6 +130,25 @@ function airportScene(buildingArray, sceneID) {
                     flyInfo.children[i].style.fill = '#25d36c';
             }       
         }
+
+        function timeConversion(millisec) {
+            var seconds = (millisec / 1000).toFixed(0);
+            var minutes = Math.floor(seconds / 60);
+            var hours = "";
+            if (minutes > 59) {
+                hours = Math.floor(minutes / 60);
+                hours = (hours >= 10) ? hours : "0" + hours;
+                minutes = minutes - (hours * 60);
+                minutes = (minutes >= 10) ? minutes : "0" + minutes;
+            }
+    
+            seconds = Math.floor(seconds % 60);
+            seconds = (seconds >= 10) ? seconds : "0" + seconds;
+            if (hours != "") {
+                return hours + ":" + minutes + ":" + seconds;
+            }
+            return minutes + ":" + seconds;
+        }
 //////////////               //////////              ////////////////                         ///////////           ///////////////////        
         backGroundSprite.addChild(cancelbutton, reservebutton, line_divider_A, line_divider_B, line_divider_C);
 
@@ -137,40 +168,48 @@ function airportScene(buildingArray, sceneID) {
         timeCounter.position = {x: 2055, y: 930};
         reservedTimeText.visible = true;
         timeCounter.visible = true;
-        backGroundSprite.addChild(reservedTimeText, timeCounter, poster_small01);
+        backGroundSprite.addChild(reservedTimeText, timeCounter, smallPosters[dataFromBack.info-1]);
 
-
-
-
+    
         let flyInfo = new PIXI.Container();
         
         textOptions.fill = '#25d36c';
-        let arrival1 = new PIXI.Text("20:08", textOptions),
-        arrival2 = new PIXI.Text("15:00", textOptions),
-        arrival3 = new PIXI.Text("11:55", textOptions),
-        arrival4 = new PIXI.Text("16:30", textOptions);
+        let arrivals = [];
+        for(let i in dataFromBack.arival){
+            arrivals.push("arrival"+i);
+        }
+        let howercrafts = [];
+        for(let i in dataFromBack.arival){
+            howercrafts.push("howercraft"+i);
+        }
+        for(let index in dataFromBack.arival){
+            let time = timeConversion(dataFromBack.arival[index].arive)
+            arrivals[index] = new PIXI.Text(time, textOptions);
+            howercrafts[index] = new PIXI.Text(dataFromBack.arival[index].label, textOptions);
+        }
+        for(let i in arrivals){
+            arrivals[i].num = i;
+            arrivals[i].x = 1200;
+            arrivals[i].y = 790 + (i * 100);
+            arrivals[i].interactive = true;
+            arrivals[i].buttonMode = true;
+            arrivals[i].hitArea = new PIXI.Rectangle(-10, -10, 700, 55);
+        }
+        for(let i in howercrafts){
+            howercrafts[i].num = i;
+            howercrafts[i].x = 1600;
+            howercrafts[i].y = 790 + (i * 100);
+        }
+        // var graphics = new PIXI.Graphics();
+        // graphics.lineStyle(2, 0x0000FF, 1);
+        // graphics.beginFill(0xFF700B, 1);
+        // graphics.drawRect(1190, 780, 700, 55);
+        // backGroundSprite.addChild(graphics);
 
-        arrival1.position = {x: 1200, y:790}
-        arrival1.num = 1;
-        arrival2.position = {x: 1200, y:890}
-        arrival2.num = 2;
-        arrival3.position = {x: 1200, y:990}
-        arrival3.num = 3;
-        arrival4.position = {x: 1200, y:1090}
-        arrival4.num = 4;
-        let typeofHower1 = new PIXI.Text("Griffin", textOptions),
-        typeofHower2 = new PIXI.Text("Griffin", textOptions),
-        typeofHower3 = new PIXI.Text("Griffin", textOptions),
-        typeofHower4 = new PIXI.Text("Griffin", textOptions);
+        // arrivals[0].hitArea()
+        // for(let i in arrivals){
 
-        typeofHower1.position = {x: 1600, y:790}
-        typeofHower1.num = 1;
-        typeofHower2.position = {x: 1600, y:890}
-        typeofHower2.num = 2;
-        typeofHower3.position = {x: 1600, y:990}
-        typeofHower3.num = 3;
-        typeofHower4.position = {x: 1600, y:1090}
-        typeofHower4.num = 4;
+        // }
 
         // /////////////// /////////////////////////////////////////
 
@@ -214,8 +253,13 @@ function airportScene(buildingArray, sceneID) {
         scrollmask.zIndex = 3;
         flyInfo.zIndex = 2;
         
-        flyInfo.addChild(arrival1, arrival3, arrival2, arrival4, typeofHower1, typeofHower2, typeofHower3, typeofHower4)
-        
+        // adding arrivals into flyinfo
+        for(var i in arrivals){
+            flyInfo.addChild(arrivals[i]);
+        }
+        for(var i in howercrafts){
+            flyInfo.addChild(howercrafts[i]);
+        }
         
         // riesim hover nad textom /// //// //// /// /         /////////////             ///////////
         for(let k in flyInfo.children){
@@ -268,6 +312,10 @@ function airportScene(buildingArray, sceneID) {
                 }
   
         }
+        //// VOLANIE LOADING FUNCKII ////////// ////////////////////    /////////////////////   ///////////////
+        loadPrepaidPacks(backGroundSprite, sceneLoader, dataFromBack)
+        loadAvailableHower(backGroundSprite, sceneLoader, dataFromBack)
+
 
 
         // toto je docasny backbutton
@@ -277,7 +325,7 @@ function airportScene(buildingArray, sceneID) {
         backButton.drawRect(200, 1600, 400, 60);
         backButton.interactive = true;
         backButton.on("click", () => {
-            goBack(resources);
+            goBack();
         } );
         backGroundSprite.addChild(backButton);
 

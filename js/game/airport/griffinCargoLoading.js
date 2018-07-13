@@ -1,6 +1,8 @@
 function griffin_cargo_loading(loadingBay, sceneLoader){
     let line01 = new PIXI.Sprite (
         sceneLoader.resources["griffinCargoLines"].textures['01_for_coloring.png']
+    ), line_above = new PIXI.Sprite (
+        sceneLoader.resources["cargo"].textures['line_above.png']
     ), line02 = new PIXI.Sprite (
         sceneLoader.resources["griffinCargoLines"].textures['02_for_coloring.png']
     ), line03 = new PIXI.Sprite (
@@ -126,15 +128,20 @@ function griffin_cargo_loading(loadingBay, sceneLoader){
             arrayOfPanel[i].y = 1024 - (i*7);
         }
     }
-
+    for(i in arrayOfLines){
+        arrayOfLines[i].type = i;
+        arrayOfPanel[i].typeof = "line";
+    }
+    for(i in arrayOfPanel){
+        arrayOfPanel[i].type = i;
+        arrayOfPanel[i].typeof = "panel";
+    }
     for(i in arrayOfCargo){
         arrayOfCargo[i].visible = false;
     }
-    // console.log(line01.texture)
-    // console.log(loadingBay)
+
     loadingBay.addChild(line01, line02, line03, line04, line05, line06, line07, line08, line09, line10, line11, line12, line13, line14, line15, line16, line17, 
         line18, line19, line20, line21, panel01, panel02, panel03, panel04, panel05, panel06, panel07, panel08, panel09, panel10, panel11, panel12, panel13, panel14, 
-        panel15, panel16, panel17, panel18, panel19, panel20, panel21);
-        // console.log(loadingBay)
+        panel15, panel16, panel17, panel18, panel19, panel20, panel21, line_above);
     return arrayOfCargo;
 }
