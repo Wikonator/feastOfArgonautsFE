@@ -16,6 +16,7 @@ function generalSupplyCoScene() {
     sceneLoader
         .add("storeInterior", 'images/' + resolutionParameter + '/generalSupplyCo/generalStoreBack.png')
         .add("supplyButtons", "images/" + resolutionParameter + "/generalSupplyCo/genSupplyButtons.json")
+        .add("catsAndUrgentNeeds", "images/" + resolutionParameter + "/generalSupplyCo/catsAndUrgent.json")
         .load((sceneLoader, resources) => {
             loadNextScene(sceneLoader, resources);
         });
@@ -37,6 +38,12 @@ function generalSupplyCoScene() {
 
         ;
         urgentNeeds.position = {x:1435,y:250};
+        urgentNeeds.interactive = true;
+        urgentNeeds.on("click", () => {
+            showUrgentNeeds(resources, backGroundSprite);
+        } );
+
+
         actionGuideSprite.position = {x: 990, y:642};
         actionGuideSprite.scale = {x:0.9, y:0.9};
         specialOffer.position = {x:265,y:1025};
@@ -95,6 +102,7 @@ function generalSupplyCoScene() {
         vaultButtonText.y = 1600;
         backGroundSprite.addChild(vaultButtonText);
 
+        //showUrgentNeeds(resources, backGroundSprite); // <<<< temporary dont forget to trun off
     }
 
 
@@ -139,4 +147,5 @@ function generalSupplyCoScene() {
     function goBack(){
         enterTownMap();
     }
+
 }

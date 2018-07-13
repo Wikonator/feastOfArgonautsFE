@@ -107,15 +107,13 @@ campsPanelIcon.position.y = 134;
 
 
 let onFilterButtonOver = function () {
-    console.log("im sooo over this");
     if (this.isDisabled) {
         return
     }
     this.isOver = true;
     if (this.isdown) {
         return;
-    }
-    console.log( this.hover)
+    };
     this.texture = this.hover;
 };
 
@@ -410,12 +408,12 @@ let unFoldCamp = function (position) {          // what happens after Camp site 
 
     } else {
         if (nameOfThisObject.clickedCampFlag != true) {         // if this is the 1st time a campSite is clicked
-            console.log("text position before cleanup: "+ nameOfThisObject.position.y);
+            // console.log("text position before cleanup: "+ nameOfThisObject.position.y);
             cleanUpTheCampTab();
-            console.log("text position after cleanup but before find: "+ nameOfThisObject.position.y);
-
-            console.log("text position after cleanup and find: "+ nameOfThisObject.position.y);
-            console.log(campScroller.verticalScrollPosition);
+            // console.log("text position after cleanup but before find: "+ nameOfThisObject.position.y);
+            //
+            // console.log("text position after cleanup and find: "+ nameOfThisObject.position.y);
+            // console.log(campScroller.verticalScrollPosition);
             let kam = {};
             kam.deltaY = nameOfThisObject.position.y;
             // campScroller._startTouch.y = campScroller.verticalScrollPosition - kam.deltaY;
@@ -423,13 +421,12 @@ let unFoldCamp = function (position) {          // what happens after Camp site 
             nameOfThisObject = campsTabContents.find(function(e) {
                 return e.id === nameOfThisObject.id;
             });
-            console.log(kam);
-            console.log(campScroller._startTouch.y);
-            console.log(campScroller._scrollPosition);
-            console.log(campScroller._startScrollPosition);
+            // console.log(kam);
+            // console.log(campScroller._startTouch.y);
+            // console.log(campScroller._scrollPosition);
+            // console.log(campScroller._startScrollPosition);
             campScroller.updateVerticalScrollFromTouchPosition(kam.deltaY, true);
 
-            console.log(campScroller.verticalScrollPosition);
             // scrollSelectedTab(kam);
 
             for (let i in campsTabFiltersArray) {               // make all the buttons enabled
@@ -494,8 +491,8 @@ campScroller.height = (windowHeight / 2); //270
 campScroller.width =(windowWidth / 2) ; //900
 campMaskingRectangle = new PIXI.Graphics();
 campMaskingRectangle.beginFill(0xFFFFFF);
-campMaskingRectangle.drawRect(0, 0, 2050, 715); // x,y,width and height << this clips everything outside of this rectangle and determines what is visible
-campMaskingRectangle.hitArea = new PIXI.Rectangle( 0, 0, 2050, 715);
+campMaskingRectangle.drawRect(0, 50, 2050, 735); // x,y,width and height << this clips everything outside of this rectangle and determines what is visible
+campMaskingRectangle.hitArea = new PIXI.Rectangle( 0, 50, 2050, 735);
 campMaskingRectangle.endFill();
 campScrollContainer.addChild(campScroller, campLayoutGroup, campMaskingRectangle);
 campScrollContainer.mask = campMaskingRectangle;

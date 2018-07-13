@@ -39,7 +39,7 @@ function showStelaContainer(resources, backSprite) {
     tableContainer.interactive = false;
     tableContainer.mouseover = function (e) {
         e.preventDefault();
-    }
+    };
     tableContainer.addChild(tableBackground);
 
     /////////////////////////  defines the cross that closes the table ////////////////
@@ -69,30 +69,42 @@ function showStelaContainer(resources, backSprite) {
 
     /////////////////////////   button to activate the stela /////////////////////////
 
-    let activateButton = new PIXI.Sprite(
-        resources["tokenAndActive"].textures['btn_activate_usual.png']
-        // resources["tokenAndActive"].textures['btn_activate_disable.png']
-    );
-    activateButton.isDisabld = false;
-    activateButton.normal = resources["tokenAndActive"].textures['btn_activate_usual.png'];
-    activateButton.hover = resources["tokenAndActive"].textures["btn_activate_hover.png"];
-    activateButton.pressed = resources["tokenAndActive"].textures["btn_activate_push.png"];
-    activateButton.disabled = this.texture;
-    activateButton.position = {x: 3300, y: 2000};
-    activateButton.anchor = {x: 0.5, y: 0.5};
-    activateButton.interactive = true;
-    activateButton.on("mouseover", activateOver);
-    activateButton.on("mouseout", activateOut);
-    activateButton.on("click", activatePress);
 
-    textOptions.fontSize = 23;
-    let activateText = new PIXI.Text("ACTIVATE", textOptions);
-    activateText.scale = {x: 1.5, y: 1.5};
-    activateText.anchor = {x: 0.5, y: 0.5};
+    function makeTheStelaActivateButton() {
+        let activateButton;
+        if (dataFromBack.vault.items[4][0].status !== 0) {      /// << dont forget to reverse this!!!
+            activateButton= new PIXI.Sprite(
+                resources["tokenAndActive"].textures['btn_activate_disable.png']
+        );
+            activateButton.isDisabld = true;
+        } else {
+            activateButton = new PIXI.Sprite(
+                resources["tokenAndActive"].textures['btn_activate_usual.png']
+        );
+            activateButton.isDisabld = false;
+        }
 
-    tableContainer.addChild(activateButton);
-    activateButton.addChild(activateText);
+        activateButton.normal = resources["tokenAndActive"].textures['btn_activate_usual.png'];
+        activateButton.hover = resources["tokenAndActive"].textures["btn_activate_hover.png"];
+        activateButton.pressed = resources["tokenAndActive"].textures["btn_activate_push.png"];
+        activateButton.disabled = this.texture;
+        activateButton.position = {x: 3300, y: 2000};
+        activateButton.anchor = {x: 0.5, y: 0.5};
+        activateButton.interactive = true;
+        activateButton.on("mouseover", activateOver);
+        activateButton.on("mouseout", activateOut);
+        activateButton.on("click", activatePress);
 
+        textOptions.fontSize = 23;
+        let activateText = new PIXI.Text("ACTIVATE", textOptions);
+        activateText.scale = {x: 1.5, y: 1.5};
+        activateText.anchor = {x: 0.5, y: 0.5};
+
+        tableContainer.addChild(activateButton);
+        activateButton.addChild(activateText);
+        return activateButton;
+    }
+    let activateButton = makeTheStelaActivateButton();
     for (let frame in resources.splashGreen.textures) {
         greenFlashTexture.push(resources.splashGreen.textures[frame]);
     }
@@ -155,7 +167,6 @@ function showStelaContainer(resources, backSprite) {
         for (let indx = 0; indx < 3; ++indx) {
 
             let thisTile = new PIXI.Sprite(resources["stelaAssets"].textures['01_layout_01.png']);
-            console.log(resources["stelaAssets"].textures['01_layout_01.png'].orig);
             thisTile.position = {x: layoutX, y: layoutY};
             thisTile.scale = {x: 0.7, y: 0.7};
             // thisTile.scale.y = 1.15;
@@ -230,35 +241,25 @@ function showStelaContainer(resources, backSprite) {
     showLightBulbs();
 
     function updateLightBulbs(less, value) {
-        console.log("lets update the lightbulbs");
         let lastNulaBulb = nulatronBulbsArray[nulatronBulbsArray.length-1];
         let lastIndex = nulatronBulbsArray.length - 1;
-        console.log(nulatronBulbsArray.length);
         if (less) {
-            console.log('less is true letts decrease');
             // remove half sprite or change full into half sprite
             if (lastNulaBulb.half) {       // remove the sprite and pop it from the bulbsArray
-                console.log(nulatronBulbsArray.length);
                 tableContainer.removeChild(nulatronBulbsArray.pop());
-                console.log(nulatronBulbsArray.length);
             } else {
                 // change full into half
                 lastNulaBulb.texture = resources["nulaPart"].texture;
                 lastNulaBulb.half = true;
-                console.log(nulaPositions[lastIndex].y);
                 lastNulaBulb.position = {x:nulaPositions[lastIndex].x, y: nulaPositions[lastIndex].y + 30};
-                console.log(lastNulaBulb.position);
             }
         } else {
-            console.log("add one");
             // add half sprite or change into full sprite
             if (lastNulaBulb.half) { // last sprite in the nulatron is half full
-                console.log("change to full");
                 lastNulaBulb.texture = resources["nulaFull"].texture;
                 lastNulaBulb.position.x += 2; lastNulaBulb.position.y -= 30;
                 lastNulaBulb.half = false;
             } else {    // its full
-                console.log("add a new half one");
                 let lightBulb = new PIXI.Sprite(resources["nulaPart"].texture);
                 lightBulb.half = true;
                 lightBulb.position = {x:nulaPositions[lastIndex+1].x - 2, y: (nulaPositions[lastIndex+1].y + 30)};
@@ -414,7 +415,6 @@ function showStelaContainer(resources, backSprite) {
                         checkers.push(pathsFromBack[i]);
                     }
                 }
-                console.log(checkers);2
                 return checkers;
             }
 
@@ -591,6 +591,7 @@ function showStelaContainer(resources, backSprite) {
                         .on('pointermove', onDragMove);
                     diamondArea.addChild(diamond);
                     diamondPosY += 70;
+                    diamondArrays[diamondsInTheBack[i].type][yindex].diamondSprite = diamond;
                 }
             }
             diamondPosX += 75;
@@ -689,15 +690,29 @@ function showStelaContainer(resources, backSprite) {
                 } else {
                     diamondVaults[this.type.mType + "0" + this.type.sType].text = Number(diamondVaults[this.type.mType + "0" + this.type.sType].text) - 1;
                     if (diamondVaults[this.type.mType + "0" + this.type.sType].text < 5) {
+                        let theOnesBelow = [], goOn = false;
+                        console.log("diamondArray of the picked up type: ",diamondArrays[this.type.sType]);
+                        console.log(this.parent.children);
                         for (let idx in diamondArrays[this.type.sType]) {
                             if (diamondArrays[this.type.sType][idx].y == this.position.y) {
+                                console.log("found the one you are taking");
                                 diamondArrays[this.type.sType][idx].full = false;
                                 stelaArea.addChild(this);
-                                return;
+                                goOn = true;
+                                //break;  // breaks the for loop
+                            }
+                            if (goOn) {
+                                console.log("after taken full: ",diamondArrays[this.type.sType][idx].full);
+                                if (diamondArrays[this.type.sType][idx].full) {
+                                    console.log(diamondArrays[this.type.sType][idx].diamond);
+                                }
+                                console.log("after taken position: ",diamondArrays[this.type.sType][idx].y);
                             }
                         }
-
-                        stelaArea.addChild(this);
+                        console.log("get schwifty");
+                        // figure out the state of the array based on .full = false positions in the array
+                        // evry gem on a .full = true position after the first .full = false will be have its .position.y
+                        // moved -=70 px upwards
                     } else {
                         newGem.mask = diamondMask;
                         stelaArea.addChild(this);
@@ -749,7 +764,6 @@ function showStelaContainer(resources, backSprite) {
     }
 
     function emitStuff(json) {
-        console.log("emmiting", json);
         json.idStela = stelaId;
         socket.emit("stela:onAction", json);
     }
@@ -788,7 +802,6 @@ function showStelaContainer(resources, backSprite) {
             let noHits = true;
             for (let spot in placeHolderArray) {
                 if (hitTestRectangle(this, placeHolderArray[spot])) {           // dropped on a placeholder
-                    console.log("a hit!, this placeholder idxy:",placeHolderArray[spot].idxy);
                     if (typeof placeHolderArray[spot].hold !== "undefined") {          // something is there
                         if (!this.pileOfGems) {         // this is NOT from the pile of gems
                             //return it to its orig. position
@@ -809,7 +822,6 @@ function showStelaContainer(resources, backSprite) {
                                 makeReturningToken(this);
                             }
                             playRedFlash(placeHolderArray[spot]);
-                            console.log(this.type);
                             diamondVaults[this.type.mType + "0" + this.type.sType].text = Number(diamondVaults[this.type.mType + "0" + this.type.sType].text) + 1;
                             this.parent.removeChild(this);
                             return;
@@ -824,7 +836,6 @@ function showStelaContainer(resources, backSprite) {
                                     //if so
                                     placeHolderArray[spot].hold = this.type.sType;
 
-                                    console.log("oldPlacehodlerIDxy",this.oldPlaceholderIdxy);
                                     let dataToSend;
                                     if (this.pileOfGems) {           //0 - poloz (kopa-> stela)
                                         dataToSend = {
@@ -854,7 +865,6 @@ function showStelaContainer(resources, backSprite) {
                                         this.oldPosition = placeHolderArray[spot].position;
                                         this.oldPlaceholderIdxy = placeHolderArray[spot].idxy;
                                     }
-                                    console.log(dataToSend);
                                     playGreenFlash(placeHolderArray[spot]);            // play blue blink anim8
                                     emitStuff(dataToSend);
                                     this.pileOfGems = false;
@@ -1005,9 +1015,9 @@ function makeReturningToken(thiss) {
 
     function resourceUpdate(newData) {
       // diamonds
-        console.log(dataFromBack.vault.items[1]);
-        dataFromBack.vault.items[1] = newData.resources.diamonds;
-        console.log(dataFromBack.vault.items[1]);
+        // console.log("data from back pred zapisom",dataFromBack.vault.items[1]);      // zatial neaktivne
+        // dataFromBack.vault.items[1] = newData.resources.diamonds;
+        // console.log("data from back po zapise",dataFromBack.vault.items[1]);
         // tokens
 
         // artefacts
@@ -1035,10 +1045,11 @@ function makeReturningToken(thiss) {
 
 
     function activateOut() {
-        if (this.disabled) {
+        if (this.isDisabld) {
             return;
         }
-        this.texture = this.normal;    }
+        this.texture = this.normal;
+    }
 
     function activateOver() {
         if (this.isDisabld) {
@@ -1060,9 +1071,9 @@ function makeReturningToken(thiss) {
             // idye: placeHolderArray[spot].idxy.idy,
             // mType: placeHolderArray[spot].type.mType,
             // sType: [{type: placeHolderArray[spot].type.sType[types].type}]
-            stelaId: 0
         };
         emitStuff(stelaData);
+
     }
 
 

@@ -62,7 +62,7 @@ function enterTownMap(){
 
 
     GeneralSupplyBuilding.sceneId = 3;
-    GeneralSupplyBuilding.on("click", enterGeneralStoreBuilding);
+    GeneralSupplyBuilding.on("click", enterGeneralSupplyBuilding);
     GeneralSupplyBuilding.on("mouseover", buildingOverEnter);
     GeneralSupplyBuilding.on("mouseout", buildingOverEnd);
     GeneralSupplyBuilding.interactive = true;
@@ -75,7 +75,7 @@ function enterTownMap(){
         airportScene(buildingArray, playerHouseBuilding.sceneId);
     }
 
-    function enterGeneralStoreBuilding() {
+    function enterGeneralSupplyBuilding() {
         console.log("enter the general store");
         generalSupplyCoScene();
     }
@@ -92,7 +92,7 @@ function enterTownMap(){
         // buildingArray[i].on("mouseout", buildingOverEnd);
     }
 
-    // enterPlayerBuilding();  // <<<<<< temporary dont forget to erase before commiting
+    //enterGeneralSupplyBuilding();  // <<<<<< temporary dont forget to erase before commiting
 
     resize();
 
