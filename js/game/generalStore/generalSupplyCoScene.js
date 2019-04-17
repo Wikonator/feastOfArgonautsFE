@@ -102,7 +102,7 @@ function generalSupplyCoScene() {
         vaultButtonText.y = 1600;
         backGroundSprite.addChild(vaultButtonText);
 
-        //showUrgentNeeds(resources, backGroundSprite); // <<<< temporary dont forget to trun off
+        showUrgentNeeds(resources, backGroundSprite); // <<<< temporary dont forget to trun off
     }
 
 

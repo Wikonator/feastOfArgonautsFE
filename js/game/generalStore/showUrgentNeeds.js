@@ -74,7 +74,7 @@ function showUrgentNeeds(resources, backSprite) {
         needsContainer.addChild(topButtonArray[i]);
     }
 
-////////////////////////    ////////////////////////     urgent texts    ////////////////////////     ////////////////////////
+////////////////////////    ////////////////////////  urgent texts & bars ////////////////////////   /////////////////
 
     textOptions.fill= '#00d2ff'; textOptions.fontSize = 22;
     let caloriesText = new PIXI.Text('CALORIES / Kcal. /', textOptions);
@@ -92,6 +92,7 @@ function showUrgentNeeds(resources, backSprite) {
 
     let barPanelTextures = resources["catsAndUrgentNeeds"].textures["urgentBarPanel.png"],
         blueBarTexture = resources["catsAndUrgentNeeds"].textures["urgentBarFull.png"],
+        greenBarTexture = resources["catsAndUrgentNeeds"].textures["urgentBarGreen.png"],
         caloriesBarPanel = new PIXI.Sprite(barPanelTextures), proteinBarPanel = new PIXI.Sprite(barPanelTextures),
         carbsBarPanel = new PIXI.Sprite(barPanelTextures), vitaminBarPanel = new PIXI.Sprite(barPanelTextures),
         MentalBoostBarPanel = new PIXI.Sprite(barPanelTextures), varietyBarPanel = new PIXI.Sprite(barPanelTextures),
@@ -100,23 +101,38 @@ function showUrgentNeeds(resources, backSprite) {
         carbsBlueBar = new PIXI.Sprite(blueBarTexture), vitaminBlueBar = new PIXI.Sprite(blueBarTexture),
         MentalBoostBlueBar = new PIXI.Sprite(blueBarTexture), varietyBlueBarl = new PIXI.Sprite(blueBarTexture),
 
+        caloriesGreenBar = new PIXI.Sprite(greenBarTexture), proteinGreenBar = new PIXI.Sprite(greenBarTexture),
+        carbsGreenBar = new PIXI.Sprite(greenBarTexture), vitaminGreenBar = new PIXI.Sprite(greenBarTexture),
+        MentalBoostGreenBar = new PIXI.Sprite(greenBarTexture), varietyGreenBarl = new PIXI.Sprite(greenBarTexture),
+
 
 
         urgentBarPanelsArray = [caloriesBarPanel, proteinBarPanel, carbsBarPanel, vitaminBarPanel, MentalBoostBarPanel, varietyBarPanel],
         urgentBarsTextArray = [caloriesText, proteinsText, carbsText, vitaminText, mentalBoostText, varietyText],
-        blueBarArray = [caloriesBlueBar, proteinBlueBar, carbsBlueBar, vitaminBlueBar, MentalBoostBlueBar, varietyBlueBarl];
+        blueBarArray = [caloriesBlueBar, proteinBlueBar, carbsBlueBar, vitaminBlueBar, MentalBoostBlueBar, varietyBlueBarl],
+        greenBarArray = [caloriesGreenBar, proteinGreenBar, carbsGreenBar, vitaminGreenBar, MentalBoostGreenBar, varietyGreenBarl];
 
     for (let i in urgentBarsTextArray) {
         urgentBarsTextArray[i].anchor = {x:0.5, y:0.5};
         urgentBarPanelsArray[i].anchor = {x:0.5,y:0.5};
-        blueBarArray[i].anchor.y = 0.5;
+        blueBarArray[i].anchor.y = 0.5;                     // blue bars have empty texture space to the left
+        greenBarArray[i].anchor = {x:0.1, y: 0.5};          // beware the dodgy x anchor on the green bars, same as blue empty tex
         urgentBarsTextArray[i].scale = {x:1.6,y:1.6};
-        urgentBarPanelsArray[i].position = {x: urgentBarsTextArray[i].position.x + 410 ,y: urgentBarsTextArray[i].position.y};
-        blueBarArray[i].position = {x: urgentBarsTextArray[i].position.x + 2000 ,y: urgentBarsTextArray[i].position.y};
-        needsContainer.addChild( urgentBarsTextArray[i], urgentBarPanelsArray[i], blueBarArray[i]);
+        urgentBarPanelsArray[i].position = {x: urgentBarsTextArray[i].position.x + 410, y: urgentBarsTextArray[i].position.y};
+        blueBarArray[i].position = {x: urgentBarsTextArray[i].position.x + 59, y: urgentBarsTextArray[i].position.y};
+        greenBarArray[i].position = {x: urgentBarsTextArray[i].position.x, y: urgentBarsTextArray[i].position.y};
+        needsContainer.addChild( urgentBarsTextArray[i], urgentBarPanelsArray[i], blueBarArray[i], greenBarArray[i]);
     }
 
-    needsContainer.addChild(leftArrow, rightArrow, selectedCampText, upgradePointsAmountText, pointsText, currentlevelText
+    textOptions.fill = '#b2f1ff';
+    let itemColumnHeaderText = new PIXI.Text("ITEM", textOptions), amountColumnHeaderText = new PIXI.Text("AMOUNT", textOptions),
+        priceColumnHeaderText = new PIXI.Text("PRICE", textOptions);
+    itemColumnHeaderText.scale = {x: 1.6, y:1.6};
+
+    itemColumnHeaderText.position = {x:920,y:1065};
+
+    needsContainer.addChild(leftArrow, rightArrow, selectedCampText, upgradePointsAmountText, pointsText, currentlevelText,
+        itemColumnHeaderText, amountColumnHeaderText, priceColumnHeaderText
     );
 
 

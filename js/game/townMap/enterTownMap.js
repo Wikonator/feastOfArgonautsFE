@@ -92,7 +92,7 @@ function enterTownMap(){
         // buildingArray[i].on("mouseout", buildingOverEnd);
     }
 
-    //enterGeneralSupplyBuilding();  // <<<<<< temporary dont forget to erase before commiting
+    enterGeneralSupplyBuilding();  // <<<<<< temporary dont forget to erase before commiting
 
     resize();
 
